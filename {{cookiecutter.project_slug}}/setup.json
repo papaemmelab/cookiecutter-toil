@@ -1,0 +1,22 @@
+{
+    "author": "{{cookiecutter.full_name}}",
+    "classifiers": [
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: Unix",
+        "Operating System :: POSIX",
+        "Programming Language :: Python :: 3.5",
+        "Topic :: Utilities"
+    ],
+    "entry_points": {
+        "console_scripts": [
+            "{{cookiecutter.project_slug}}={{cookiecutter.project_slug}}.cli:main"
+        ]
+    },
+    "include_package_data": true,
+    "install_requires": [],
+    "keywords": [],
+    "license": "BSD",
+    "name": "{{cookiecutter.project_slug}}",
+    "url": "github.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}",
+    "version": "0.1.0"
+}

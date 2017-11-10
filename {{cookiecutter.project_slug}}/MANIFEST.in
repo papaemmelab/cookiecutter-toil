@@ -1,0 +1,19 @@
+graft tests
+graft docker
+
+include .coveragerc
+include .pylintrc
+include tox.ini
+include pytest.ini
+include setup.json
+
+include LICENSE
+include README.md
+include CONTRIBUTING.md
+
+global-exclude *.dylib
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude __pycache__
+
+recursive-include {{cookiecutter.project_slug}} *
