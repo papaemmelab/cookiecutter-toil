@@ -16,11 +16,9 @@ Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
 
 # local
-from {{cookiecutter.project_slug}} import __version__
+from {{cookiecutter.project_slug}} import jobs
 
 
 def main():
-    """Welcome to {{cookiecutter.project_slug}}'s command line tools."""
-    msg = "hello world"
-    print(msg)
-    return msg
+    """{{cookiecutter.project_slug}} main command."""
+    jobs.run_pipeline()

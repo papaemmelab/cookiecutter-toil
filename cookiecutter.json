@@ -2,5 +2,6 @@
     "full_name": "John Smith",
     "email": "smithj@mskcc.org",
     "github_account": "leukgen",
-    "project_slug": "foo"
+    "project_name": "",
+    "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}"
 }
