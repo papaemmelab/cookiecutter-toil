@@ -1,9 +1,10 @@
 # This file was obtained from:
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 
-# Sublime Text
+# Editors
 *.sublime-workspace
 *.sublime-project
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

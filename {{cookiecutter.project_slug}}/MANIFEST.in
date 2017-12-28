@@ -3,13 +3,14 @@ graft docker
 
 include .coveragerc
 include .pylintrc
-include tox.ini
+
 include pytest.ini
 include setup.json
+include tox.ini
 
+include CONTRIBUTING.md
 include LICENSE
 include README.md
-include CONTRIBUTING.md
 
 global-exclude *.dylib
 global-exclude *.py[cod]

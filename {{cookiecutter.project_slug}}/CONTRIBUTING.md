@@ -63,11 +63,11 @@ Set up for local development:
     py.test -s -vv --cov={{cookiecutter.project_slug}} tests
     ```
 
-9. Commit your changes and push your branch to GitHub:
+9. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
 
     ```
     git add .
-    git commit -m "Your detailed description of your changes."
+    git commit -m ":emoji: <type>: your meaningful description"
     git push origin name-of-your-bugfix-or-feature
     ```
 

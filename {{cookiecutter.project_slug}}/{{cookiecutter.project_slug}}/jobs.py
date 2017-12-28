@@ -25,7 +25,11 @@ class BaseJob(Job):
             lsf_tags (list): a list of custom supported tags by leukgen
                 see this file /ifs/work/leukgen/opt/toil_lsf/python2/lsf.py.
         """
-        # Load tags.
+        # If unitName is not passed, we set the class name as the default.
+        if unitName == "":
+            unitName = self.__class__.__name__
+
+        # This is a custom solution for LSF options in leukgen, ask for lsf.py.
         if options.batchSystem == "LSF":
             unitName = "" if unitName is None else str(unitName)
             unitName += "".join("<LSF_%s>" % i for i in lsf_tags)
@@ -57,6 +61,9 @@ class HelloWorldMessage(BaseJob):
         """Send message to the world."""
         subprocess.check_call(["echo", self.message])
 
+        # Log message to master.
+        fileStore.logToMaster(self.message)
+
 
 def run_pipeline():
     """Toil implementation for {{cookiecutter.project_slug}}."""
@@ -66,16 +73,16 @@ def run_pipeline():
         cores=4,
         memory="12G",
         options=options,
-        unitName=options.jobname + " Hello World",
+        unitName="Hello World",
         lsf_tags=["SHORT"]
         )
 
     helloworld_message = HelloWorldMessage(
-        message="Hello Universe",
+        message=options.message,
         cores=4,
         memory="12G",
         options=options,
-        unitName=options.jobname + " Hello World with Message",
+        unitName="Hello World with Message",
         lsf_tags=["INTERNET"]
         )
 
@@ -107,9 +114,10 @@ def get_options():
         )
 
     settings.add_argument(
-        "--jobname",
-        help="Base name to be passed to jobs.",
-        required=True
+        "--message",
+        help="A message to be echoed to the Universe.",
+        required=False,
+        default="Hello Universe, this text is used in the pipeline tests.",
         )
 
     options = parser.parse_args()

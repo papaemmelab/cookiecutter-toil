@@ -4,6 +4,7 @@
 # Sublime Text
 *.sublime-workspace
 *.sublime-project
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

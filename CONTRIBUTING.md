@@ -48,15 +48,15 @@ Set up for local development:
 6. When you're done making changes, run:
 
     ```
-    pip install -r requirements.txt
+    pip install --editable .
     py.test tests
     ```
 
-7. Commit your changes and push your branch to GitHub:
+9. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
 
     ```
     git add .
-    git commit -m ":shirt: task: detailed description of your changes"
+    git commit -m ":emoji: <type>: your meaningful description"
     git push origin name-of-your-bugfix-or-feature
     ```
 
