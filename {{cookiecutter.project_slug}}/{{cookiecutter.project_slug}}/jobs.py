@@ -1,5 +1,6 @@
 """{{cookiecutter.project_slug}} pipeline."""
 
+import argparse
 import subprocess
 
 from toil.common import Toil
