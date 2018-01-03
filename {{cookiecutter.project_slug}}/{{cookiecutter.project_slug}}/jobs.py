@@ -99,13 +99,18 @@ def run_pipeline():
 
 def get_options():
     """Get pipeline configuration using toil's argparse."""
-    parser = Job.Runner.getDefaultArgumentParser()
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        )
+
+    # Add Toil options.
+    Job.Runner.addToilOptions(parser)
 
     # Add description to parser.
     parser.description = "Run {{cookiecutter.project_slug}} pipeline."
 
     # We need to add a group of arguments specific to the pipeline.
-    settings = parser.add_argument_group("Pipeline Configuration")
+    settings = parser.add_argument_group("{{cookiecutter.project_slug}} configuration")
 
     settings.add_argument(
         "-v", "--version",
