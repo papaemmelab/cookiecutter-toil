@@ -1,4 +1,4 @@
-"""{{cookiecutter.project_slug}} specific excemptions."""
+"""{{cookiecutter.project_slug}} specific exceptions."""
 
 
 class ValidationError(Exception):
@@ -18,7 +18,12 @@ class MissingOutputError(Exception):
 
 class ConfigurationError(Exception):
 
-    """A class to raise when leuktools is not properly configured."""
+    """A class to raise when is not properly configured."""
+
+
+class ImplementationError(Exception):
+
+    """A class to raise when is not properly implemented."""
 
 
 class CantBeRunError(Exception):

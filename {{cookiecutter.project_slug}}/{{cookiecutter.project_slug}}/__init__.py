@@ -1,6 +1,5 @@
 """{{cookiecutter.project_slug}} module."""
 
-# python
 import json
 import os
 

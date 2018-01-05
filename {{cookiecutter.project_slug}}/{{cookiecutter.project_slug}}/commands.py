@@ -1,5 +1,5 @@
 """{{cookiecutter.project_slug}} pipeline."""
-
+{% if cookiecutter.pipeline_type == "toil" %}
 import argparse
 import subprocess
 
@@ -133,3 +133,13 @@ def get_options():
         subprocess.check_call(["mkdir", "-p", options.writeLogs])
 
     return options
+{% elif cookiecutter.pipeline_type == "click" %}
+import click
+
+
+@click.command()
+@click.option("--message", default="Hello World")
+def hello_world(message):
+    """Echo message and exit."""
+    click.echo(message)
+{% endif %}

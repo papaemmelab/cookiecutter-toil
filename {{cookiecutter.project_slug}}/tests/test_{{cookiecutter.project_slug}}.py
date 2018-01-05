@@ -1,19 +1,18 @@
 """Tests for {{cookiecutter.project_slug}}."""
+{% if cookiecutter.pipeline_type == "click" %}
+from click.testing import CliRunner
 
-# python
-from os.path import abspath
-from os.path import dirname
+{% endif %}
+{% if cookiecutter.pipeline_type == "toil" %}
 from os.path import join
-import pytest
 import subprocess
+{% endif %}
+import pytest
 
-# local
 from {{cookiecutter.project_slug}} import __version__
-
-TEST_DIR = abspath(dirname(__file__))
-
-ROOT_DIR = abspath(join(TEST_DIR, ".."))
-
+{% if cookiecutter.pipeline_type == "click" %}
+from {{cookiecutter.project_slug}} import cli
+{% endif %}
 
 @pytest.fixture
 def response():
@@ -30,16 +29,19 @@ def test_fixture(response):
     assert response == 10
 
 
+def test_version():
+    """Sample test for the __version__ variable."""
+    assert __version__ == "0.1.0"
+
+{% if cookiecutter.pipeline_type == "toil" %}
 def test_{{cookiecutter.project_slug}}(tmpdir):
     """Sample test for the main command."""
     message = "This is a test message for the Universe."
 
     # Build command.
     cmd = [
-        "python2",
-        join(ROOT_DIR, "{{cookiecutter.project_slug}}", "__main__.py"),
-        join(str(tmpdir), "jobstore"),
-        "--message", message
+        "python2", "-m", "{{cookiecutter.project_slug}}",
+        join(str(tmpdir), "jobstore"), "--message", message
         ]
 
     # Call pipeline
@@ -47,8 +49,12 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
 
     # Assert custom message is echoed in master log.
     assert message in output
-
-
-def test_version():
-    """Sample test for the __version__ variable."""
-    assert __version__ == "0.1.0"
+{% elif cookiecutter.pipeline_type == "click" %}
+def test_{{cookiecutter.project_slug}}():
+    """Sample test for the main command."""
+    message = "This is a test message for the Universe."
+    runner = CliRunner()
+    params = ["message", message]
+    result = runner.invoke(cli.main, params)
+    assert message in result.output
+{% endif %}
