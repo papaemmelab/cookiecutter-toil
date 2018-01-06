@@ -4,7 +4,6 @@
         "License :: OSI Approved :: BSD License",
         "Operating System :: Unix",
         "Operating System :: POSIX",
-        "Programming Language :: Python :: 2.7",
         "Topic :: Utilities"
     ],
     "entry_points": {
@@ -13,7 +12,7 @@
         ]
     },
     "include_package_data": true,
-    {% if cookiecutter.pipeline_type == "toil" %}"install_requires": [],{% elif cookiecutter.pipeline_type == "click" %}"install_requires": ["Click>=6.7"],{% endif %}
+    {% if cookiecutter.cli_type == "toil" %}"install_requires": [],{% elif cookiecutter.cli_type == "click" %}"install_requires": ["Click>=6.7"],{% endif %}
     "keywords": [],
     "license": "BSD",
     "name": "{{cookiecutter.project_slug}}",

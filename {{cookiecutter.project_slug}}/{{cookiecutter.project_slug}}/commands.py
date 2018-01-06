@@ -1,5 +1,5 @@
 """{{cookiecutter.project_slug}} pipeline."""
-{% if cookiecutter.pipeline_type == "toil" %}
+{% if cookiecutter.cli_type == "toil" %}
 import argparse
 import subprocess
 
@@ -7,7 +7,6 @@ from toil.common import Toil
 from toil.job import Job
 
 from {{cookiecutter.project_slug}} import __version__
-from {{cookiecutter.project_slug}} import exceptions
 
 
 class BaseJob(Job):
@@ -15,8 +14,7 @@ class BaseJob(Job):
     """Job base class used to share variables and methods across steps."""
 
     def __init__(
-            self, options=None, lsf_tags=list(), unitName="", *args, **kwargs
-            ):
+            self, options=None, lsf_tags=None, unitName="", *args, **kwargs):
         """
         Use this base class to share variables across pipelines steps.
 
@@ -25,6 +23,8 @@ class BaseJob(Job):
             options (object): an argparse name space object.
             lsf_tags (list): a list of custom supported tags by leukgen
                 see this file /ifs/work/leukgen/opt/toil_lsf/python2/lsf.py.
+            args (list): arguments to be passed to toil.job.Job.
+            kwargs (dict): key word arguments to be passed to toil.job.Job.
         """
         # If unitName is not passed, we set the class name as the default.
         if unitName == "":
@@ -32,6 +32,7 @@ class BaseJob(Job):
 
         # This is a custom solution for LSF options in leukgen, ask for lsf.py.
         if options.batchSystem == "LSF":
+            lsf_tags = lsf_tags or list()
             unitName = "" if unitName is None else str(unitName)
             unitName += "".join("<LSF_%s>" % i for i in lsf_tags)
 
@@ -133,7 +134,7 @@ def get_options():
         subprocess.check_call(["mkdir", "-p", options.writeLogs])
 
     return options
-{% elif cookiecutter.pipeline_type == "click" %}
+{% elif cookiecutter.cli_type == "click" %}
 import click
 
 

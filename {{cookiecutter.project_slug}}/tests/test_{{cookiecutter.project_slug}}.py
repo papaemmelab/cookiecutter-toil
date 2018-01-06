@@ -1,16 +1,16 @@
 """Tests for {{cookiecutter.project_slug}}."""
-{% if cookiecutter.pipeline_type == "click" %}
+{% if cookiecutter.cli_type == "click" %}
 from click.testing import CliRunner
 
 {% endif %}
-{% if cookiecutter.pipeline_type == "toil" %}
+{% if cookiecutter.cli_type == "toil" %}
 from os.path import join
 import subprocess
 {% endif %}
 import pytest
 
 from {{cookiecutter.project_slug}} import __version__
-{% if cookiecutter.pipeline_type == "click" %}
+{% if cookiecutter.cli_type == "click" %}
 from {{cookiecutter.project_slug}} import cli
 {% endif %}
 
@@ -33,7 +33,7 @@ def test_version():
     """Sample test for the __version__ variable."""
     assert __version__ == "0.1.0"
 
-{% if cookiecutter.pipeline_type == "toil" %}
+{% if cookiecutter.cli_type == "toil" %}
 def test_{{cookiecutter.project_slug}}(tmpdir):
     """Sample test for the main command."""
     message = "This is a test message for the Universe."
@@ -49,7 +49,7 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
 
     # Assert custom message is echoed in master log.
     assert message in output
-{% elif cookiecutter.pipeline_type == "click" %}
+{% elif cookiecutter.cli_type == "click" %}
 def test_{{cookiecutter.project_slug}}():
     """Sample test for the main command."""
     message = "This is a test message for the Universe."

@@ -2,7 +2,7 @@
     "full_name": "John Smith",
     "email": "smithj@mskcc.org",
     "github_account": "leukgen",
-    "pipeline_type": ["toil", "click"],
+    "cli_type": ["toil", "click"],
     "project_name": "",
     "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}"
 }

@@ -172,8 +172,7 @@ disable =
     no-name-in-module,
     missing-raises-doc,
     ungrouped-imports,
-    # maybe-no-member,
-    # no-member,
+{% if cookiecutter.cli_type == "toil" %}    missing-docstring,{% endif %}
 
 [REPORTS]
 

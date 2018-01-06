@@ -12,10 +12,10 @@ Please learn about [`semantic versioning`][semver].
 
 Set up for local development:
 
-1. Clone your toil_template locally:
+1. Clone your cookiecutter-cli locally:
 
     ```
-    git clone git@github.com:leukgen/toil_template.git
+    git clone git@github.com:leukgen/cookiecutter-cli.git
     ```
 
 2. Use our commit message template:
@@ -42,13 +42,14 @@ Set up for local development:
 5. Create a test in:
 
     ```
-    toil_template/tests
+    cookiecutter-cli/tests
     ```
 
 6. When you're done making changes, run:
 
     ```
-    pip install --editable .
+    pip3 install pylint
+    pip2 install -r requirements.txt
     py.test tests
     ```
 
@@ -64,7 +65,7 @@ Set up for local development:
 
 ## Bug reports, Feature requests and feedback
 
-Go ahead and file an issue at https://github.com/leukgen/toil_template/issues.
+Go ahead and file an issue at https://github.com/leukgen/cookiecutter-cli/issues.
 
 If you are proposing a **feature**:
 

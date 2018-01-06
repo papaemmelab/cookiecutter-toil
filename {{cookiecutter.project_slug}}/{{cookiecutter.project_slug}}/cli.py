@@ -14,7 +14,7 @@ cause problems, the code will get executed twice:
 
 Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
-{% if cookiecutter.pipeline_type == "toil" %}
+{% if cookiecutter.cli_type == "toil" %}
 from {{cookiecutter.project_slug}} import commands
 
 
@@ -22,7 +22,7 @@ def main():
     """{{cookiecutter.project_slug}} main command."""
     commands.run_pipeline()
 
-{% elif cookiecutter.pipeline_type == "click" %}
+{% elif cookiecutter.cli_type == "click" %}
 from {{cookiecutter.project_slug}}.commands import hello_world as main
 
 {% endif %}

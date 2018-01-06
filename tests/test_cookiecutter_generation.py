@@ -5,7 +5,6 @@ import re
 import subprocess
 
 from binaryornot.check import is_binary
-from pylint.lint import Run
 import pytest
 
 PATTERN = "{{(\s?cookiecutter)[.](.*?)}}"
@@ -57,9 +56,23 @@ def test_default_configuration(cookies, context):
     check_paths(paths)
 
 
+def test_toil(cookies, context):
+    """Generated toil project should pass tests"""
+    context["cli_type"] = "toil"
+    result = cookies.bake(extra_context=context)
+    subprocess.check_call(["py.test", "-s", "tests"], cwd=str(result.project))
+
+
+def test_click(cookies, context):
+    """Generated click project should pass tests"""
+    context["cli_type"] = "click"
+    result = cookies.bake(extra_context=context)
+    subprocess.check_call(["py.test", "-s", "tests"], cwd=str(result.project))
+
+
 def test_pylint(cookies, context):
     """generated project should pass pylint"""
     result = cookies.bake(extra_context=context)
     pylintrc = os.path.join(str(result.project), ".pylintrc")
     root = os.path.join(str(result.project), context["project_slug"])
-    subprocess.check_call(["pylint","--rcfile=" + pylintrc, root])
+    subprocess.check_call(["pylint", "--rcfile=" + pylintrc, root])
