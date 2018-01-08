@@ -219,7 +219,7 @@ additional-builtins=
 
 # List of strings which can identify a callback function by name. A callback
 # name must start or end with one of those strings.
-callbacks=cb_,_cb,validate_
+callbacks=cb_,_cb,validate_{% if cookiecutter.cli_type == "toil" %},run{% endif %}
 
 # List of qualified module names which can have objects that can redefine
 # builtins.
@@ -258,7 +258,7 @@ logging-modules=logging
 # 'w' is commonly used to refer to a Workflow, same as 'a' to an analysis.
 # 'r' is commonly used to store a resquests response while 'f' is a file.
 # 'df' is a pandas DataFrame, 'pk' is a primary key.
-good-names = i, j, k, ex, Run, _, pb, id, pk, w, a, f, r, df
+good-names = i, j, k, ex, Run, _, pb, id, pk, w, a, f, r, df, jobName, unitName, jobStore, logToMaster
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=foo,baz,toto,tutu,tata
@@ -281,7 +281,7 @@ function-rgx=[a-z_][a-z0-9_]{2,30}$
 function-name-hint=[a-z_][a-z0-9_]{2,30}$
 
 # Regular expression matching correct variable names
-variable-rgx=[a-z_][a-z0-9_]{2,30}$
+variable-rgx=[a-z_][a-z0-9_]
 
 # Naming hint for variable names
 variable-name-hint=[a-z_][a-z0-9_]{2,30}$
