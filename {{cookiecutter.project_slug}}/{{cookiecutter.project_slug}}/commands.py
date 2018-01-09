@@ -5,6 +5,7 @@ import subprocess
 
 from toil.common import Toil
 from toil.job import Job
+import click
 
 from {{cookiecutter.project_slug}} import __version__
 
@@ -49,7 +50,8 @@ class HelloWorld(BaseJob):
 
     def run(self, fileStore):
         """Say hello to the world."""
-        subprocess.check_call(["echo", self.shared_variable])
+        with open(self.options.outfile, "w") as outfile:
+            outfile.write(self.shared_variable)
 
 
 class HelloWorldMessage(BaseJob):
@@ -61,16 +63,15 @@ class HelloWorldMessage(BaseJob):
 
     def run(self, fileStore):
         """Send message to the world."""
-        subprocess.check_call(["echo", self.message])
+        with open(self.options.outfile, "w") as outfile:
+            outfile.write(self.options.message)
 
         # Log message to master.
         fileStore.logToMaster(self.message)
 
 
-def run_pipeline():
+def run_toil(options):
     """Toil implementation for {{cookiecutter.project_slug}}."""
-    options = get_options()
-
     helloworld = HelloWorld(
         cores=4,
         memory="12G",
@@ -99,7 +100,7 @@ def run_pipeline():
             pipe.restart()
 
 
-def get_options():
+def get_parser():
     """Get pipeline configuration using toil's argparse."""
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -127,13 +128,43 @@ def get_options():
         default="Hello Universe, this text is used in the pipeline tests.",
         )
 
-    options = parser.parse_args()
+    settings.add_argument(
+        "--total",
+        help="Total times message should be printed.",
+        required=False,
+        default=1,
+        type=int,
+        )
 
-    # Make sure the toil logs directory exists.
+    settings.add_argument(
+        "--outfile",
+        help="Outfile to print message to.",
+        required=True,
+        type=click.Path(file_okay=True, writable=True),
+        )
+
+    return parser
+
+
+def validate_options(options):
+    """Perform validations and add post parsing attributes to `options`."""
     if options.writeLogs is not None:
         subprocess.check_call(["mkdir", "-p", options.writeLogs])
 
+    # This is just an example of
+    options.message = options.message * options.total
+
     return options
+
+
+def main():
+    """Parse options and run toil."""
+    options = get_parser().parse_args()
+    options = validate_options(options=options)
+    run_toil(options=options)
+
+if __name__ == "__main__":
+    main()
 {% elif cookiecutter.cli_type == "click" %}
 import click
 
