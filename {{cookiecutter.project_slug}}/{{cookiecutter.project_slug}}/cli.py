@@ -20,7 +20,7 @@ from {{cookiecutter.project_slug}} import commands
 
 def main():
     """{{cookiecutter.project_slug}} main command."""
-    commands.run_pipeline()
+    commands.main()
 
 {% elif cookiecutter.cli_type == "click" %}
 from {{cookiecutter.project_slug}}.commands import hello_world as main
