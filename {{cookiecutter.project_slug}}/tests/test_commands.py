@@ -1,9 +1,9 @@
-"""Tests for {{cookiecutter.project_slug}}."""
+"""={{cookiecutter.project_slug}} commands tests."""
 {% if cookiecutter.cli_type == "toil" %}
 from os.path import join
+
 import pytest
 
-from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import commands
 
 
@@ -24,7 +24,7 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
     # Get and validate options.
     parser = commands.get_parser()
     options = parser.parse_args(args)
-    options = commands.validate_options(options)
+    options = commands.process_parsed_options(options)
 
     # Call pipeline
     commands.run_toil(options)
@@ -34,10 +34,8 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
         assert len(f.read().split(message)) == total + 1
 {% elif cookiecutter.cli_type == "click" %}
 from click.testing import CliRunner
-
 import pytest
 
-from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import cli
 
 def test_{{cookiecutter.project_slug}}():
@@ -62,8 +60,3 @@ def response():
 def test_fixture(response):
     """Sample test function with the pytest fixture as an argument."""
     assert response == 10
-
-
-def test_version():
-    """Sample test for the __version__ variable."""
-    assert __version__ == "0.1.0"
