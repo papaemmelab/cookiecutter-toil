@@ -27,4 +27,4 @@ from {{cookiecutter.project_slug}}.commands import hello_world as main
 
 {% endif %}
 if __name__ == "__main__":
-    main()
+    main()  # pylint: disable=no-value-for-parameter
