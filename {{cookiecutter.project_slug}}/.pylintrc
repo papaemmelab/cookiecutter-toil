@@ -172,6 +172,8 @@ disable =
     no-name-in-module,
     missing-raises-doc,
     ungrouped-imports,
+    superfluous-parens,
+    keyword-arg-before-vararg,
 {% if cookiecutter.cli_type == "toil" %}    missing-docstring,{% endif %}
 
 [REPORTS]
