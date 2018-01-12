@@ -1,4 +1,4 @@
-"""{{cookiecutter.project_slug}} pipeline."""
+"""{{cookiecutter.project_slug}} commands."""
 {% if cookiecutter.cli_type == "toil" %}
 import argparse
 import subprocess
@@ -32,10 +32,9 @@ class BaseJob(Job):
             unitName = self.__class__.__name__
 
         # This is a custom solution for LSF options in leukgen, ask for lsf.py.
-        if options.batchSystem == "LSF":
-            lsf_tags = lsf_tags or list()
+        if getattr(options, "batchSystem", None) == "LSF":
             unitName = "" if unitName is None else str(unitName)
-            unitName += "".join("<LSF_%s>" % i for i in lsf_tags)
+            unitName += "".join("<LSF_%s>" % i for i in lsf_tags or [])
 
         # make options an attribute.
         self.options = options
@@ -146,7 +145,7 @@ def get_parser():
     return parser
 
 
-def validate_options(options):
+def process_parsed_options(options):
     """Perform validations and add post parsing attributes to `options`."""
     if options.writeLogs is not None:
         subprocess.check_call(["mkdir", "-p", options.writeLogs])
@@ -160,7 +159,7 @@ def validate_options(options):
 def main():
     """Parse options and run toil."""
     options = get_parser().parse_args()
-    options = validate_options(options=options)
+    options = process_parsed_options(options=options)
     run_toil(options=options)
 
 if __name__ == "__main__":
