@@ -6,7 +6,7 @@ import os
 from {{cookiecutter.project_slug}} import exceptions
 
 
-def check_patterns_are_files(patterns, check_size=True):
+def validate_patterns_are_files(patterns, check_size=True):
     """
     Check that a list of `patterns` are valid files.
 
@@ -20,7 +20,7 @@ def check_patterns_are_files(patterns, check_size=True):
     for pattern in patterns:
         files = list(glob(pattern))
 
-        if len(files) == 0:
+        if not files:
             msg = "{} pattern matched no files.".format(pattern)
             raise exceptions.ValidationError(msg)
 
@@ -36,7 +36,7 @@ def check_patterns_are_files(patterns, check_size=True):
     return True
 
 
-def check_patterns_are_dirs(patterns):
+def validate_patterns_are_dirs(patterns):
     """
     Check that a list of `patterns` are valid dirs.
 
@@ -49,7 +49,7 @@ def check_patterns_are_dirs(patterns):
     for pattern in patterns:
         dirs = list(glob(pattern))
 
-        if len(dirs) == 0:
+        if not dirs:
             msg = "{} pattern matched no dirs.".format(pattern)
             raise exceptions.ValidationError(msg)
 

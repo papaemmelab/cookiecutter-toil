@@ -1,4 +1,4 @@
-"""Tests for {{cookiecutter.project_slug}} validators module."""
+"""{{cookiecutter.project_slug}} validators tests."""
 
 from os.path import join
 import pytest
@@ -7,8 +7,8 @@ from {{cookiecutter.project_slug}} import exceptions
 from {{cookiecutter.project_slug}} import validators
 
 
-def test_check_patterns_are_files(tmpdir):
-    """Create multiple files and test test_check_patterns_are_files."""
+def test_validate_patterns_are_files(tmpdir):
+    """Create multiple files and test test_validate_patterns_are_files."""
     tmpdir_path = str(tmpdir)
 
     for i in range(5):
@@ -25,34 +25,34 @@ def test_check_patterns_are_files(tmpdir):
     none_file = [tmpdir_path]
 
     # Check empty files exist.
-    assert validators.check_patterns_are_files(empty, check_size=False)
+    assert validators.validate_patterns_are_files(empty, check_size=False)
 
     # Check files exist amd are not empty.
-    assert validators.check_patterns_are_files(not_empty, check_size=True)
+    assert validators.validate_patterns_are_files(not_empty, check_size=True)
 
     # Check that empty files raise error with default setting.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_files(empty)
+        validators.validate_patterns_are_files(empty)
 
     # Check that empty files raise error with flag.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_files(empty, check_size=True)
+        validators.validate_patterns_are_files(empty, check_size=True)
 
     # Check that pattern is not file.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_files(none_file, check_size=True)
+        validators.validate_patterns_are_files(none_file, check_size=True)
 
     # Check that empty files raise error with flag.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_files(empty, check_size=True)
+        validators.validate_patterns_are_files(empty, check_size=True)
 
     # Check that invalid patterns raise ValidationError error.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_files(none_existing, check_size=True)
+        validators.validate_patterns_are_files(none_existing, check_size=True)
 
 
-def test_check_patterns_are_dirs(tmpdir):
-    """test_check_patterns_are_dirs."""
+def test_validate_patterns_are_dirs(tmpdir):
+    """test_validate_patterns_are_dirs."""
     tmpdir_path = str(tmpdir)
     file_patterns = [join(tmpdir_path, "a_file")]
     existing_patterns = [tmpdir_path]
@@ -63,12 +63,12 @@ def test_check_patterns_are_dirs(tmpdir):
         pass
 
     # Check empty files exist.
-    assert validators.check_patterns_are_dirs(existing_patterns)
+    assert validators.validate_patterns_are_dirs(existing_patterns)
 
     # Check that empty files raise error with default setting.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_dirs(none_existing_patterns)
+        validators.validate_patterns_are_dirs(none_existing_patterns)
 
     # Check that empty files raise error with flag.
     with pytest.raises(exceptions.ValidationError) as _:
-        validators.check_patterns_are_dirs(file_patterns)
+        validators.validate_patterns_are_dirs(file_patterns)
