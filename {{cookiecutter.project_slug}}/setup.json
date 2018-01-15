@@ -12,7 +12,7 @@
         ]
     },
     "include_package_data": true,
-    {% if cookiecutter.cli_type == "toil" %}"install_requires": ["pytest-cov>=2.5.1"],{% elif cookiecutter.cli_type == "click" %}"install_requires": ["Click>=6.7", "pytest-cov>=2.5.1"],{% endif %}
+    {% if cookiecutter.cli_type == "toil" %}"install_requires": ["pytest-cov>=2.5.1", "pylint>=1.8.1", "toil>=3.12.0", "Click>=6.7"],{% elif cookiecutter.cli_type == "click" %}"install_requires": ["Click>=6.7", "pytest-cov>=2.5.1", "pylint>=1.8.1"],{% endif %}
     "keywords": [],
     "license": "BSD",
     "name": "{{cookiecutter.project_slug}}",

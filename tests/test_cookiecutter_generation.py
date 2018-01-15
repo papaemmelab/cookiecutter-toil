@@ -62,6 +62,11 @@ def test_toil(cookies, context):
     result = cookies.bake(extra_context=context)
     subprocess.check_call(["py.test", "-s", "tests"], cwd=str(result.project))
 
+    # Test pylint of generated project.
+    pylintrc = os.path.join(str(result.project), ".pylintrc")
+    root = os.path.join(str(result.project), context["project_slug"])
+    subprocess.check_call(["pylint", "--rcfile=" + pylintrc, root])
+
 
 def test_click(cookies, context):
     """Generated click project should pass tests"""
@@ -69,10 +74,27 @@ def test_click(cookies, context):
     result = cookies.bake(extra_context=context)
     subprocess.check_call(["py.test", "-s", "tests"], cwd=str(result.project))
 
-
-def test_pylint(cookies, context):
-    """generated project should pass pylint"""
-    result = cookies.bake(extra_context=context)
+    # Test pylint of generated project.
     pylintrc = os.path.join(str(result.project), ".pylintrc")
     root = os.path.join(str(result.project), context["project_slug"])
     subprocess.check_call(["pylint", "--rcfile=" + pylintrc, root])
+
+
+@pytest.mark.skipif(
+    os.getenv("TEST_TOIL_TOX") != "yes",
+    reason="export TEST_TOIL_TOX=yes to run tox for toil.")
+def test_toil_tox(cookies, context):
+    """Generated toil project should pass tests"""
+    context["cli_type"] = "toil"
+    result = cookies.bake(extra_context=context)
+    subprocess.check_call(["tox"], cwd=str(result.project))
+
+
+@pytest.mark.skipif(
+    os.getenv("TEST_CLICK_TOX") != "yes",
+    reason="export TEST_CLICK_TOX=yes to run tox for toil.")
+def test_click_tox(cookies, context):
+    """Generated click project should pass tests"""
+    context["cli_type"] = "click"
+    result = cookies.bake(extra_context=context)
+    subprocess.check_call(["tox"], cwd=str(result.project))

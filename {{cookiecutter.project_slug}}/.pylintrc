@@ -172,6 +172,8 @@ disable =
     no-name-in-module,
     missing-raises-doc,
     ungrouped-imports,
+    superfluous-parens,
+    keyword-arg-before-vararg,
 {% if cookiecutter.cli_type == "toil" %}    missing-docstring,{% endif %}
 
 [REPORTS]
@@ -258,7 +260,7 @@ logging-modules=logging
 # 'w' is commonly used to refer to a Workflow, same as 'a' to an analysis.
 # 'r' is commonly used to store a resquests response while 'f' is a file.
 # 'df' is a pandas DataFrame, 'pk' is a primary key.
-good-names = i, j, k, ex, Run, _, pb, id, pk, w, a, f, r, df, jobName, unitName, jobStore, logToMaster
+good-names = i, j, k, ex, Run, _, pb, id, pk, w, a, f, r, df, jobName, unitName, jobStore, logToMaster, fileStore
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=foo,baz,toto,tutu,tata

@@ -48,12 +48,11 @@ Set up for local development:
 6. When you're done making changes, run:
 
     ```
-    pip3 install pylint
-    pip2 install -r requirements.txt
+    pip install -r requirements.txt
     py.test tests
     ```
 
-9. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
+7. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
 
     ```
     git add .
@@ -85,7 +84,7 @@ If you need some code review or feedback while you're developing the code just m
 
 For merging, you should:
 
-1. Include passing tests (run `tox`).
+1. Include passing tests (run `py.test tests`).
 2. Update documentation when there's new API, functionality etc.
 
 <!-- References -->

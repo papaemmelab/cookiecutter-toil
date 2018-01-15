@@ -5,8 +5,15 @@ import os
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(ROOT, "..", "setup.json"), "r") as f:
-    SETUP = json.load(f)
+try:
+    # When locally installed.
+    with open(os.path.join(ROOT, "..", "setup.json"), "r") as f:
+        SETUP = json.load(f)
+
+except IOError:
+    # When not locally installed.
+    with open(os.path.join(ROOT, "setup.json"), "r") as f:
+        SETUP = json.load(f)
 
 __version__ = SETUP.get("version")
 
