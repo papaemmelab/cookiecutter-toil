@@ -8,7 +8,19 @@ README, in docstrings, or even on the web in blog posts articles, and such.
 
 Please learn about [`semantic versioning`][semver].
 
-## Development
+# Contents
+
+- [Contributing](#contributing)
+- [Contents](#contents)
+- [Development](#development)
+- [Bug reports, Feature requests and feedback](#bug-reports-feature-requests-and-feedback)
+    - [Pull Request Guidelines](#pull-request-guidelines)
+- [About Testing Tools](#about-testing-tools)
+    - [Pytest](#pytest)
+    - [Linting](#linting)
+    - [Tox](#tox)
+
+# Development
 
 Set up for local development:
 
@@ -39,28 +51,16 @@ Set up for local development:
 
     Now you can make your changes locally.
 
-5. To check pep8 formatting:
-
-    ```
-    pep8 --statistics --ignore=E701,E125 --hang-closing {{cookiecutter.project_slug}}
-    ```
-
-6. Run pylint:
-
-    ```
-    pylint {{cookiecutter.project_slug}} --rcfile=`pwd`/.pylintrc
-    ```
-
-7. Create a test in:
+5. Create a test in:
 
     ```
     {{cookiecutter.project_slug}}/tests
     ```
 
-8. When you're done making changes, run:
+6. Run tox:
 
     ```
-    py.test -s -vv --cov={{cookiecutter.project_slug}} tests
+    tox
     ```
 
 9. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
@@ -73,7 +73,7 @@ Set up for local development:
 
 9. Submit a pull request through the GitHub website.
 
-## Bug reports, Feature requests and feedback
+# Bug reports, Feature requests and feedback
 
 Go ahead and file an issue at https://github.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/issues.
 
@@ -98,6 +98,54 @@ For merging, you should:
 1. Include passing tests (run `tox`).
 2. Update documentation when there's new API, functionality etc.
 
+# About Testing Tools
+
+## Pytest
+
+The `pytest.ini` can be used to define test specific configuration variables using [pytest-env][pytest-env]. Check it out with the following command:
+
+    py.test tests
+
+Thw `.coveragerc` configuration file includes [coverage][coverage] configuration. To get coverage statistics run:
+
+    py.test tests --cov={your_project_dir}
+
+## Linting
+
+The `.pylintrc` has a world-class [pylint][pylint] configuration:
+
+    pylint --rcfile={your_project_dir}/.pylintrc {your_project}
+
+Additionally, a `.pydocstyle` defines *docstrings* conventions to be tested with [pydocstyle][pydocstyle].
+
+    pydocstyle --config={your_project_dir}/.pydocstylerc {your_project}
+
+## Tox
+
+Use [tox][tox] run tests on a isolated python environment. The `tox.ini` file enables you to get [pytest][pytest], [pylint][pylint], [pydocstyle][pydocstyle] and a [coverage][coverage] html report. Tox also tests the installation procedure. To execute the default environments run:
+
+    tox
+
+You can run a set of specific test environments:
+
+    tox -e report,lint
+
+The `report` enviroment will create a html coverage report. Use `tox --recreate` when you need to rebuild the tox environments (e.g. you changed one of the `deps` lists in the `tox.ini` file). The available tox environments are:
+
+| Name   | function                                                                                          |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| py27   | Test package using python 2 (Toil)                                                                |
+| py36   | Test package using python 3 (Click)                                                               |
+| lint   | Run [pylint][pylint] and [pydocstyle][pydocstyle] using the `.pylintrc` and `.pydocstylerc` files |
+| report | Run base tests and generate coverage statistics                                                   |
+| clean  | Clean a previously generated coverage report                                                      |
+
 <!-- References -->
 
+[pytest]: https://docs.pytest.org/en/latest/
+[pytest-env]: https://github.com/MobileDynasty/pytest-env
 [semver]: http://semver.org/
+[tox]: http://tox.readthedocs.io/
+[pydocstyle]: http://www.pydocstyle.org/en
+[pylint]: https://www.pylint.org/
+[coverage]:https://coverage.readthedocs.io
