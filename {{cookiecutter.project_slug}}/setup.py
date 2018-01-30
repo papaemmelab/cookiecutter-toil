@@ -1,15 +1,16 @@
 """{{cookiecutter.project_slug}} setup.py."""
 
-# python
+from os.path import join
+from os.path import abspath
+from os.path import dirname
 import io
 import json
-import os
 
-# third party
 from setuptools import find_packages
 from setuptools import setup
 
-ROOT = os.path.abspath(os.path.dirname(__file__))
+ROOT = abspath(dirname(__file__))
+CONF = join(ROOT, "{{cookiecutter.project_slug}}", "data", "setup.json")
 
 
 def read(path, **kwargs):
@@ -18,11 +19,21 @@ def read(path, **kwargs):
 
 
 # Please put setup keywords in the setup.json to keep this file clean.
-with open(os.path.join(ROOT, "setup.json"), "r") as f:
+with open(CONF, "r") as f:
     SETUP = json.load(f)
 
 setup(
-    long_description=read(os.path.join(ROOT, "README.md")),
+    # Load description from README.
+    long_description=read(join(ROOT, "README.md")),
+
+    # In combination with MANIFEST.in, package non-python files included
+    # inside the {{cookiecutter.project_slug}} will be copied to the
+    # site-packages installation directory.
+    include_package_data=True,
+
+    # Return a list all Python packages found within the ROOT directory.
     packages=find_packages(),
+
+    # Pass parameters loaded from setup.json including author and version.
     **SETUP
     )

@@ -1,19 +1,14 @@
 """{{cookiecutter.project_slug}} module."""
 
+from os.path import join
+from os.path import abspath
+from os.path import dirname
 import json
-import os
 
-ROOT = os.path.abspath(os.path.dirname(__file__))
+ROOT = abspath(dirname(__file__))
 
-try:
-    # When locally installed.
-    with open(os.path.join(ROOT, "..", "setup.json"), "r") as f:
-        SETUP = json.load(f)
-
-except IOError:
-    # When not locally installed.
-    with open(os.path.join(ROOT, "setup.json"), "r") as f:
-        SETUP = json.load(f)
+with open(join(ROOT, "data", "setup.json"), "r") as f:
+    SETUP = json.load(f)
 
 __version__ = SETUP.get("version")
 

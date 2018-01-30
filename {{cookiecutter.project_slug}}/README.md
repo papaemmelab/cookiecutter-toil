@@ -2,27 +2,24 @@
 
 Please just use this readme for docs.
 
-# Table of Contents
+# Contents
 
-<!-- This is for SublimeText's MarkdownTOC -->
-<!-- MarkdownTOC autolink="true" bracket="round" depth=2 -->
-
+- [{{cookiecutter.project_slug}}](#cookiecutterprojectslug)
+- [Contents](#contents)
 - [Usage](#usage)
-    - [Installation](#installation)
-    - [Configuration](#configuration)
-
-<!-- /MarkdownTOC -->
+- [Installation](#installation)
+- [Configuration](#configuration)
 
 # Usage
 
 Example...
 
-## Installation
+# Installation
 
 Example...
 
     pip install --editable .
 
-## Configuration
+# Configuration
 
 Example...

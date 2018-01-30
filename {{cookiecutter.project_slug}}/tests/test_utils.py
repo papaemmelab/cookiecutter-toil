@@ -93,7 +93,7 @@ def test_tar_dir(tmpdir):
     os.rmdir(source_dir)
     tar = tarfile.open(output_path)
     tar.extractall(path=dst_dir)
-    tar.close
+    tar.close()
 
     for i, j in files:
         i = i.replace(source_dir, join(dst_dir, "source_dir"))

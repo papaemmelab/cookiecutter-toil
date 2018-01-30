@@ -8,7 +8,15 @@ README, in docstrings, or even on the web in blog posts articles, and such.
 
 Please learn about [`semantic versioning`][semver].
 
-## Development
+# Contents
+
+- [Contributing](#contributing)
+- [Contents](#contents)
+- [Development](#development)
+    - [Bug reports, Feature requests and feedback](#bug-reports-feature-requests-and-feedback)
+    - [Pull Request Guidelines](#pull-request-guidelines)
+
+# Development
 
 Set up for local development:
 
@@ -39,7 +47,13 @@ Set up for local development:
 
     Now you can make your changes locally.
 
-5. Create a test in:
+5. If you contributed a feature to the  `{{cookiecutter.project_slug}}`, create a test in::
+
+    ```
+    cookiecutter-cli/{{cookiecutter.project_slug}}/tests
+    ```
+
+    If you contributed to the `cookiecutter-cli` logic, add a test here:
 
     ```
     cookiecutter-cli/tests
@@ -49,7 +63,13 @@ Set up for local development:
 
     ```
     pip install -r requirements.txt
-    py.test tests
+    py.test tests -s
+    ```
+
+    If you need to recreate the tox environments, run:
+
+    ```
+    py.test tests -s --recreate
     ```
 
 7. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
