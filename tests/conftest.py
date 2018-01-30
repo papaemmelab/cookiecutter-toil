@@ -4,10 +4,10 @@ import pytest
 
 
 def pytest_addoption(parser):
-    """Add option to recreate tox enviroments."""
+    """Add option to recreate tox environments."""
     parser.addoption(
         "--recreate",
         action="store_true",
         default=False,
-        help="Recreate the tox enviroments for click and toil modes.",
+        help="Recreate the tox environments for click and toil modes.",
         )

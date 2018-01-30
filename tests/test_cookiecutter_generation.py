@@ -42,9 +42,7 @@ def build_files_list(root_dir):
 
 
 def check_paths(paths):
-    """
-    Method to check all paths have correct substitutions.
-    """
+    """Method to check all paths have correct substitutions."""
     # Assert that no match is found in any of the files
     pattern = "{{(\s?cookiecutter)[.](.*?)}}"
     regex = re.compile(pattern)
@@ -84,7 +82,7 @@ def run_tox(cli_type, cookies, context, recreate):
     result = cookies.bake(extra_context=context)
     cmd = ["tox", "--workdir", workdir]
 
-    # Check if enviroments should be rebuilt.
+    # Check if environments should be rebuilt.
     if recreate:
         cmd.append("--recreate")
 

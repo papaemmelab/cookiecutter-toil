@@ -77,7 +77,7 @@ A `.pylintrc` is provided with world-class [pylint][pylint] configuration:
 
     pylint --rcfile={your_project_dir}/.pylintrc {your_project}
 
-Additionally, a `.pydocstyle` configuration is included with a set of *docstrings* conventions to be tested with [pydocstyle][pydocstyle].
+Additionally, a `.pydocstylerc` configuration is included with a set of *docstrings* conventions to be tested with [pydocstyle][pydocstyle].
 
     pydocstyle --config={your_project_dir}/.pydocstylerc {your_project}
 
