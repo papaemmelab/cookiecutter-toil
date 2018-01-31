@@ -5,73 +5,16 @@ import subprocess
 
 from toil.common import Toil
 from toil.job import Job
+from toil.lib import docker
 import click
 
 from {{cookiecutter.project_slug}} import __version__
-
-
-class BaseJob(Job):
-
-    """Job base class used to share variables and methods across steps."""
-
-    def __init__(
-            self, options=None, lsf_tags=None, unitName="", *args, **kwargs):
-        """
-        Use this base class to share variables across pipelines steps.
-
-        Arguments:
-            unitName (str): string that will be used as the lsf jobname.
-            options (object): an argparse name space object.
-            lsf_tags (list): a list of custom supported tags by leukgen
-                see this file /ifs/work/leukgen/opt/toil_lsf/python2/lsf.py.
-            args (list): arguments to be passed to toil.job.Job.
-            kwargs (dict): key word arguments to be passed to toil.job.Job.
-        """
-        # If unitName is not passed, we set the class name as the default.
-        if unitName == "":
-            unitName = self.__class__.__name__
-
-        # This is a custom solution for LSF options in leukgen, ask for lsf.py.
-        if getattr(options, "batchSystem", None) == "LSF":
-            unitName = "" if unitName is None else str(unitName)
-            unitName += "".join("<LSF_%s>" % i for i in lsf_tags or [])
-
-        # make options an attribute.
-        self.options = options
-
-        # example of a shared variable.
-        self.shared_variable = "Hello World"
-
-        super(BaseJob, self).__init__(unitName=unitName, *args, **kwargs)
-
-
-class HelloWorld(BaseJob):
-
-    def run(self, fileStore):
-        """Say hello to the world."""
-        with open(self.options.outfile, "w") as outfile:
-            outfile.write(self.shared_variable)
-
-
-class HelloWorldMessage(BaseJob):
-
-    def __init__(self, message, *args, **kwargs):
-        """Load message variable as attribute."""
-        self.message = message
-        super(HelloWorldMessage, self).__init__(*args, **kwargs)
-
-    def run(self, fileStore):
-        """Send message to the world."""
-        with open(self.options.outfile, "w") as outfile:
-            outfile.write(self.options.message)
-
-        # Log message to master.
-        fileStore.logToMaster(self.message)
+from {{cookiecutter.project_slug}} import jobs
 
 
 def run_toil(options):
     """Toil implementation for {{cookiecutter.project_slug}}."""
-    helloworld = HelloWorld(
+    helloworld = jobs.HelloWorld(
         cores=4,
         memory="12G",
         options=options,
@@ -79,7 +22,7 @@ def run_toil(options):
         lsf_tags=["SHORT"]
         )
 
-    helloworld_message = HelloWorldMessage(
+    helloworld_message = jobs.HelloWorldMessage(
         message=options.message,
         cores=4,
         memory="12G",
@@ -142,6 +85,42 @@ def get_parser():
         type=click.Path(file_okay=True, writable=True),
         )
 
+    # Parameters to run with docker or singularity
+    settings = parser.add_argument_group("To run with docker or singularity:")
+
+    settings.add_argument(
+        "--docker",
+        help="Flag to run jobs in docker containers.",
+        default=False,
+        action="store_true",
+        )
+
+    settings.add_argument(
+        "--singularity",
+        help="Path of the singularity image (.simg) to jobs be run inside"
+            "singularity containers.",
+        required=False,
+        metavar="SINGULARITY-IMAGE-PATH",
+        type=click.Path(
+            file_okay=True,
+            readable=True,
+            resolve_path=True,
+            exists=True,
+            )
+        )
+
+    settings.add_argument(
+        "--shared-fs",
+        help="Shared file system directory to be mounted inside the containers",
+        required=False,
+        type=click.Path(
+            file_okay=True,
+            readable=True,
+            resolve_path=True,
+            exists=True,
+            )
+        )
+
     return parser
 
 
@@ -150,8 +129,14 @@ def process_parsed_options(options):
     if options.writeLogs is not None:
         subprocess.check_call(["mkdir", "-p", options.writeLogs])
 
-    # This is just an example of
+    # This is just an example of how to post process variables after parsing.
     options.message = options.message * options.total
+
+    # Check singularity and docker and not used at the same time
+    if options.singularity and options.docker:
+        raise click.UsageError(
+            "You can't pass both --singularity and --docker. "
+            )
 
     return options
 

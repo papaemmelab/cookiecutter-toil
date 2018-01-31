@@ -3,13 +3,12 @@
 from os.path import join
 from os.path import abspath
 from os.path import dirname
-import json
 import os
 import re
 import subprocess
 
-from binaryornot.check import is_binary
 import pytest
+from binaryornot.check import is_binary
 
 ROOT = abspath(join(dirname(__file__), ".."))
 
@@ -33,10 +32,8 @@ def recreate(request):
 def build_files_list(root_dir):
     """Build a list containing absolute paths to the generated files."""
     return [
-        os.path.join(dirpath,
-        file_path)
-        for dirpath,
-        subdirs, files in os.walk(root_dir)
+        os.path.join(dirpath, file_path)
+        for dirpath, subdirs, files in os.walk(root_dir)
         for file_path in files
         ]
 
