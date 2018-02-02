@@ -51,12 +51,12 @@ class BaseJob(Job):
             cwd (str): current working directory.
 
         Returns:
-            str: system status of the system call.
+            int: 0 if call succeed else non-0.
         """
         if self.options.singularity:
             return self.singularity_call(cmd, cwd=cwd, check_output=False)
         elif self.options.docker:
-            return self.docker_call(cmd, cwd=cwd)
+            return self.docker_call(cmd, cwd=cwd, check_output=False)
         else:
             return subprocess.check_call(cmd, cwd=cwd)
 
@@ -74,7 +74,7 @@ class BaseJob(Job):
         if self.options.singularity:
             return self.singularity_call(cmd, cwd=cwd, check_output=True)
         elif self.options.docker:
-            return self.docker_call(cmd, cwd=cwd)
+            return self.docker_call(cmd, cwd=cwd, check_output=True)
         else:
             return subprocess.check_output(cmd, cwd=cwd)
 
@@ -104,7 +104,7 @@ class BaseJob(Job):
             check_output=check_output
             )
 
-    def docker_call(self, cmd, cwd=None):
+    def docker_call(self, cmd, cwd=None, check_output=False):
         """
         Call the base singularity call, sending the singularity parameters
         needed for managing the shared and working directories.
@@ -112,7 +112,9 @@ class BaseJob(Job):
         See check_call for arguments description.
         """
         docker_parameters = {}
-        docker_parameters['container_name'] = self.options.docker
+        docker_parameters['containerName'] = self.options.docker
+        docker_parameters['detach'] = check_output
+        docker_parameters['entrypoint'] = ''
         docker_parameters['parameters'] = cmd
 
         # Set parameters for managing directories if options are defined
@@ -126,11 +128,14 @@ class BaseJob(Job):
         if cwd:
             docker_parameters['working_dir'] = cwd
 
-        return docker.apiDockerCall(
+        output = docker.apiDockerCall(
             self,
             self.options.docker,
             **docker_parameters
             )
+
+        # If check_output returns the logs, if check_call return a 0 as status.
+        return output.logs() if check_output else 0
 
 
 class HelloWorld(BaseJob):
