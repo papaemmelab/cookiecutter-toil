@@ -1,5 +1,5 @@
 """{{cookiecutter.project_slug}} jobs."""
-{ % if cookiecutter.cli_type == "toil" % }
+{% if cookiecutter.cli_type == "toil" %}
 import subprocess
 
 from toil.common import Toil
@@ -93,7 +93,7 @@ class BaseJob(Job):
                 "--bind", "{fs}:{fs}".format(fs=self.options.shared_fs)
                 ]
         if self.options.workDir:
-            singularity_parameters += ["--workDir", self.options.workDir]
+            singularity_parameters += ["--workdir", self.options.workDir]
         if cwd:
             singularity_parameters += ["--pwd", cwd]
 
@@ -126,7 +126,11 @@ class BaseJob(Job):
         if cwd:
             docker_parameters['working_dir'] = cwd
 
-        return docker.dockerApiCall(**docker_parameters)
+        return docker.apiDockerCall(
+            self,
+            self.options.docker,
+            **docker_parameters
+            )
 
 
 class HelloWorld(BaseJob):
@@ -151,4 +155,4 @@ class HelloWorldMessage(BaseJob):
 
         # Log message to master.
         fileStore.logToMaster(self.message)
-{ % endif % }
+{% endif %}

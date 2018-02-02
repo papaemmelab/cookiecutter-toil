@@ -9,6 +9,9 @@ ENV OUTPUT_DIR /data
 ENV WORK_DIR /code
 ENV OPT_DIR /opt
 
+# For cookiecutter-testing
+ENV PROJECT {{cookiecutter.project_slug}}
+
 # Mount the output volume as persistant
 VOLUME ${OUTPUT_DIR}
 
@@ -37,4 +40,4 @@ WORKDIR ${WORK_DIR}
 RUN pip install --editable .
 
 # Run command
-ENTRYPOINT ["bash", "docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "docker-entrypoint.sh"]

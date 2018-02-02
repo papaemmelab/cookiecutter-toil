@@ -10,6 +10,7 @@ import click
 
 from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import jobs
+from {{cookiecutter.project_slug}} import utils
 
 
 def run_toil(options):
@@ -90,15 +91,17 @@ def get_parser():
 
     settings.add_argument(
         "--docker",
-        help="Flag to run jobs in docker containers.",
+        help="Name of the docker image, available in daemon.",
         default=False,
-        action="store_true",
+        metavar="DOCKER-IMAGE-NAME",
         )
 
     settings.add_argument(
         "--singularity",
-        help="Path of the singularity image (.simg) to jobs be run inside"
-            "singularity containers.",
+        help=(
+            "Path of the singularity image (.simg) to jobs be run inside"
+            "singularity containers."
+            ),
         required=False,
         metavar="SINGULARITY-IMAGE-PATH",
         type=click.Path(
@@ -135,7 +138,17 @@ def process_parsed_options(options):
     # Check singularity and docker and not used at the same time
     if options.singularity and options.docker:
         raise click.UsageError(
-            "You can't pass both --singularity and --docker. "
+            "You can't pass both --singularity and --docker."
+            )
+
+    if options.docker and not utils.is_docker_available():
+        raise click.UsageError(
+            "Docker is not currently available in your environment."
+            )
+
+    if options.singularity and not utils.is_singularity_available():
+        raise click.UsageError(
+            "Singularity is not currently available in your environment."
             )
 
     return options
