@@ -39,7 +39,7 @@ def test_docker_container():
 
     # Run detached container with command
     cmd_params = ['--version']
-    container = client.run.container(docker_image, cmd_params, detach=True)
+    container = client.containers.run(docker_image, cmd_params, detach=True)
     expected_stdout = "{main_cmd} {version}".format(
         main_cmd="{{cookiecutter.project_slug}}",
         version=__version__
@@ -93,7 +93,7 @@ class ContainerizedCheckOutputJob(jobs.BaseJob):
 
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        cmd = ["cat", "/etc/os-release"]
+        cmd = ["echo", "$TMP"]
         return self.check_output(cmd, cwd=self.options.workDir)
 
 
@@ -124,12 +124,14 @@ def test_singularity_toil(tmpdir):
     is executing correctly the command inside the container.
     """
     # Create options for job
+    workdir = join(str(tmpdir))
     jobstore = join(str(tmpdir), "jobstore")
     singularity_image = os.environ['TEST_CONTAINER_IMAGE']
     shared_fs = os.environ['SHARED_FS']
 
     args = [
         jobstore,
+        "--workDir", workdir,
         "--singularity", singularity_image,
         "--shared-fs", shared_fs,
         ]
@@ -164,6 +166,7 @@ def test_docker_toil(tmpdir):
     correctly the command inside the container.
     """
     # Create options for job
+    workdir = join(str(tmpdir))
     jobstore = join(str(tmpdir), "jobstore")
     shared_fs = os.environ['SHARED_FS']
 
@@ -175,6 +178,7 @@ def test_docker_toil(tmpdir):
 
     args = [
         jobstore,
+        "--workDir", workdir,
         "--docker", image_tag,
         "--shared-fs", shared_fs,
     ]
@@ -195,5 +199,5 @@ def test_docker_toil(tmpdir):
     std_call = job_call.run(jobstore)
     std_output = job_output.run(jobstore)
     assert 0 == std_call
-    assert "VERSION" in std_output
+    assert workdir in std_output
 {% endif %}
