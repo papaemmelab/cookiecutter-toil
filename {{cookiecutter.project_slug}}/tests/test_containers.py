@@ -71,7 +71,7 @@ def test_singularity_container():
     assert 'VERSION' in output
 
 
-# {% if cookiecutter.cli_type == "toil" %}
+{% if cookiecutter.cli_type == "toil" %}
 # Toil Jobs and Options for testing
 
 class ContainerizedCheckCallJob(jobs.BaseJob):
@@ -196,6 +196,4 @@ def test_docker_toil(tmpdir):
     std_output = job_output.run(jobstore)
     assert 0 == std_call
     assert "VERSION" in std_output
-
-
-# {% endif %}
+{% endif %}
