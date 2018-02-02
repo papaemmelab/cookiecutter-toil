@@ -35,15 +35,16 @@ def test_docker_container():
     client = docker.from_env()
 
     # Build image from Dockerfile
-    image = client.images.build(path=ROOT, rm=True)
+    docker_image = client.images.build(path=ROOT, rm=True)
 
     # Run detached container with command
-    cmd_params = '--version'
-    container = client.run.container(image, cmd_params, detach=True)
+    cmd_params = ['--version']
+    container = client.run.container(docker_image, cmd_params, detach=True)
     expected_stdout = "{main_cmd} {version}".format(
         main_cmd="{{cookiecutter.project_slug}}",
         version=__version__
         )
+    container.stop()
 
     assert expected_stdout in container.logs()
 
@@ -73,7 +74,6 @@ def test_singularity_container():
 
 {% if cookiecutter.cli_type == "toil" %}
 # Toil Jobs and Options for testing
-
 class ContainerizedCheckCallJob(jobs.BaseJob):
     """
     Job created to test that check_call is used correctly by docker
@@ -124,7 +124,6 @@ def test_singularity_toil(tmpdir):
     is executing correctly the command inside the container.
     """
     # Create options for job
-    workdir = str(tmpdir)
     jobstore = join(str(tmpdir), "jobstore")
     singularity_image = os.environ['TEST_CONTAINER_IMAGE']
     shared_fs = os.environ['SHARED_FS']
@@ -165,19 +164,20 @@ def test_docker_toil(tmpdir):
     correctly the command inside the container.
     """
     # Create options for job
-    workdir = str(tmpdir)
     jobstore = join(str(tmpdir), "jobstore")
     shared_fs = os.environ['SHARED_FS']
 
-    # Build image from Dockerfile
+    # Clean images and build new image from Dockerfile
     client = docker.from_env()
-    docker_image = client.images.build(path=ROOT, rm=True)
+
+    image_tag = 'test-toil'
+    client.images.build(path=ROOT, rm=True, tag=image_tag)
 
     args = [
         jobstore,
-        "--docker", docker_image,
+        "--docker", image_tag,
         "--shared-fs", shared_fs,
-        ]
+    ]
     parser = get_toil_test_parser()
     options = parser.parse_args(args)
 
@@ -185,11 +185,11 @@ def test_docker_toil(tmpdir):
     job_call = ContainerizedCheckCallJob(
         options=options,
         unitName="Hello World",
-        )
+    )
     job_output = ContainerizedCheckOutputJob(
         options=options,
         unitName="Hello World",
-        )
+    )
 
     # Run jobs
     std_call = job_call.run(jobstore)
