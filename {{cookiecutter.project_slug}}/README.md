@@ -30,20 +30,18 @@ Local directories can be mounted in the container using the `--volume` flag. (pl
     docker build --tag {{cookiecutter.project_slug}}-image .
 
     # run the container
-    {% if cookiecutter.cli_type == "click" %}
     docker run \
         --volume /shared_fs:/shared_fs                  \ # bind the local /shared_fs to the /shared_fs container
         --interactive                                   \ # Keep STDIN open even if not attached
         --tty                                           \ # Allocate a pseudo-TTY
         {{cookiecutter.project_slug}}-image             \ # The tag name of the image as defined in docker build
+    {% if cookiecutter.cli_type == "click" %}
             [--{{cookiecutter.project_slug}}-options]
-
     {% elif cookiecutter.cli_type == "toil" %}
-    {{cookiecutter.project_slug}}
-        [--toil-options]
-        [--{{cookiecutter.project_slug}}-options]
-        --docker {{cookiecutter.project_slug}}-image
-        --shared-fs /shared_fs
+            [--toil-options]
+            [--{{cookiecutter.project_slug}}-options]
+            --docker {{cookiecutter.project_slug}}-image
+            --shared-fs /shared_fs
     {% endif %}
 
 # Singularity
@@ -59,26 +57,26 @@ Once created the docker image, run `singularityware/docker2singularity` to creat
         -v `pwd`:/output \
         --privileged -t --rm \
         singularityware/docker2singularity \
-        -m '/shared_fs /shared_fs'
-        {{cookiecutter.project_slug}}-image
+            -m '/shared_fs /shared_fs' \
+            {{cookiecutter.project_slug}}-image
 
-The previous command will create a singularity image named with `$creation_date` and `$container_id` variables. These will be unique to each run of `singularityware/docker2singularity`
+The previous command will create a singularity image named with `$creation_date` and `$container_id` variables. These will be unique to each run of `singularityware/docker2singularity`.
 
     # set the path to the singularity image
     SIGULARITY_IMAGE_PATH=`pwd`/{{cookiecutter.project_slug}}-image-$creation_date-$container_id.img
 
     # run the container
-    {% if cookiecutter.cli_type == "click" %}
     singularity run \
         --workdir /shared_fs/tmp      \ # Working directory to be used for /tmp, /var/tmp and $HOME
         --bind /shared_fs:/shared_fs  \ # /shared_fs mount point made available by using -m in docker2singularity
         $SIGULARITY_IMAGE_PATH
+   {% if cookiecutter.cli_type == "click" %}
+        {{cookiecutter.project_slug}}
             [--{{cookiecutter.project_slug}}-options]
-
     {% elif cookiecutter.cli_type == "toil" %}
-    {{cookiecutter.project_slug}}
-        [--toil-options]
-        [--{{cookiecutter.project_slug}}-options]
-        --docker {{cookiecutter.project_slug}}-image
-        --shared-fs /shared_fs
+        {{cookiecutter.project_slug}}
+            [--toil-options]
+            [--{{cookiecutter.project_slug}}-options]
+            --docker {{cookiecutter.project_slug}}-image
+            --shared-fs /shared_fs
     {% endif %}
