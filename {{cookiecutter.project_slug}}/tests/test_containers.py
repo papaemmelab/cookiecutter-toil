@@ -1,4 +1,5 @@
 """{{cookiecutter.project_slug}} containers tests."""
+
 from os.path import join
 from os.path import abspath
 from os.path import dirname
@@ -6,8 +7,8 @@ import os
 import argparse
 import subprocess
 
+{% if cookiecutter.cli_type == "toil" %}from toil.job import Job{% endif %}
 from docker.errors import APIError
-from toil.job import Job
 import docker
 import pytest
 

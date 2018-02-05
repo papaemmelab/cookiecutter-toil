@@ -25,8 +25,14 @@ def context():
 
 @pytest.fixture
 def recreate(request):
-    """See conftest.py for definition of custom --recreate option."""
-    return request.config.getoption("--recreate", False)
+    """See conftest.py for definition of custom --tox-recreate option."""
+    return request.config.getoption("--tox-recreate", False)
+
+
+@pytest.fixture
+def develop(request):
+    """See conftest.py for definition of custom --tox-develop option."""
+    return request.config.getoption("--tox-develop", False)
 
 
 def build_files_list(root_dir):
@@ -64,7 +70,7 @@ def test_default_configuration(cookies, context):
     check_paths(paths)
 
 
-def run_tox(cli_type, cookies, context, recreate):
+def run_tox(cli_type, cookies, context, recreate, develop):
     """Run tox tests given for click or toil."""
     if cli_type not in {"click", "toil"}:
         raise Exception("cli_type is not click or toil: %s" % cli_type)
@@ -83,17 +89,21 @@ def run_tox(cli_type, cookies, context, recreate):
     if recreate:
         cmd.append("--recreate")
 
+    if develop:
+        cmd.append("--develop")
+
     # Call tox!
     subprocess.check_call(cmd, cwd=result.project.strpath)
 
 
-def test_toil_tox(cookies, context, recreate):
+def test_toil_tox(cookies, context, recreate, develop):
     """Generated toil project should pass tests"""
     run_tox(
         cli_type="toil",
         context=context,
         recreate=recreate,
         cookies=cookies,
+        develop=develop,
         )
 
 
@@ -104,4 +114,5 @@ def test_click_tox(cookies, context, recreate):
         context=context,
         recreate=recreate,
         cookies=cookies,
+        develop=develop,
         )
