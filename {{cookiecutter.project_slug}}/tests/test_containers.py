@@ -81,7 +81,7 @@ class ContainerizedCheckCallJob(jobs.BaseJob):
     """
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        cmd = ["cat", "/etc/os-release"]
+        cmd = ["pwd"]
         return self.check_call(cmd, cwd=self.options.workDir)
 
 
@@ -93,7 +93,7 @@ class ContainerizedCheckOutputJob(jobs.BaseJob):
 
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        cmd = ["echo", "$TMP"]
+        cmd = ["pwd"]
         return self.check_output(cmd, cwd=self.options.workDir)
 
 
@@ -141,18 +141,18 @@ def test_singularity_toil(tmpdir):
     # Create jobs
     job_call = ContainerizedCheckCallJob(
         options=options,
-        unitName="Hello World",
+        unitName="Check call pwd",
         )
     job_output = ContainerizedCheckOutputJob(
         options=options,
-        unitName="Hello World",
+        unitName="Check output pwd",
         )
 
     # Run jobs
     std_call = job_call.run(jobstore)
     std_output = job_output.run(jobstore)
     assert 0 == std_call
-    assert "VERSION" in std_output
+    assert workdir in std_output
 
 
 @pytest.mark.skipif(
@@ -188,12 +188,12 @@ def test_docker_toil(tmpdir):
     # Create jobs
     job_call = ContainerizedCheckCallJob(
         options=options,
-        unitName="Hello World",
-    )
+        unitName="Check call pwd",
+        )
     job_output = ContainerizedCheckOutputJob(
         options=options,
-        unitName="Hello World",
-    )
+        unitName="Check output pwd",
+        )
 
     # Run jobs
     std_call = job_call.run(jobstore)
