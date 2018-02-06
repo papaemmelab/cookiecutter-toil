@@ -1,8 +1,7 @@
 """{{cookiecutter.project_slug}} jobs."""
-{% if cookiecutter.cli_type == "toil" %}
+
 import subprocess
 
-from toil.common import Toil
 from toil.job import Job
 from toil.lib import docker
 
@@ -22,7 +21,6 @@ class BaseJob(Job):
             options (object): an argparse name space object.
             lsf_tags (list): a list of custom supported tags by leukgen
                 see this file /ifs/work/leukgen/opt/toil_lsf/python2/lsf.py.
-            args (list): arguments to be passed to toil.job.Job.
             kwargs (dict): key word arguments to be passed to toil.job.Job.
         """
         # If unitName is not passed, we set the class name as the default.
@@ -57,8 +55,7 @@ class BaseJob(Job):
             return self.singularity_call(cmd, cwd=cwd, check_output=False)
         elif self.options.docker:
             return self.docker_call(cmd, cwd=cwd, check_output=False)
-        else:
-            return subprocess.check_call(cmd, cwd=cwd)
+        return subprocess.check_call(cmd, cwd=cwd)
 
     def check_output(self, cmd, cwd=None):
         """
@@ -75,8 +72,7 @@ class BaseJob(Job):
             return self.singularity_call(cmd, cwd=cwd, check_output=True)
         elif self.options.docker:
             return self.docker_call(cmd, cwd=cwd, check_output=True)
-        else:
-            return subprocess.check_output(cmd, cwd=cwd)
+        return subprocess.check_output(cmd, cwd=cwd)
 
     def singularity_call(self, cmd, cwd=None, check_output=False):
         """
@@ -93,7 +89,10 @@ class BaseJob(Job):
                 "--bind", "{fs}:{fs}".format(fs=self.options.shared_fs)
                 ]
         if self.options.workDir:
-            singularity_parameters += ["--workdir", self.options.workDir]
+            singularity_parameters += [
+                "--contain",
+                "--workdir", self.options.workDir
+                ]
         if cwd:
             singularity_parameters += ["--pwd", cwd]
 
@@ -116,15 +115,21 @@ class BaseJob(Job):
         docker_parameters['detach'] = check_output
         docker_parameters['entrypoint'] = ''
         docker_parameters['parameters'] = cmd
+        docker_parameters['volumes'] = {}
 
         # Set parameters for managing directories if options are defined
         if self.options.shared_fs:
-            docker_parameters['volumes'] = {
-                self.options.shared_fs: {
-                    'bind': self.options.shared_fs,
-                    'mode': 'rw'
-                    }
+            docker_parameters['volumes'][self.options.shared_fs] = {
+                'bind': self.options.shared_fs,
+                'mode': 'rw'
                 }
+
+        if self.options.workDir:
+            docker_parameters['volumes'][self.options.workDir] = {
+                'bind': '/tmp',
+                'mode': 'rw'
+                }
+
         if cwd:
             docker_parameters['working_dir'] = cwd
 
@@ -160,4 +165,3 @@ class HelloWorldMessage(BaseJob):
 
         # Log message to master.
         fileStore.logToMaster(self.message)
-{% endif %}

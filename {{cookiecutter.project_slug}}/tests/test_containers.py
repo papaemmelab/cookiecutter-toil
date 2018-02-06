@@ -7,13 +7,14 @@ import os
 import argparse
 import subprocess
 
-{% if cookiecutter.cli_type == "toil" %}from toil.job import Job{% endif %}
 from docker.errors import APIError
 import docker
 import pytest
-
-from {{cookiecutter.project_slug}} import __version__
+{% if cookiecutter.cli_type == "toil" %}
+from toil.job import Job
 from {{cookiecutter.project_slug}} import jobs
+{% endif %}
+from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import singularity
 from {{cookiecutter.project_slug}} import utils
 
@@ -60,7 +61,7 @@ def test_singularity_container():
 
         singularity exec <test-image.simg> <command-parameters>
     """
-    singularity_image = os.environ['TEST_CONTAINER_IMAGE']
+    singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
     cmd_parameters = ["cat", "/etc/os-release"]
 
     # Create call
@@ -70,7 +71,7 @@ def test_singularity_container():
         check_output=True
         )
 
-    assert 'VERSION' in output
+    assert "VERSION" in output.decode()
 
 
 {% if cookiecutter.cli_type == "toil" %}
@@ -80,10 +81,11 @@ class ContainerizedCheckCallJob(jobs.BaseJob):
     Job created to test that check_call is used correctly by docker
     and singularity.
     """
+    cmd = ["pwd"]
+    cwd = None
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        cmd = ["pwd"]
-        return self.check_call(cmd, cwd=self.options.workDir)
+        return self.check_call(self.cmd, cwd=self.cwd)
 
 
 class ContainerizedCheckOutputJob(jobs.BaseJob):
@@ -91,11 +93,11 @@ class ContainerizedCheckOutputJob(jobs.BaseJob):
     Job created to test that check_output is used correctly by docker
     and singularity.
     """
-
+    cmd = ["pwd"]
+    cwd = None
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        cmd = ["pwd"]
-        return self.check_output(cmd, cwd=self.options.workDir)
+        return self.check_output(self.cmd, cwd=self.cwd)
 
 
 def get_toil_test_parser():
@@ -127,7 +129,7 @@ def test_singularity_toil(tmpdir):
     # Create options for job
     workdir = join(str(tmpdir))
     jobstore = join(str(tmpdir), "jobstore")
-    singularity_image = os.environ['TEST_CONTAINER_IMAGE']
+    singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
     shared_fs = os.environ['SHARED_FS']
 
     args = [
@@ -144,16 +146,34 @@ def test_singularity_toil(tmpdir):
         options=options,
         unitName="Check call pwd",
         )
+
     job_output = ContainerizedCheckOutputJob(
         options=options,
         unitName="Check output pwd",
         )
 
-    # Run jobs
-    std_call = job_call.run(jobstore)
+    # Make sure that cwd functionality in check_output works
+    job_output.cwd = "/home"
     std_output = job_output.run(jobstore)
+    assert "/home" in std_output
+
+    # Make sure that cwd functionality in check_call works
+    std_call = job_call.run(jobstore)
     assert 0 == std_call
-    assert workdir in std_output
+
+    # Make sure workDir is used as the tmp directory inside the container.
+    message = "Hello World"
+    tmp_file = join("tmp", "bottle.txt")
+    tmp_file_in_workdir = join(workdir, tmp_file)
+    tmp_file_in_container = join(os.sep, tmp_file)
+    job_output.cmd = [
+        "/bin/bash",
+        "-c",
+        'echo {} > {}'.format(message, tmp_file_in_container)
+        ]
+    job_output.run(jobstore)
+    with open(tmp_file_in_workdir) as f:
+        assert message in f.read()
 
 
 @pytest.mark.skipif(
@@ -196,9 +216,27 @@ def test_docker_toil(tmpdir):
         unitName="Check output pwd",
         )
 
-    # Run jobs
-    std_call = job_call.run(jobstore)
+    # Make sure that cwd functionality in check_output works
+    job_output.cwd = "/home"
     std_output = job_output.run(jobstore)
+    assert "/home" in std_output
+
+    # Make sure that cwd functionality in check_call works
+    std_call = job_call.run(jobstore)
     assert 0 == std_call
-    assert workdir in std_output
+
+    # Make sure workDir is used as the tmp directory inside the container.
+    message = "Hello World"
+    tmp_file = join("tmp", "bottle.txt")
+    tmp_file_in_workdir = join(workdir, tmp_file)
+    tmp_file_in_container = join(os.sep, tmp_file)
+    job_output.cmd = [
+        "/bin/bash",
+        "-c",
+        'echo {} > {}'.format(message, tmp_file_in_container)
+        ]
+    job_output.run(jobstore)
+    with open(tmp_file_in_workdir) as f:
+        assert message in f.read()
+
 {% endif %}

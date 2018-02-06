@@ -4,9 +4,9 @@ import os
 import tarfile
 import subprocess
 
-from requests.exceptions import ConnectionError
 from docker.errors import APIError
 import docker
+import requests
 
 
 def force_link(src, dst):
@@ -49,7 +49,7 @@ def is_docker_available():
     client = docker.from_env()
     try:
         return client.ping()
-    except (ConnectionError, APIError):
+    except (requests.exceptions.ConnectionError, APIError):
         return False
 
 

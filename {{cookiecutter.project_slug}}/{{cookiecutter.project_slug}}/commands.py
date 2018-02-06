@@ -1,11 +1,10 @@
 """{{cookiecutter.project_slug}} commands."""
-{% if cookiecutter.cli_type == "toil" %}
+
 import argparse
 import subprocess
 
 from toil.common import Toil
 from toil.job import Job
-from toil.lib import docker
 import click
 
 from {{cookiecutter.project_slug}} import __version__
@@ -141,6 +140,17 @@ def process_parsed_options(options):
             "You can't pass both --singularity and --docker."
             )
 
+    if options.shared_fs and not any([options.docker, options.singularity]):
+        raise click.UsageError(
+            "--shared-fs should be used only with --singularity or --docker."
+            )
+
+    if options.shared_fs and options.workDir:
+        if options.shared_fs not in options.workDir:
+            raise click.UsageError(
+                "The --workDir must be available in the --shared-fs directory."
+                )
+
     if options.docker and not utils.is_docker_available():
         raise click.UsageError(
             "Docker is not currently available in your environment."
@@ -162,13 +172,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-{% elif cookiecutter.cli_type == "click" %}
-import click
-
-
-@click.command()
-@click.option("--message", default="Hello World")
-def hello_world(message):
-    """Echo message and exit."""
-    click.echo(message)
-{% endif %}
