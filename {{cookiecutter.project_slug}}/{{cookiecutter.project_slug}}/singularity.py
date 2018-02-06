@@ -27,7 +27,8 @@ def singularity_call(
         singularity_parameters=None,
         outfile=None,
         errfile=None,
-        check_output=False):
+        check_output=False,
+        environment=None):
     """
     Execute parameters in a singularity container via subprocess.
 
@@ -45,6 +46,7 @@ def singularity_call(
         check_output (bool): when True, return singularity's output.
         outfile (str): pipe output of Docker call to file handle.
         errfile (str): pipe standard error of Docker call to file handle.
+        environment (dict): environment variables set inside the system call.
 
     Raises:
         CalledProcessorError: if the Singularity invocation returns a
@@ -61,8 +63,11 @@ def singularity_call(
     command += parameters or []
 
     subprocess_kwargs = {}
+    subprocess_kwargs['env'] = environment or {}
+
     if outfile:
         subprocess_kwargs['stdout'] = outfile
+
     if errfile:
         subprocess_kwargs['stderr'] = errfile
 

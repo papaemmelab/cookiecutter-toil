@@ -40,46 +40,84 @@ class BaseJob(Job):
 
         super(BaseJob, self).__init__(unitName=unitName, **kwargs)
 
-    def check_call(self, cmd, cwd=None):
+    def check_call(self, cmd, cwd=None, env=None):
         """
         Wrap the subprocess.check_call, if any container tool was chosen.
 
         Arguments:
             cmd (list): list of command line arguments passed to the tool.
             cwd (str): current working directory.
+            env (dict): environment variables to set inside container.
 
         Returns:
             int: 0 if call succeed else non-0.
         """
         if self.options.singularity:
-            return self.singularity_call(cmd, cwd=cwd, check_output=False)
+            return self.singularity_call(
+                cmd,
+                cwd=cwd,
+                check_output=False,
+                env=env
+                )
         elif self.options.docker:
-            return self.docker_call(cmd, cwd=cwd, check_output=False)
-        return subprocess.check_call(cmd, cwd=cwd)
+            return self.docker_call(
+                cmd,
+                cwd=cwd,
+                check_output=False,
+                env=env
+                )
+        return subprocess.check_call(
+            cmd,
+            cwd=cwd,
+            env=env
+            )
 
-    def check_output(self, cmd, cwd=None):
+    def check_output(self, cmd, cwd=None, env=None):
         """
         Wrap the subprocess.check_output, if any container tool was chosen.
 
         Arguments:
             cmd (list): list of command line arguments passed to the tool.
             cwd (str): current working directory.
+            env (dict): environment variables to set inside container.
 
         Returns:
             str: stdout of the system call.
         """
         if self.options.singularity:
-            return self.singularity_call(cmd, cwd=cwd, check_output=True)
+            return self.singularity_call(
+                cmd,
+                cwd=cwd,
+                check_output=True,
+                env=env
+                )
         elif self.options.docker:
-            return self.docker_call(cmd, cwd=cwd, check_output=True)
-        return subprocess.check_output(cmd, cwd=cwd)
+            return self.docker_call(
+                cmd,
+                cwd=cwd,
+                check_output=True,
+                env=env
+                )
+        return subprocess.check_output(
+            cmd,
+            cwd=cwd,
+            env=env
+            )
 
-    def singularity_call(self, cmd, cwd=None, check_output=False):
+    def singularity_call(self, cmd, cwd=None, env=None, check_output=False):
         """
         Call the base singularity call, sending the singularity parameters
         needed for managing the shared and working directories.
 
-        See check_call for arguments description.
+        Arguments:
+            cmd (list): list of command line arguments passed to the tool.
+            cwd (str): current working directory.
+            env (dict): environment variables to set inside container.
+            check_output (bool): check_output or check_call behavior.
+
+        Returns:
+            str: (check_output=True) stdout of the system call.
+            int: (check_output=False) 0 if call succeed else non-0.
         """
         singularity_parameters = []
 
@@ -100,20 +138,30 @@ class BaseJob(Job):
             self.options.singularity,
             parameters=cmd,
             singularity_parameters=singularity_parameters,
-            check_output=check_output
+            check_output=check_output,
+            environment=env
             )
 
-    def docker_call(self, cmd, cwd=None, check_output=False):
+    def docker_call(self, cmd, cwd=None, env=None, check_output=False):
         """
         Call the base singularity call, sending the singularity parameters
         needed for managing the shared and working directories.
 
-        See check_call for arguments description.
+        Arguments:
+            cmd (list): list of command line arguments passed to the tool.
+            cwd (str): current working directory.
+            env (dict): environment variables to set inside container.
+            check_output (bool): check_output or check_call behavior.
+
+        Returns:
+            str: (check_output=True) stdout of the system call.
+            int: (check_output=False) 0 if call succeed else non-0.
         """
         docker_parameters = {}
         docker_parameters['containerName'] = self.options.docker
         docker_parameters['detach'] = check_output
         docker_parameters['entrypoint'] = ''
+        docker_parameters['environment'] = env or {}
         docker_parameters['parameters'] = cmd
         docker_parameters['volumes'] = {}
 
