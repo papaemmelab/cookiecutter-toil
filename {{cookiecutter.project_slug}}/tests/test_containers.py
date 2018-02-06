@@ -48,7 +48,7 @@ def test_docker_container():
         )
     container.stop()
 
-    assert expected_stdout in container.logs()
+    assert expected_stdout in container.logs().decode()
 
 
 @pytest.mark.skipif(
@@ -83,9 +83,11 @@ class ContainerizedCheckCallJob(jobs.BaseJob):
     """
     cmd = ["pwd"]
     cwd = None
+    env = {}
+
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        return self.check_call(self.cmd, cwd=self.cwd)
+        return self.check_call(self.cmd, cwd=self.cwd, env=self.env)
 
 
 class ContainerizedCheckOutputJob(jobs.BaseJob):
@@ -95,9 +97,11 @@ class ContainerizedCheckOutputJob(jobs.BaseJob):
     """
     cmd = ["pwd"]
     cwd = None
+    env = {}
+
     def run(self, jobStore):
         """Saves a Hello message in a file."""
-        return self.check_output(self.cmd, cwd=self.cwd)
+        return self.check_output(self.cmd, cwd=self.cwd, env=self.env)
 
 
 def get_toil_test_parser():
@@ -161,17 +165,22 @@ def test_singularity_toil(tmpdir):
     std_call = job_call.run(jobstore)
     assert 0 == std_call
 
-    # Make sure workDir is used as the tmp directory inside the container.
+    # Make sure workDir is used as the tmp directory inside the container
+    # and that an ENV variable is passed to the container system call.
     message = "Hello World"
+    job_output.env = { "ISLAND": message}
+
     tmp_file = join("tmp", "bottle.txt")
     tmp_file_in_workdir = join(workdir, tmp_file)
     tmp_file_in_container = join(os.sep, tmp_file)
+
     job_output.cmd = [
         "/bin/bash",
         "-c",
-        'echo {} > {}'.format(message, tmp_file_in_container)
+        'echo $ISLAND > {}'.format(tmp_file_in_container)
         ]
     job_output.run(jobstore)
+
     with open(tmp_file_in_workdir) as f:
         assert message in f.read()
 
@@ -225,17 +234,22 @@ def test_docker_toil(tmpdir):
     std_call = job_call.run(jobstore)
     assert 0 == std_call
 
-    # Make sure workDir is used as the tmp directory inside the container.
+    # Make sure workDir is used as the tmp directory inside the container
+    # and that an ENV variable is passed to the container system call.
     message = "Hello World"
+    job_output.env = { "ISLAND": message}
+
     tmp_file = join("tmp", "bottle.txt")
     tmp_file_in_workdir = join(workdir, tmp_file)
     tmp_file_in_container = join(os.sep, tmp_file)
+
     job_output.cmd = [
         "/bin/bash",
         "-c",
-        'echo {} > {}'.format(message, tmp_file_in_container)
+        'echo $ISLAND > {}'.format(tmp_file_in_container)
         ]
     job_output.run(jobstore)
+
     with open(tmp_file_in_workdir) as f:
         assert message in f.read()
 
