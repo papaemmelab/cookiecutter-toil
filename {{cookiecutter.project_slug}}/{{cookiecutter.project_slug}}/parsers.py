@@ -28,7 +28,7 @@ class ToilArgumentParser(argparse.ArgumentParser):
     help print. However, the custom `--help-toil` option will include
     toil arguments sections in the help print.
 
-    Additionally, a container section is included
+    Additionally, a container section is included (this can be turned off).
     """
 
     def __init__(self, add_container_group=True, add_version=True, **kwargs):
