@@ -35,6 +35,18 @@ def develop(request):
     return request.config.getoption("--tox-develop", False)
 
 
+@pytest.fixture
+def pytest_args(request):
+    """See conftest.py for definition of custom --tox--pytest-args option."""
+    return request.config.getoption("--tox-pytest-args", None)
+
+
+@pytest.fixture
+def envlist(request):
+    """See conftest.py for definition of custom --tox--envlist option."""
+    return request.config.getoption("--tox-envlist", None)
+
+
 def build_files_list(root_dir):
     """Build a list containing absolute paths to the generated files."""
     return [
@@ -70,7 +82,7 @@ def test_default_configuration(cookies, context):
     check_paths(paths)
 
 
-def run_tox(cli_type, cookies, context, recreate, develop):
+def tox(cli_type, cookies, context, recreate, develop, pytest_args, envlist):
     """Run tox tests given for click or toil."""
     if cli_type not in {"click", "toil"}:
         raise Exception("cli_type is not click or toil: %s" % cli_type)
@@ -84,6 +96,7 @@ def run_tox(cli_type, cookies, context, recreate, develop):
     context["cli_type"] = cli_type
     result = cookies.bake(extra_context=context)
     cmd = ["tox", "--workdir", workdir]
+    env = os.environ
 
     # Check if environments should be rebuilt.
     if recreate:
@@ -92,27 +105,37 @@ def run_tox(cli_type, cookies, context, recreate, develop):
     if develop:
         cmd.append("--develop")
 
+    if envlist:
+        cmd += ["-e", envlist]
+
+    if pytest_args:
+        env["TOX_PYTEST_ARGS"] = pytest_args
+
     # Call tox!
-    subprocess.check_call(cmd, cwd=result.project.strpath)
+    subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 
 
-def test_toil_tox(cookies, context, recreate, develop):
+def test_toil_tox(cookies, context, recreate, develop, pytest_args, envlist):
     """Generated toil project should pass tests"""
-    run_tox(
+    tox(
         cli_type="toil",
         context=context,
         recreate=recreate,
         cookies=cookies,
         develop=develop,
+        pytest_args=pytest_args,
+        envlist=envlist,
         )
 
 
-def test_click_tox(cookies, context, recreate):
+def test_click_tox(cookies, context, recreate, develop, pytest_args, envlist):
     """Generated click project should pass tests"""
-    run_tox(
+    tox(
         cli_type="click",
         context=context,
         recreate=recreate,
         cookies=cookies,
         develop=develop,
+        pytest_args=pytest_args,
+        envlist=envlist,
         )
