@@ -4,6 +4,7 @@ Hook to remove unused files.
 See https://github.com/audreyr/cookiecutter/issues/723
 """
 
+from os.path import join
 import os
 import shutil
 
@@ -16,6 +17,6 @@ def remove(filepath):
 
 
 if "{{cookiecutter.cli_type}}" == "click":
-    remove(os.path.join("{{cookiecutter.project_slug}}", "commands.py"))
-    remove(os.path.join("{{cookiecutter.project_slug}}", "parsers.py"))
-    remove(os.path.join("{{cookiecutter.project_slug}}", "jobs.py"))
+    for i in ["commands.py", "parsers.py", "jobs.py"]:
+        remove(join("{{cookiecutter.project_slug}}", i))
+        remove(join("tests", "test_" + i))
