@@ -1,1 +1,1 @@
-{{{{cookiecutter.project_slug}}/.pylintrc
+{{cookiecutter.project_slug}}/.pylintrc

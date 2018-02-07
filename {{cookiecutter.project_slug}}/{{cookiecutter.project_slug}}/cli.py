@@ -24,9 +24,11 @@ def main():
 {% elif cookiecutter.cli_type == "click" %}
 import click
 
+from {{cookiecutter.project_slug}} import __version__
 
 @click.command()
 @click.option("--message", default="Hello World")
+@click.version_option(version=__version__)
 def main(message):
     """Echo message and exit."""
     click.echo(message)

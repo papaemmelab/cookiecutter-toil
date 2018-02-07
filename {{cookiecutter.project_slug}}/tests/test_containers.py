@@ -40,15 +40,11 @@ def test_docker_container():
     docker_image = client.images.build(path=ROOT, rm=True)
 
     # Run detached container with command
-    cmd_params = ['--version']
+    cmd_params = ['{{cookiecutter.project_slug}}', '--version']
     container = client.containers.run(docker_image, cmd_params, detach=True)
-    expected_stdout = "{main_cmd} {version}".format(
-        main_cmd="{{cookiecutter.project_slug}}",
-        version=__version__
-        )
     container.stop()
 
-    assert expected_stdout in container.logs().decode()
+    assert __version__ in container.logs().decode()
 
 
 @pytest.mark.skipif(
@@ -237,11 +233,11 @@ def test_docker_toil(tmpdir):
     # Make sure workDir is used as the tmp directory inside the container
     # and that an ENV variable is passed to the container system call.
     message = "Hello World"
+    out_file = "bottle.txt"
     job_output.env = { "ISLAND": message}
 
-    tmp_file = join("tmp", "bottle.txt")
-    tmp_file_in_workdir = join(workdir, tmp_file)
-    tmp_file_in_container = join(os.sep, tmp_file)
+    tmp_file_in_workdir = join(workdir, out_file)
+    tmp_file_in_container = join(os.sep, "tmp", out_file)
 
     job_output.cmd = [
         "/bin/bash",

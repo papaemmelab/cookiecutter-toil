@@ -3,7 +3,7 @@
 import subprocess
 
 from toil.job import Job
-from toil.lib import docker
+import docker
 
 from {{cookiecutter.project_slug}} import singularity
 
@@ -158,11 +158,10 @@ class BaseJob(Job):
             int: (check_output=False) 0 if call succeed else non-0.
         """
         docker_parameters = {}
-        docker_parameters['containerName'] = self.options.docker
+        docker_parameters['command'] = cmd
         docker_parameters['detach'] = check_output
         docker_parameters['entrypoint'] = ''
         docker_parameters['environment'] = env or {}
-        docker_parameters['parameters'] = cmd
         docker_parameters['volumes'] = {}
 
         # Set parameters for managing directories if options are defined
@@ -181,13 +180,25 @@ class BaseJob(Job):
         if cwd:
             docker_parameters['working_dir'] = cwd
 
-        output = docker.apiDockerCall(
-            self,
-            self.options.docker,
-            **docker_parameters
-            )
+        # Clean created docker containers where
+        client = docker.from_env()
+        for container in client.containers.list(all=True):
+            if container.name == self.options.docker:
+                container.stop()
+                container.remove()
+        try:
+            output = client.containers.run(
+                self.options.docker,
+                **docker_parameters
+                )
+        # If the container exits with a non-zero exit code and detach is False.
+        except (
+            ContainerError,
+            ImageNotFound,
+            subprocess.CalledProcessError
+            ) as stderr:
+            raise subprocess.CalledProcessError(0, cmd=cmd, output=stderr)
 
-        # If check_output returns the logs, if check_call return a 0 as status.
         return output.logs() if check_output else 0
 
 
