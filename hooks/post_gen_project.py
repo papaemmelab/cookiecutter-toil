@@ -14,6 +14,8 @@ def remove(filepath):
     elif os.path.isdir(filepath):
         shutil.rmtree(filepath)
 
-if '{{cookiecutter.cli_type}}' == 'click':
-    remove(os.path.join('{{cookiecutter.project_slug}}', 'commands.py'))
-    remove(os.path.join('{{cookiecutter.project_slug}}', 'jobs.py'))
+
+if "{{cookiecutter.cli_type}}" == "click":
+    remove(os.path.join("{{cookiecutter.project_slug}}", "commands.py"))
+    remove(os.path.join("{{cookiecutter.project_slug}}", "parsers.py"))
+    remove(os.path.join("{{cookiecutter.project_slug}}", "jobs.py"))
