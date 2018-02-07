@@ -1,15 +1,13 @@
 """{{cookiecutter.project_slug}} commands."""
 
-import argparse
 import subprocess
 
 from toil.common import Toil
 from toil.job import Job
 import click
 
-from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import jobs
-from {{cookiecutter.project_slug}} import utils
+from {{cookiecutter.project_slug}} import parsers
 
 
 def run_toil(options):
@@ -43,25 +41,14 @@ def run_toil(options):
 
 
 def get_parser():
-    """Get pipeline configuration using toil's argparse."""
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-        )
-
-    # Add Toil options.
-    Job.Runner.addToilOptions(parser)
+    """Get pipeline configuration using toil's."""
+    parser = parsers.ToilArgumentParser()
 
     # Add description to parser.
     parser.description = "Run {{cookiecutter.project_slug}} pipeline."
 
     # We need to add a group of arguments specific to the pipeline.
     settings = parser.add_argument_group("{{cookiecutter.project_slug}} configuration")
-
-    settings.add_argument(
-        "-v", "--version",
-        action="version",
-        version="%(prog)s " + __version__
-        )
 
     settings.add_argument(
         "--message",
@@ -85,44 +72,6 @@ def get_parser():
         type=click.Path(file_okay=True, writable=True),
         )
 
-    # Parameters to run with docker or singularity
-    settings = parser.add_argument_group("To run with docker or singularity:")
-
-    settings.add_argument(
-        "--docker",
-        help="Name of the docker image, available in daemon.",
-        default=False,
-        metavar="DOCKER-IMAGE-NAME",
-        )
-
-    settings.add_argument(
-        "--singularity",
-        help=(
-            "Path of the singularity image (.simg) to jobs be run inside"
-            "singularity containers."
-            ),
-        required=False,
-        metavar="SINGULARITY-IMAGE-PATH",
-        type=click.Path(
-            file_okay=True,
-            readable=True,
-            resolve_path=True,
-            exists=True,
-            )
-        )
-
-    settings.add_argument(
-        "--shared-fs",
-        help="Shared file system directory to be mounted inside the containers",
-        required=False,
-        type=click.Path(
-            file_okay=True,
-            readable=True,
-            resolve_path=True,
-            exists=True,
-            )
-        )
-
     return parser
 
 
@@ -133,33 +82,6 @@ def process_parsed_options(options):
 
     # This is just an example of how to post process variables after parsing.
     options.message = options.message * options.total
-
-    # Check singularity and docker and not used at the same time
-    if options.singularity and options.docker:
-        raise click.UsageError(
-            "You can't pass both --singularity and --docker."
-            )
-
-    if options.shared_fs and not any([options.docker, options.singularity]):
-        raise click.UsageError(
-            "--shared-fs should be used only with --singularity or --docker."
-            )
-
-    if options.shared_fs and options.workDir:
-        if options.shared_fs not in options.workDir:
-            raise click.UsageError(
-                "The --workDir must be available in the --shared-fs directory."
-                )
-
-    if options.docker and not utils.is_docker_available():
-        raise click.UsageError(
-            "Docker is not currently available in your environment."
-            )
-
-    if options.singularity and not utils.is_singularity_available():
-        raise click.UsageError(
-            "Singularity is not currently available in your environment."
-            )
 
     return options
 
