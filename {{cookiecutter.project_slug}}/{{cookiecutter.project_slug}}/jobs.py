@@ -3,9 +3,8 @@
 import subprocess
 
 from toil.job import Job
-import docker
 
-from {{cookiecutter.project_slug}} import singularity
+from {{cookiecutter.project_slug}}.containers import Container
 
 
 class BaseJob(Job):
@@ -53,18 +52,24 @@ class BaseJob(Job):
             int: 0 if call succeed else non-0.
         """
         if self.options.singularity:
-            return self.singularity_call(
-                cmd,
+            return Container().singularity_call(
+                self.options.singularity,
+                cmd=cmd,
                 cwd=cwd,
+                env=env,
                 check_output=False,
-                env=env
+                working_dir=self.options.workDir,
+                shared_fs=self.options.shared_fs,
                 )
         elif self.options.docker:
-            return self.docker_call(
-                cmd,
+            return Container().docker_call(
+                self.options.docker,
+                cmd=cmd,
                 cwd=cwd,
+                env=env,
                 check_output=False,
-                env=env
+                working_dir=self.options.workDir,
+                shared_fs=self.options.shared_fs,
                 )
         return subprocess.check_call(
             cmd,
@@ -85,121 +90,30 @@ class BaseJob(Job):
             str: stdout of the system call.
         """
         if self.options.singularity:
-            return self.singularity_call(
-                cmd,
+            return Container().singularity_call(
+                self.options.singularity,
+                cmd=cmd,
                 cwd=cwd,
+                env=env,
                 check_output=True,
-                env=env
+                working_dir=self.options.workDir,
+                shared_fs=self.options.shared_fs,
                 )
         elif self.options.docker:
-            return self.docker_call(
-                cmd,
+            return Container().docker_call(
+                self.options.docker,
+                cmd=cmd,
                 cwd=cwd,
+                env=env,
                 check_output=True,
-                env=env
+                working_dir=self.options.workDir,
+                shared_fs=self.options.shared_fs,
                 )
         return subprocess.check_output(
             cmd,
             cwd=cwd,
             env=env
             )
-
-    def singularity_call(self, cmd, cwd=None, env=None, check_output=False):
-        """
-        Call the base singularity call, sending the singularity parameters
-        needed for managing the shared and working directories.
-
-        Arguments:
-            cmd (list): list of command line arguments passed to the tool.
-            cwd (str): current working directory.
-            env (dict): environment variables to set inside container.
-            check_output (bool): check_output or check_call behavior.
-
-        Returns:
-            str: (check_output=True) stdout of the system call.
-            int: (check_output=False) 0 if call succeed else non-0.
-        """
-        singularity_parameters = []
-
-        # Set parameters for managing directories if options are defined
-        if self.options.shared_fs:
-            singularity_parameters += [
-                "--bind", "{fs}:{fs}".format(fs=self.options.shared_fs)
-                ]
-        if self.options.workDir:
-            singularity_parameters += [
-                "--contain",
-                "--workdir", self.options.workDir
-                ]
-        if cwd:
-            singularity_parameters += ["--pwd", cwd]
-
-        return singularity.singularity_call(
-            self.options.singularity,
-            parameters=cmd,
-            singularity_parameters=singularity_parameters,
-            check_output=check_output,
-            environment=env
-            )
-
-    def docker_call(self, cmd, cwd=None, env=None, check_output=False):
-        """
-        Call the base singularity call, sending the singularity parameters
-        needed for managing the shared and working directories.
-
-        Arguments:
-            cmd (list): list of command line arguments passed to the tool.
-            cwd (str): current working directory.
-            env (dict): environment variables to set inside container.
-            check_output (bool): check_output or check_call behavior.
-
-        Returns:
-            str: (check_output=True) stdout of the system call.
-            int: (check_output=False) 0 if call succeed else non-0.
-        """
-        docker_parameters = {}
-        docker_parameters['command'] = cmd
-        docker_parameters['detach'] = check_output
-        docker_parameters['entrypoint'] = ''
-        docker_parameters['environment'] = env or {}
-        docker_parameters['volumes'] = {}
-
-        # Set parameters for managing directories if options are defined
-        if self.options.shared_fs:
-            docker_parameters['volumes'][self.options.shared_fs] = {
-                'bind': self.options.shared_fs,
-                'mode': 'rw'
-                }
-
-        if self.options.workDir:
-            docker_parameters['volumes'][self.options.workDir] = {
-                'bind': '/tmp',
-                'mode': 'rw'
-                }
-
-        if cwd:
-            docker_parameters['working_dir'] = cwd
-
-        # Clean created docker containers where
-        client = docker.from_env()
-        for container in client.containers.list(all=True):
-            if container.name == self.options.docker:
-                container.stop()
-                container.remove()
-        try:
-            output = client.containers.run(
-                self.options.docker,
-                **docker_parameters
-                )
-        # If the container exits with a non-zero exit code and detach is False.
-        except (
-            ContainerError,
-            ImageNotFound,
-            subprocess.CalledProcessError
-            ) as stderr:
-            raise subprocess.CalledProcessError(0, cmd=cmd, output=stderr)
-
-        return output.logs() if check_output else 0
 
 
 class HelloWorld(BaseJob):

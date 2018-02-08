@@ -3,7 +3,6 @@
 import subprocess
 
 from toil.common import Toil
-from toil.job import Job
 import click
 
 from {{cookiecutter.project_slug}} import jobs
