@@ -7,20 +7,22 @@ import os
 import argparse
 import subprocess
 
+
 from docker.errors import APIError
 import docker
 import pytest
 {% if cookiecutter.cli_type == "toil" %}
+from toil.common import Toil
 from toil.job import Job
 from {{cookiecutter.project_slug}} import jobs
 {% endif %}
 from {{cookiecutter.project_slug}} import __version__
-from {{cookiecutter.project_slug}} import singularity
 from {{cookiecutter.project_slug}} import utils
+from {{cookiecutter.project_slug}}.containers import Container
 
 ROOT = abspath(join(dirname(__file__), ".."))
 
-
+@pytest.mark.skip
 @pytest.mark.skipif(
     not utils.is_docker_available(),
     reason="docker is not available."
@@ -37,14 +39,20 @@ def test_docker_container():
     client = docker.from_env()
 
     # Build image from Dockerfile
-    docker_image = client.images.build(path=ROOT, rm=True)
+    docker_image = client.images.build(path=ROOT, rm=True, tag='test-docker')
 
-    # Run detached container with command
+    # Run container with command
+    container_name = docker_image.tags[0]
     cmd_params = ['{{cookiecutter.project_slug}}', '--version']
-    container = client.containers.run(docker_image, cmd_params, detach=True)
-    container.stop()
+    container = Container().docker_call(
+        container_name,
+        cmd=cmd_params,
+        check_output=True,
+        )
+    # container = client.containers.run(docker_image, cmd_params, detach=True)
+    # container.stop()
 
-    assert __version__ in container.logs().decode()
+    assert __version__ in container.decode()
 
 
 @pytest.mark.skipif(
@@ -61,7 +69,7 @@ def test_singularity_container():
     cmd_parameters = ["cat", "/etc/os-release"]
 
     # Create call
-    output = singularity.singularity_call(
+    output = Container().singularity_call(
         singularity_image,
         parameters=cmd_parameters,
         check_output=True
@@ -185,7 +193,7 @@ def test_singularity_toil(tmpdir):
     not utils.is_docker_available(),
     reason="docker is not available."
     )
-def test_docker_toil(tmpdir):
+def test_docker_toil_single_jobs(tmpdir):
     """
     Run a Toil job with the option flag --docker and --shared-fs
     SHARED-DIRECTORY to test the singularity wrapper is executing
@@ -196,9 +204,8 @@ def test_docker_toil(tmpdir):
     jobstore = join(str(tmpdir), "jobstore")
     shared_fs = os.environ['SHARED_FS']
 
-    # Clean images and build new image from Dockerfile
+    # Build docker image from Dockerfile
     client = docker.from_env()
-
     image_tag = 'test-toil'
     client.images.build(path=ROOT, rm=True, tag=image_tag)
 
@@ -248,5 +255,89 @@ def test_docker_toil(tmpdir):
 
     with open(tmp_file_in_workdir) as f:
         assert message in f.read()
+
+
+@pytest.mark.skipif(
+    not utils.is_docker_available(),
+    reason="docker is not available."
+    )
+def test_docker_toil_parallel_jobs(tmpdir):
+    """
+    Make sure parallel jobs work.
+                    |
+                parent_job
+              /            \
+    child_job_1             child_job_2
+              \            /
+                 tail_job
+    """
+    # Create options for job
+    workdir = join(str(tmpdir))
+    jobstore = join(str(tmpdir), "jobstore")
+    shared_fs = os.environ['SHARED_FS']
+
+    # Build docker image from Dockerfile
+    client = docker.from_env()
+    image_tag = 'test-toil'
+    client.images.build(path=ROOT, rm=True, tag=image_tag)
+
+    args = [
+        jobstore,
+        "--workDir", workdir,
+        "--docker", image_tag,
+        "--shared-fs", shared_fs,
+        ]
+    parser = get_toil_test_parser()
+    options = parser.parse_args(args)
+
+    # Create jobs
+    parent_job = ContainerizedCheckOutputJob(
+        options=options,
+        unitName="Parent job",
+        )
+    child_job_1 = ContainerizedCheckOutputJob(
+        options=options,
+        unitName="Parallel Job 1",
+        )
+    child_job_2 = ContainerizedCheckOutputJob(
+        options=options,
+        unitName="Parallel Job 2",
+        )
+    tail_job = ContainerizedCheckOutputJob(
+        options=options,
+        unitName="Last Followon Job",
+        )
+
+    # Assign job commands
+    out_file = "bottle.txt"
+    tmp_file_in_workdir = join(workdir, out_file)
+    tmp_file_in_container = join(os.sep, "tmp", out_file)
+    base_cmd = ["/bin/bash", "-c"]
+
+    parent_job.cmd = base_cmd + [
+        'echo job1 >> {}'.format(tmp_file_in_container)
+        ]
+    child_job_1.cmd = base_cmd + [
+        'echo job2 >> {}'.format(tmp_file_in_container)
+        ]
+    child_job_2.cmd = base_cmd + [
+        'echo job3 >> {}'.format(tmp_file_in_container)
+        ]
+    tail_job.cmd = base_cmd + [
+        'echo job4 >> {}'.format(tmp_file_in_container)
+        ]
+
+    # Create DAG
+    parent_job.addChild(child_job_1)
+    parent_job.addChild(child_job_2)
+    parent_job.addFollowOn(tail_job)
+
+    # Run jobs
+    with Toil(options) as pipe:
+        pipe.start(parent_job)
+
+    # Test the output
+    with open(tmp_file_in_workdir) as f:
+        assert len(f.readlines()) == 4
 
 {% endif %}
