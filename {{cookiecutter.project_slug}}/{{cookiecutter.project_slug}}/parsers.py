@@ -10,6 +10,22 @@ from {{cookiecutter.project_slug}} import __version__
 from {{cookiecutter.project_slug}} import utils
 
 
+CUSTOM_TOIL_ACTIONS = [
+    argparse.Action(
+        ["TOIL EXTRA ARGS"],
+        dest="",
+        default=argparse.SUPPRESS,
+        help="see --help-toil for a full list of toil parameters",
+    ),
+    argparse.Action(
+        [],
+        dest="jobStore",
+        help="the location of the job store for the workflow. "
+        "See --help-toil for more information [REQUIRED]"
+    )
+    ]
+
+
 class _ToilHelpAction(argparse._HelpAction):
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -45,15 +61,6 @@ class ToilArgumentParser(argparse.ArgumentParser):
 
         super(ToilArgumentParser, self).__init__(**kwargs)
 
-        # Add toil options.
-        Job.Runner.addToilOptions(self)
-
-        self.add_argument(
-            "--help-toil",
-            action=_ToilHelpAction, default=argparse.SUPPRESS,
-            help="print help with Toil options and exit"
-        )
-
         # Add package version.
         if add_version:
             self.add_argument(
@@ -62,25 +69,33 @@ class ToilArgumentParser(argparse.ArgumentParser):
                 version="%(prog)s " + __version__
             )
 
+        self.add_argument(
+            "--help-toil",
+            action=_ToilHelpAction, default=argparse.SUPPRESS,
+            help="print help with full list of Toil arguments and exit"
+        )
+
+        # Add toil options.
+        Job.Runner.addToilOptions(self)
+
         # Parameters to run with docker or singularity.
         self.add_container_group = add_container_group
         if add_container_group:
-            settings = self.add_argument_group(
-                "Run with docker or singularity:"
-                )
+            settings = self.add_argument_group("container arguments")
 
             settings.add_argument(
                 "--docker",
-                help="Name of the docker image, available in daemon.",
-                default=False,
+                help="name of the docker image, available in daemon",
+                default=None,
                 metavar="DOCKER-IMAGE-NAME",
+                required=False,
             )
 
             settings.add_argument(
                 "--singularity",
                 help=(
-                    "Path of the singularity image (.simg) to jobs be run "
-                    "inside singularity containers."
+                    "path of the singularity image (.simg) to jobs be run "
+                    "inside singularity containers"
                 ),
                 required=False,
                 metavar="SINGULARITY-IMAGE-PATH",
@@ -94,7 +109,7 @@ class ToilArgumentParser(argparse.ArgumentParser):
 
             settings.add_argument(
                 "--shared-fs",
-                help="Shared file system directory to be mounted in containers",
+                help="shared file system path to be mounted in containers",
                 required=False,
                 type=click.Path(
                     file_okay=True,
@@ -104,14 +119,33 @@ class ToilArgumentParser(argparse.ArgumentParser):
                 )
             )
 
+    def get_help_groups(self, show_toil_groups):
+        """Decide whether to show toil options or not."""
+        action_groups = []
+        actions = []
+
+        for action_group in self._action_groups:
+            is_toil_group = action_group.title.startswith("toil")
+            is_toil_group |= "Logging Options" in action_group.title
+
+            if not is_toil_group or (is_toil_group and show_toil_groups):
+                action_groups.append(action_group)
+                actions += action_group._group_actions
+
+        return actions, action_groups
+
     def format_help(self):
         """Include toil options if `self.show_toil_groups` is True."""
         formatter = self._get_formatter()
 
-        # usage
+        # decide whether to show toil options or not
+        show_toil_groups = getattr(self, "show_toil_groups", False)
+        actions, action_groups = self.get_help_groups(show_toil_groups)
+
+        # usage, the CUSTOM_TOIL_ACTIONS are just for display
         formatter.add_usage(
             self.usage,
-            self._actions,
+            actions + ([] if show_toil_groups else CUSTOM_TOIL_ACTIONS),
             self._mutually_exclusive_groups
         )
 
@@ -119,18 +153,17 @@ class ToilArgumentParser(argparse.ArgumentParser):
         formatter.add_text(self.description)
 
         # positionals, optionals and user-defined groups
-        for action_group in self._action_groups:
+        for action_group in action_groups:
+            formatter.start_section(action_group.title)
+            formatter.add_text(action_group.description)
+            formatter.add_arguments(action_group._group_actions)
+            formatter.end_section()
 
-            # Decide whether to show toil options or not.
-            show_toil_groups = getattr(self, "show_toil_groups", False)
-            is_toil_group = action_group.title.startswith('toil')
-            is_toil_group |= 'Logging Options' in action_group.title
-
-            if not is_toil_group or (is_toil_group and show_toil_groups):
-                formatter.start_section(action_group.title)
-                formatter.add_text(action_group.description)
-                formatter.add_arguments(action_group._group_actions)
-                formatter.end_section()
+        # add custom toil section
+        if not show_toil_groups:
+            formatter.start_section("toil arguments")
+            formatter.add_arguments(CUSTOM_TOIL_ACTIONS)
+            formatter.end_section()
 
         # epilog
         formatter.add_text(self.epilog)

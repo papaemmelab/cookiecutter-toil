@@ -12,54 +12,98 @@ This [cookiecutter][cookiecutter] enables the creation of [toil][toil] and [clic
 
 - [cookiecutter-cli](#cookiecutter-cli)
 - [Contents](#contents)
-- [Modes](#modes)
-    - [Toil - python 2.7](#toil---python-27)
-    - [Click - python 3.6](#click---python-36)
 - [Features](#features)
-    - [Predefined Python Modules](#predefined-python-modules)
-    - [Full Testing Suite](#full-testing-suite)
+    - [Container Calls](#container-calls)
+    - [Custom Toil Parser](#custom-toil-parser)
+    - [Docker and Singularity Support](#docker-and-singularity-support)
+    - [Python Modules](#python-modules)
+    - [Contributing Features](#contributing-features)
+    - [Click Mode](#click-mode)
+    - [Pip Installable](#pip-installable)
+    - [Testing Suite](#testing-suite)
         - [Pytest](#pytest)
         - [Linting](#linting)
         - [Tox](#tox)
-    - [Docker and Singularity Deployment](#docker-and-singularity-deployment)
-    - [Pip Installable](#pip-installable)
-    - [Contributing Features](#contributing-features)
 - [Contributing To This Cookiecutter](#contributing-to-this-cookiecutter)
 
 
-# Modes
-
-This [cookiecutter][cookiecutter] enables the creation of [toil][toil] and [click][click] Command Line Interfaces (CLI).
-
-## Toil - python 2.7
-
-When running with the `toil` option, an example pipeline will be generated.Examples of how to run both holistic and unit tests for [toil][toil] pipelines are included. This cookiecutter suggests the following design pattern:
-
-- 1. `get_parser`: this function builds an `arg_parse` object that includes both toil options and pipeline specific options. These will be separated in different sections of the `--help` text.
-
-- 2. `process_parsed_options`: once the options are parsed, it maybe necessary to conduct *post-parsing* operations such as adding new attributes to the `options` namespace or validating combined arguments.
-
-- 3. `run_toil`: this function uses the `options` namespace to build and run the toil `DAG`.
-
-## Click - python 3.6
-
-[Click][click] is an great package to seamlessly build CLI packages. We included a simple hello world example.
-
 # Features
 
-## Predefined Python Modules
+This [cookiecutter][cookiecutter] enables the creation of [toil][toil] CLI tools. Check the following features 🚀
+
+## Container Calls
+
+A custom `BaseJob` that inherits from `toil.jobs.Job` is available. This class has two special methods `check_call` and `check_output`. These will perform system calls using `docker`, `singularity` or `subprocess` depending on availability.
+
+## Custom Toil Parser
+
+Sometimes all the `toil` options may scare your users. This `cookiecutter` has a custom parser that by default only includes the required toil arguments in the `help` print. Additionally, it includes a `container arguments` section that can be toggled off. Check it out:
+
+
+    usage: your_tool [-h] [-v] [--help-toil] [--docker DOCKER-IMAGE-NAME]
+                [--singularity SINGULARITY-IMAGE-PATH] [--shared-fs SHARED_FS]
+                [TOIL EXTRA ARGS]
+                jobStore
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    -v, --version         show program's version number and exit
+    --help-toil           print help with full list of Toil arguments and exit
+
+    container arguments:
+    --docker DOCKER-IMAGE-NAME
+                            name of the docker image, available in daemon
+    --singularity SINGULARITY-IMAGE-PATH
+                            path of the singularity image (.simg) to jobs be run
+                            inside singularity containers
+    --shared-fs SHARED_FS
+                            shared file system path to be mounted in containers
+
+    toil arguments:
+    TOIL EXTRA ARGS       see --help-toil for a full list of toil parameters
+    jobStore              the location of the job store for the workflow. See
+                            --help-toil for more information [REQUIRED]
+
+## Docker and Singularity Support
+
+A `Dockerfile` example is included. If you use [singularity][singularity], the generated `README` will include information on how to generate a singularity image.
+
+## Python Modules
 
 The following modules will be included in the generated program (all modules come with tests):
 
 | Module        | Description                                                                           |
 | ------------- | ------------------------------------------------------------------------------------- |
 | cli.py        | Include the function that is mapped to the cli command, see `setup.json:entry_points` |
-| commands.py   | Include example pipelines for both [toil][toil] and [click][click]                    |
+| commands.py   | Include a [toil][toil] example pipeline                                               |
+| jobs.py       | A module to define toil jobs                                                          |
 | exceptions.py | Include package specific exceptions                                                   |
 | utils.py      | Multiple util functions are available                                                 |
 | validators.py | Defines common validators                                                             |
+| parsers.py    | Custom Argparse class with container and simplified toil options                      |
 
-## Full Testing Suite
+## Contributing Features
+
+Your project will also come with the following contributing tools:
+
+- 1. `README.md` with some example sections.
+- 2. `CONTRIBUTING.md` with full steps on how to properly contribute with your project.
+- 3. `.gitignore` with well curated python ignore patterns.
+- 4. `.gitmessage` with issue types mapped to emojis! Like :fire: for a new feature, or :bug: for a fix.
+
+## Click Mode
+
+[Click][click] is an great package to seamlessly build CLI packages. Use `cli_mode="click"`  if you want to use the goodies of this cookiecutter but don't need the [toil][toil] rocketry. By using this mode, some of the toil specific modules and tests will be removed.
+
+## Pip Installable
+
+Your project will be pip installable! Check the `setup.py` and `setup.json` for pip configurations. To install, run:
+
+    pip install --editable {your_project_dir}
+
+The only place where you have to define the version of your project is in the `setup.json` file. The `MANIFEST.in` file defines the files that should be included in the pip installation directory.
+
+## Testing Suite
 
 ### Pytest
 
@@ -100,27 +144,6 @@ The `report` enviroment will create a html coverage report. Use `tox --recreate`
 | lint   | Run [pylint][pylint] and [pydocstyle][pydocstyle] using the `.pylintrc` and `.pydocstylerc` files |
 | report | Run base tests and generate coverage statistics                                                   |
 | clean  | Clean a previously generated coverage report                                                      |
-
-## Docker and Singularity Deployment
-
-A `Dockerfile` example is included. if you use [singularity], a `docker2singularity` script is available.
-
-## Pip Installable
-
-Your project will be pip installable! Check the `setup.py` and `setup.json` for pip configurations. To install, run:
-
-    pip install --editable {your_project_dir}
-
-The only place where you have to define the version of your project is in the `setup.json` file. The `MANIFEST.in` file defines the files that should be included in the pip installation directory.
-
-## Contributing Features
-
-Your project will also come with the following contributing tools:
-
-- 1. `README.md` with some example sections.
-- 2. `CONTRIBUTING.md` with full steps on how to properly contribute with your project.
-- 3. `.gitignore` with well curated python ignore patterns.
-- 4. `.gitmessage` with issue types mapped to emojis! Like :fire: for a new feature, or :bug: for a fix.
 
 # Contributing To This Cookiecutter
 
