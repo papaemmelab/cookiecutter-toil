@@ -44,21 +44,21 @@ def get_parser():
     parser = parsers.ToilArgumentParser()
 
     # Add description to parser.
-    parser.description = "Run {{cookiecutter.project_slug}} pipeline."
+    parser.description = "{{cookiecutter.project_slug}} pipeline"
 
     # We need to add a group of arguments specific to the pipeline.
-    settings = parser.add_argument_group("{{cookiecutter.project_slug}} configuration")
+    settings = parser.add_argument_group("{{cookiecutter.project_slug}} arguments")
 
     settings.add_argument(
         "--message",
-        help="A message to be echoed to the Universe.",
+        help="a message to be echoed to the Universe",
         required=False,
-        default="Hello Universe, this text is used in the pipeline tests.",
+        default="hello Universe, this text is used in the pipeline tests",
         )
 
     settings.add_argument(
         "--total",
-        help="Total times message should be printed.",
+        help="total times message should be printed",
         required=False,
         default=1,
         type=int,
@@ -66,7 +66,7 @@ def get_parser():
 
     settings.add_argument(
         "--outfile",
-        help="Outfile to print message to.",
+        help="outfile to print message to",
         required=True,
         type=click.Path(file_okay=True, writable=True),
         )
@@ -86,7 +86,20 @@ def process_parsed_options(options):
 
 
 def main():
-    """Parse options and run toil."""
+    """
+    Parse options and run toil.
+
+    1. `get_parser`: this function builds an `arg_parse` object that includes
+        both toil options and pipeline specific options. These will be
+        separated in different sections of the `--help` text.
+
+    2. `process_parsed_options`: once the options are parsed, it maybe
+        necessary to conduct *post-parsing* operations such as adding new
+        attributes to the `options` namespace or validating combined arguments.
+
+    3. `run_toil`: this function uses the `options` namespace to build and
+        run the toil `DAG`.
+    """
     options = get_parser().parse_args()
     options = process_parsed_options(options=options)
     run_toil(options=options)

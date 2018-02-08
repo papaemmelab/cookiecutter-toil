@@ -8,7 +8,7 @@ from {{cookiecutter.project_slug}} import cli
 
 
 def test_main():
-    """Sample test for the main command."""
+    """Sample test for main command."""
     with pytest.raises(SystemExit) as _:
         cli.main()
 {% elif cookiecutter.cli_type == "click" %}
@@ -18,7 +18,7 @@ import pytest
 from {{cookiecutter.project_slug}} import cli
 
 def test_main():
-    """Sample test for the main command."""
+    """Sample test for main command."""
     message = "This is a test message for the Universe."
     runner = CliRunner()
     params = ["message", message]
