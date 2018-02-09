@@ -24,6 +24,8 @@ from docker.errors import ContainerError
 from docker.errors import ImageNotFound
 import docker
 
+from {{cookiecutter.project_slug}} import utils
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -33,8 +35,9 @@ class Container(object):
 
     def __init__(self):
         """Constructor to assign attributes unique to each container."""
-        self.docker_client = docker.from_env()
-        self.container_name = ''
+        if utils.is_docker_available():
+            self.docker_client = docker.from_env()
+            self.container_name = ''
 
     def docker_call(
             self,
@@ -105,8 +108,15 @@ class Container(object):
                 image,
                 **docker_parameters
                 )
-            output = container.logs() if check_output else 0
+
+            # If detached wait to get the system exit to get logs before remove.
+            if check_output:
+                container.wait()
+                output = container.logs()
+            else:
+                output = 0
             self._prune_docker_container(self.container_name)
+
             return output
 
         except exceptions as stderr:
