@@ -47,7 +47,7 @@ Set up for local development:
 
     Now you can make your changes locally.
 
-5. If you contributed a feature to the  `{{cookiecutter.project_slug}}`, create a test in::
+5. If you contributed a new feature, create a test in:
 
     ```
     cookiecutter-cli/{{cookiecutter.project_slug}}/tests

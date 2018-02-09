@@ -174,7 +174,7 @@ disable =
     ungrouped-imports,
     superfluous-parens,
     keyword-arg-before-vararg,
-{% if cookiecutter.cli_type == "toil" %}    missing-docstring,{% endif %}
+    missing-docstring,
 
 [REPORTS]
 
@@ -221,7 +221,7 @@ additional-builtins=
 
 # List of strings which can identify a callback function by name. A callback
 # name must start or end with one of those strings.
-callbacks=cb_,_cb,validate_{% if cookiecutter.cli_type == "toil" %},run{% endif %}
+callbacks=cb_,_cb,validate_,run
 
 # List of qualified module names which can have objects that can redefine
 # builtins.

@@ -1,5 +1,5 @@
 """={{cookiecutter.project_slug}} commands tests."""
-{% if cookiecutter.cli_type == "toil" %}
+
 from os.path import join
 
 import pytest
@@ -32,20 +32,7 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
     # Assert custom message is echoed in master log.
     with open(outfile) as f:
         assert len(f.read().split(message)) == total + 1
-{% elif cookiecutter.cli_type == "click" %}
-from click.testing import CliRunner
-import pytest
 
-from {{cookiecutter.project_slug}} import cli
-
-def test_{{cookiecutter.project_slug}}():
-    """Sample test for the main command."""
-    message = "This is a test message for the Universe."
-    runner = CliRunner()
-    params = ["message", message]
-    result = runner.invoke(cli.main, params)
-    assert message in result.output
-{% endif %}
 
 @pytest.fixture
 def response():
