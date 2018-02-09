@@ -123,8 +123,8 @@ class Container(object):
             self._prune_docker_container(self.container_name)
             raise subprocess.CalledProcessError(0, cmd=cmd, output=stderr)
 
+    @staticmethod
     def singularity_call(
-            self,
             image,
             cmd=None,
             cwd=None,
@@ -205,7 +205,8 @@ class Container(object):
         container.stop()
         container.remove()
 
-    def _get_container_name(self, image):
+    @staticmethod
+    def _get_container_name(image):
         """
         Creates a unique name for the container.
 
