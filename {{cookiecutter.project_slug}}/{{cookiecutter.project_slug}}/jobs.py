@@ -26,7 +26,7 @@ class BaseJob(Job):
         if unitName == "":
             unitName = self.__class__.__name__
 
-        # This is a custom solution for LSF options in leukgen, ask for lsf.py.
+        # This is a custom solution for LSF options in MSKCC.
         if getattr(options, "batchSystem", None) == "LSF":
             unitName = "" if unitName is None else str(unitName)
             unitName += "".join("<LSF_%s>" % i for i in lsf_tags or [])
@@ -49,9 +49,9 @@ class BaseJob(Job):
             env (dict): environment variables to set inside container.
 
         Returns:
-            int: 0 if call succeed else non-0.
+            int: 0 if call succeed else raise error.
         """
-        if self.options.singularity:
+        if getattr(self.options, "singularity", None):
             return Container().singularity_call(
                 self.options.singularity,
                 cmd=cmd,
@@ -61,7 +61,7 @@ class BaseJob(Job):
                 working_dir=self.options.workDir,
                 shared_fs=self.options.shared_fs,
                 )
-        elif self.options.docker:
+        elif getattr(self.options, "docker", None):
             return Container().docker_call(
                 self.options.docker,
                 cmd=cmd,

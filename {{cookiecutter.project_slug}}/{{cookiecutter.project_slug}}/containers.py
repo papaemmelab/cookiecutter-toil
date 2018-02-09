@@ -16,6 +16,7 @@ more different images than it can hold (not very many). So for this type of
 usage pattern (concurrent or short consecutive calls to different images),
 it is best to run Singularity images natively.
 """
+
 import logging
 import uuid
 import subprocess
@@ -37,7 +38,7 @@ class Container(object):
         """Constructor to assign attributes unique to each container."""
         if utils.is_docker_available():
             self.docker_client = docker.from_env()
-            self.container_name = ''
+            self.container_name = ""
 
     def docker_call(
             self,
@@ -64,7 +65,7 @@ class Container(object):
 
         Returns:
             str: (check_output=True) stdout of the system call.
-            int: (check_output=False) 0 if call succeed else non-0.
+            int: (check_output=False) 0 if call succeed else raise error.
 
         Raises:
             CalledProcessorError: if the container invocation returns a
@@ -74,28 +75,28 @@ class Container(object):
             self.container_name = self._get_container_name(image)
 
         docker_parameters = {}
-        docker_parameters['command'] = cmd
-        docker_parameters['detach'] = check_output
-        docker_parameters['entrypoint'] = ''
-        docker_parameters['environment'] = env or {}
-        docker_parameters['name'] = self.container_name
-        docker_parameters['volumes'] = {}
+        docker_parameters["command"] = cmd
+        docker_parameters["detach"] = check_output
+        docker_parameters["entrypoint"] = ""
+        docker_parameters["environment"] = env or {}
+        docker_parameters["name"] = self.container_name
+        docker_parameters["volumes"] = {}
 
         # Set parameters for managing directories if options are defined
         if shared_fs:
-            docker_parameters['volumes'][shared_fs] = {
-                'bind': shared_fs,
-                'mode': 'rw'
+            docker_parameters["volumes"][shared_fs] = {
+                "bind": shared_fs,
+                "mode": "rw"
                 }
 
         if working_dir:
-            docker_parameters['volumes'][working_dir] = {
-                'bind': '/tmp',
-                'mode': 'rw'
+            docker_parameters["volumes"][working_dir] = {
+                "bind": "/tmp",
+                "mode": "rw"
                 }
 
         if cwd:
-            docker_parameters['working_dir'] = cwd
+            docker_parameters["working_dir"] = cwd
 
         exceptions = (
             ContainerError,
@@ -175,13 +176,13 @@ class Container(object):
             singularity_parameters += ["--pwd", cwd]
 
         # Setup the outgoing subprocess call for singularity
-        command = ['singularity', '-q', 'exec']
+        command = ["singularity", "-q", "exec"]
         command += singularity_parameters or []
         command += [image]
         command += cmd or []
 
         subprocess_kwargs = {}
-        subprocess_kwargs['env'] = env or {}
+        subprocess_kwargs["env"] = env or {}
 
         if check_output:
             call_method = subprocess.check_output
@@ -191,6 +192,19 @@ class Container(object):
         _LOGGER.info("Calling singularity with %s", repr(command))
         out = call_method(command, **subprocess_kwargs)
         return out
+
+    @staticmethod
+    def _get_container_name(image):
+        """
+        Creates a unique name for the container.
+
+        Arguments:
+            image (str): name of the image used to run the container.
+
+        Returns:
+            str: a unique string of image name plus a unique random identifier.
+        """
+        return image.replace(":latest", "") + "-" + str(uuid.uuid4())
 
     def _prune_docker_container(self, container_name):
         """
@@ -204,16 +218,3 @@ class Container(object):
         container = self.docker_client.containers.get(container_name)
         container.stop()
         container.remove()
-
-    @staticmethod
-    def _get_container_name(image):
-        """
-        Creates a unique name for the container.
-
-        Arguments:
-            image (str): name of the image used to run the container.
-
-        Returns:
-            str: a unique string of image name plus a unique random identifier.
-        """
-        return image.replace(':latest', '') + "-" + str(uuid.uuid4())

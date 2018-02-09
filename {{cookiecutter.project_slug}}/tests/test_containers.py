@@ -43,7 +43,7 @@ def test_docker_container():
     docker_image = client.images.build(path=ROOT, rm=True, tag=image_tag)
 
     # Run container with command
-    cmd = ['{{cookiecutter.project_slug}}', '--version']
+    cmd = ["{{cookiecutter.project_slug}}", "--version"]
     container = Container().docker_call(
         image_tag,
         cmd=cmd,
@@ -63,7 +63,7 @@ def test_singularity_container():
 
         singularity exec <test-image.simg> <command-parameters>
     """
-    singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
+    singularity_image = os.environ["TEST_SINGULARITY_IMAGE"]
     cmd = ["cat", "/etc/os-release"]
 
     # Create call
@@ -124,11 +124,11 @@ def get_toil_test_parser():
 
 def set_container_arguments(args, container_tool):
     """Add toil arguments necessary to run in containers."""
-    shared_fs = os.environ['SHARED_FS']
+    shared_fs = os.environ["TEST_SHARED_FS"]
 
-    if container_tool == 'docker':
+    if container_tool == "docker":
         client = docker.from_env()
-        image_tag = 'test-toil'
+        image_tag = "test-toil"
         client.images.build(path=ROOT, rm=True, tag=image_tag)
 
         args += [
@@ -136,8 +136,8 @@ def set_container_arguments(args, container_tool):
             "--shared-fs", shared_fs,
             ]
 
-    elif container_tool == 'singularity':
-        singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
+    elif container_tool == "singularity":
+        singularity_image = os.environ["TEST_SINGULARITY_IMAGE"]
 
         args += [
             "--singularity", singularity_image,
@@ -156,8 +156,8 @@ def run_job_in_control_env(tmpdir, container_tool=None):
     # Create options for job
     workdir = join(str(tmpdir))
     jobstore = join(str(tmpdir), "jobstore")
-    singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
-    shared_fs = os.environ['SHARED_FS']
+    singularity_image = os.environ["TEST_SINGULARITY_IMAGE"]
+    shared_fs = os.environ["TEST_SHARED_FS"]
 
     # Define arguments
     args = [jobstore, "--workDir", workdir]
@@ -193,15 +193,15 @@ def run_job_in_control_env(tmpdir, container_tool=None):
     out_file = "bottle.txt"
     tmp_file_in_container = join(os.sep, "tmp", out_file)
 
-    if container_tool == 'docker':
+    if container_tool == "docker":
         tmp_file_in_workdir = join(workdir, out_file)
-    elif container_tool == 'singularity':
+    elif container_tool == "singularity":
         tmp_file_in_workdir = join(workdir, "tmp", out_file)
 
     job_output.cmd = [
         "/bin/bash",
         "-c",
-        'echo $ISLAND > {}'.format(tmp_file_in_container)
+        "echo $ISLAND > {}".format(tmp_file_in_container)
         ]
     job_output.run(jobstore)
 
@@ -251,24 +251,24 @@ def run_parallel_jobs(tmpdir, container_tool=None):
     out_file = "bottle.txt"
     tmp_file_in_container = join(os.sep, "tmp", out_file)
 
-    if container_tool == 'docker':
+    if container_tool == "docker":
         tmp_file_in_workdir = join(workdir, out_file)
-    elif container_tool == 'singularity':
+    elif container_tool == "singularity":
         tmp_file_in_workdir = join(workdir, "tmp", out_file)
 
     base_cmd = ["/bin/bash", "-c"]
 
     parent_job.cmd = base_cmd + [
-        'echo job1 >> {}'.format(tmp_file_in_container)
+        "echo job1 >> {}".format(tmp_file_in_container)
         ]
     child_job_1.cmd = base_cmd + [
-        'echo job2 >> {}'.format(tmp_file_in_container)
+        "echo job2 >> {}".format(tmp_file_in_container)
         ]
     child_job_2.cmd = base_cmd + [
-        'echo job3 >> {}'.format(tmp_file_in_container)
+        "echo job3 >> {}".format(tmp_file_in_container)
         ]
     tail_job.cmd = base_cmd + [
-        'echo job4 >> {}'.format(tmp_file_in_container)
+        "echo job4 >> {}".format(tmp_file_in_container)
         ]
 
     # Create DAG
@@ -294,7 +294,7 @@ def test_singularity_toil_single_jobs(tmpdir):
     Test to check singularity is setting correctly the /tmp dir,
     the working dir and the ENV variables inside the container.
     """
-    run_job_in_control_env(tmpdir, container_tool='singularity')
+    run_job_in_control_env(tmpdir, container_tool="singularity")
 
 
 @pytest.mark.skipif(
@@ -306,7 +306,7 @@ def test_docker_toil_single_jobs(tmpdir):
     Test to check docker is setting correctly the /tmp dir,
     the working dir and the ENV variables inside the container.
     """
-    run_job_in_control_env(tmpdir, container_tool='docker')
+    run_job_in_control_env(tmpdir, container_tool="docker")
 
 
 @pytest.mark.skipif(
@@ -315,7 +315,7 @@ def test_docker_toil_single_jobs(tmpdir):
     )
 def test_docker_toil_parallel_jobs(tmpdir):
     """ Test to check parallel docker containers run."""
-    run_parallel_jobs(tmpdir, container_tool='docker')
+    run_parallel_jobs(tmpdir, container_tool="docker")
 
 
 @pytest.mark.skipif(
@@ -324,5 +324,5 @@ def test_docker_toil_parallel_jobs(tmpdir):
     )
 def test_singularity_toil_parallel_jobs(tmpdir):
     """ Test to check parallel singularity containers run."""
-    run_parallel_jobs(tmpdir, container_tool='singularity')
+    run_parallel_jobs(tmpdir, container_tool="singularity")
 {% endif %}

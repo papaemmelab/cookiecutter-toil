@@ -2,7 +2,6 @@
 
 import argparse
 
-from toil.common import Toil
 from toil.job import Job
 import click
 
@@ -47,19 +46,25 @@ class ToilArgumentParser(argparse.ArgumentParser):
     Additionally, a container section is included (this can be turned off).
     """
 
-    def __init__(self, add_container_group=True, add_version=True, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Add Toil options, `--help-toil` and container section to parser.
 
-        Arguments:
+        Include the following keywords in kwargs to switch of the version
+        and container groups:
+
             add_container_group (bool): add section for container runs.
             add_version (bool): add version option using `__version__`.
-            kwargs (dict): keyword dict for `argparse.ArgumentParser`.
         """
-        if not kwargs.get("formatter_class", None):
-            kwargs["formatter_class"] = argparse.ArgumentDefaultsHelpFormatter
+        add_container_group = kwargs.pop("add_container_group", True)
+        add_version = kwargs.pop("add_version", True)
 
-        super(ToilArgumentParser, self).__init__(**kwargs)
+        # Set ArgumentDefaultsHelpFormatter as the default formatter.
+        kwargs["formatter_class"] = kwargs.get(
+            "formatter_class", argparse.ArgumentDefaultsHelpFormatter
+        )
+
+        super(ToilArgumentParser, self).__init__(*args, **kwargs)
 
         # Add package version.
         if add_version:
@@ -171,9 +176,11 @@ class ToilArgumentParser(argparse.ArgumentParser):
         # determine help from format above
         return formatter.format_help()
 
-    def parse_args(self, *args, **kwargs):
+    def parse_args(self, args=None, namespace=None):
         """Validate parsed options."""
-        args = super(ToilArgumentParser, self).parse_args(*args, **kwargs)
+        args = super(ToilArgumentParser, self).parse_args(
+            args=args, namespace=namespace,
+            )
 
         # Check container options are ok.
         if self.add_container_group:
