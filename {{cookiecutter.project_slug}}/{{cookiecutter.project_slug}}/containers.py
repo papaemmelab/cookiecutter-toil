@@ -169,7 +169,7 @@ class Container(object):
         if working_dir:
             singularity_parameters += [
                 "--contain",
-                "--workDir", working_dir
+                "--workdir", working_dir
                 ]
         if cwd:
             singularity_parameters += ["--pwd", cwd]
@@ -178,16 +178,10 @@ class Container(object):
         command = ['singularity', '-q', 'exec']
         command += singularity_parameters or []
         command += [image]
-        command += parameters or []
+        command += cmd or []
 
         subprocess_kwargs = {}
-        subprocess_kwargs['env'] = environment or {}
-
-        if outfile:
-            subprocess_kwargs['stdout'] = outfile
-
-        if errfile:
-            subprocess_kwargs['stderr'] = errfile
+        subprocess_kwargs['env'] = env or {}
 
         if check_output:
             call_method = subprocess.check_output

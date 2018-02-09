@@ -43,10 +43,10 @@ def test_docker_container():
     docker_image = client.images.build(path=ROOT, rm=True, tag=image_tag)
 
     # Run container with command
-    cmd_params = ['{{cookiecutter.project_slug}}', '--version']
+    cmd = ['{{cookiecutter.project_slug}}', '--version']
     container = Container().docker_call(
         image_tag,
-        cmd=cmd_params,
+        cmd=cmd,
         check_output=True,
         )
 
@@ -64,12 +64,12 @@ def test_singularity_container():
         singularity exec <test-image.simg> <command-parameters>
     """
     singularity_image = os.environ['TEST_SINGULARITY_IMAGE']
-    cmd_parameters = ["cat", "/etc/os-release"]
+    cmd = ["cat", "/etc/os-release"]
 
     # Create call
     output = Container().singularity_call(
         singularity_image,
-        parameters=cmd_parameters,
+        cmd=cmd,
         check_output=True
         )
 
@@ -187,16 +187,16 @@ def run_job_in_control_env(tmpdir, container_tool=None):
 
     # Make sure workDir is used as the tmp directory inside the container
     # and that an ENV variable is passed to the container system call.
-    message = "Hello World"
-    job_output.env = { "ISLAND": message}
+    message = "hello World"
+    job_output.env = {"ISLAND": message}
 
     out_file = "bottle.txt"
-    tmp_file_in_workdir = join(workdir, out_file)
+    tmp_file_in_container = join(os.sep, "tmp", out_file)
 
     if container_tool == 'docker':
-        tmp_file_in_container = join(os.sep, "tmp", out_file)
+        tmp_file_in_workdir = join(workdir, out_file)
     elif container_tool == 'singularity':
-        tmp_file_in_container = join(os.sep, tmp_file)
+        tmp_file_in_workdir = join(workdir, "tmp", out_file)
 
     job_output.cmd = [
         "/bin/bash",
@@ -249,8 +249,13 @@ def run_parallel_jobs(tmpdir, container_tool=None):
 
     # Assign job commands
     out_file = "bottle.txt"
-    tmp_file_in_workdir = join(workdir, out_file)
     tmp_file_in_container = join(os.sep, "tmp", out_file)
+
+    if container_tool == 'docker':
+        tmp_file_in_workdir = join(workdir, out_file)
+    elif container_tool == 'singularity':
+        tmp_file_in_workdir = join(workdir, "tmp", out_file)
+
     base_cmd = ["/bin/bash", "-c"]
 
     parent_job.cmd = base_cmd + [
