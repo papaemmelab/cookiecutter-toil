@@ -3,7 +3,6 @@
 [![pypi badge][pypi_badge]][pypi_base]
 [![travis badge][travis_badge]][travis_base]
 [![pyup badge][pyup_badge]][pyup_base]
-[![codecov badge][codecov_badge]][codecov_base]
 
 A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces (CLI).
 
@@ -104,8 +103,6 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 [travis_deploy]: https://docs.travis-ci.com/user/deployment/pypi/
 
 <!-- Badges -->
-[codecov_badge]: https://codecov.io/gh/leukgen/cookiecutter-toil/branch/master/graph/badge.svg
-[codecov_base]: https://codecov.io/gh/leukgen/cookiecutter-toil
 [pypi_badge]: https://img.shields.io/pypi/v/cookiecutter-toil.svg
 [pypi_base]: https://pypi.python.org/pypi/cookiecutter-toil
 [pyup_badge]: https://pyup.io/repos/github/leukgen/cookiecutter-toil/shield.svg
