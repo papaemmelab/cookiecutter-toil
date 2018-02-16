@@ -6,11 +6,9 @@
 
 A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces (CLI).
 
-    # Run:
-    cookiecutter https://github.com/leukgen/cookiecutter-toil
+    pip install cookiecutter-toil
+    cookiecutter cookiecutter-toil
 
-    # Or for ssh:
-    cookiecutter git@github.com:leukgen/cookiecutter-toil.git
 
 # Features
 
@@ -20,7 +18,7 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 
     A `Dockerfile` example is included. If you use [singularity], the generated `README` will include information on how to generate a singularity image.
 
-* 📦 &nbsp; **Pip Installable!**
+* 📦 &nbsp; **Pip Installable Project**
 
     Check the `setup.py` and `setup.json` for pip configurations. The only place where you have to define the **version** of your project is in the [`VERSION`] file. After generated, your project can be installed with:
 

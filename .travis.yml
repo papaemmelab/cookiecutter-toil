@@ -6,7 +6,7 @@ cache:
 
 install:
   - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
-  - pip install -U tox-travis codecov
+  - pip install -U tox-travis
 
 matrix:
   include:
@@ -16,9 +16,6 @@ matrix:
 
 script:
   - pytest -s tests
-
-after_success:
-  - bash $TRAVIS_BUILD_DIR/.travis/after_success.sh
 
 deploy:
   provider: pypi
