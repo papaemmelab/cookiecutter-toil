@@ -5,7 +5,7 @@ cache:
   directories: $TRAVIS_BUILD_DIR/.tox
 
 install:
-  - pip install -U $TRAVIS_BUILD_DIR/requirements.txt
+  - pip install -U -r $TRAVIS_BUILD_DIR/requirements.txt
 
 script:
   - pytest -s tests

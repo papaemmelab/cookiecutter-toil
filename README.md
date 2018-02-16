@@ -23,7 +23,7 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 
 * 📦 &nbsp; **Pip Installable!**
 
-    Check the `setup.py` and `setup.json` for pip configurations. The only place where you have to define the **version** of your project is in the `setup.json` file. After generated, your project can be installed with:
+    Check the `setup.py` and `setup.json` for pip configurations. The only place where you have to define the **version** of your project is in the [`VERSION`] file. After generated, your project can be installed with:
 
         # local install
         pip install --editable <your_project_dir>
@@ -43,21 +43,22 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 
 * 🚧 &nbsp; **Contributing Features**
 
-    | File              | Description                                                                    |
-    | ----------------- | ------------------------------------------------------------------------------ |
-    | `README.md`       | with some example sections.                                                    |
-    | `CONTRIBUTING.md` | with full steps on how to properly contribute with your project.               |
-    | `.gitignore`      | with well curated python ignore patterns.                                      |
-    | `.gitmessage`     | with issue types mapped to emojis! Like 🚀 for a new feature, or 🐛 for a fix  |
+    | File                 | Description                                                                   |
+    | -------------------- | ----------------------------------------------------------------------------- |
+    | `README.md`          | with some example sections                                                    |
+    | `CONTRIBUTING.md`    | with full steps on how to properly contribute with your project               |
+    | `.gitignore`         | with well curated python ignore patterns                                      |
+    | `.gitmessage`        | with issue types mapped to emojis! Like 🚀 for a new feature, or 🐛 for a fix |
+    | `CODE_OF_CONDUCT.md` | A [covenant] code of conduct                                                  |
 
 
 * ✅ &nbsp; **Testing Suite**
 
-    **Python** Some test examples are included using [pytest], give them a try with:
+    **[Pytest]**: python test examples are included, give them a try with:
 
         py.test tests
 
-    **Linting** Google style linting configuration is included in a [pylint] configuration file `.pylintrc`. Docstrings conventions to be tested with [pydocstyle] and are defined in `.pydocstylerc`.
+    **[Pylint]**: Google style linting configuration is included with the `.pylintrc`. Additionally, Docstrings conventions are tested with [pydocstyle] and are defined in `.pydocstylerc`.
 
         # check linting conventions
         pylint --rcfile={your_project_dir}/.pylintrc {your_project}
@@ -65,16 +66,9 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
         # check docstrings
         pydocstyle --config={your_project_dir}/.pydocstylerc {your_project}
 
-    **Full Picture** A [tox] setup is provided to run tests on isolated python environments. The `tox.ini` file enables you to run `pytest`, `pylint`, `pydocstyle` and [coverage]. Tox will also tests the installation procedure. To skip the installation, use `tox --develop` (great for development).
+    **[Tox]**: Run `pytest`, `pylint`, `pydocstyle` with [coverage] on isolated python environments at the same time:
 
-        # run the default tox environments
         tox
-
-        # skip the installation, great for development
-        tox --develop
-
-        # run a subset of the environments
-        tox -e report,lint
 
 * 🌀 &nbsp; **Continuous Integration**
 
@@ -93,17 +87,19 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 
 <!-- References -->
-[singularity]: http://singularity.lbl.gov/
-[toil_container]: https://github.com/leukgen/toil_container
-[cookiecutter]: https://github.com/audreyr/cookiecutter
-[toil]: http://toil.readthedocs.io/
+[`VERSION`]: https://packaging.python.org/guides/single-sourcing-package-version/
 [click]: http://click.pocoo.org/6/
-[pytest]: https://docs.pytest.org/en/latest/
-[pytest-env]: https://github.com/MobileDynasty/pytest-env
-[tox]: http://tox.readthedocs.io/
+[covenant]: http://contributor-covenant.org/version/1/4/
+[cookiecutter]: https://github.com/audreyr/cookiecutter
+[coverage]: https://coverage.readthedocs.io
 [pydocstyle]: http://www.pydocstyle.org/en
 [pylint]: https://www.pylint.org/
-[coverage]: https://coverage.readthedocs.io
+[pytest-env]: https://github.com/MobileDynasty/pytest-env
+[pytest]: https://docs.pytest.org/en/latest/
+[singularity]: http://singularity.lbl.gov/
+[toil_container]: https://github.com/leukgen/toil_container
+[toil]: http://toil.readthedocs.io/
+[tox]: http://tox.readthedocs.io/
 [travis ci]: https://travis-ci.org/
 [travis_deploy]: https://docs.travis-ci.com/user/deployment/pypi/
 
