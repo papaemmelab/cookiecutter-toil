@@ -26,6 +26,5 @@
     ],
     "license": "BSD",
     "name": "cookiecutter-toil",
-    "url": "github.com/leukgen/cookiecutter-toil",
-    "version": "0.1.0"
+    "url": "github.com/leukgen/cookiecutter-toil"
 }
