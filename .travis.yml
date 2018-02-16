@@ -8,9 +8,11 @@ install:
   - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
   - pip install -U tox-travis
 
-python:
-  - 2.7
-  - 3.6
+matrix:
+  include:
+    - python: 2.7
+    - python: 3.6
+      env: SKIP_TOIL_TEST=true
 
 script:
   - pytest -s tests
