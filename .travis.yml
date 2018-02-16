@@ -6,7 +6,7 @@ cache:
 
 install:
   - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
-  - pip install -U tox-travis
+  - pip install -U tox-travis codecov
 
 matrix:
   include:
@@ -18,9 +18,7 @@ script:
   - pytest -s tests
 
 after_success:
-  - cookiecutter $TRAVIS_BUILD_DIR -o /tmp/ --no-input
-  - cd /tmp/test_project && tox --workdir $TRAVIS_BUILD_DIR/.tox/toil/
-  - cd /tmp/test_project && codecov --disable search
+  - bash $TRAVIS_BUILD_DIR/.travis/after_success.sh
 
 deploy:
   provider: pypi
