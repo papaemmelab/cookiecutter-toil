@@ -1,20 +1,6 @@
-graft tests
-graft docker
-
-include .coveragerc
-include .pylintrc
-
-include pytest.ini
-include setup.json
-include tox.ini
-
-include CONTRIBUTING.md
-include LICENSE
-include README.md
-
 global-exclude *.dylib
 global-exclude *.py[cod]
 global-exclude *.so
 global-exclude __pycache__
-
+include VERSION
 recursive-include {{cookiecutter.project_slug}} *

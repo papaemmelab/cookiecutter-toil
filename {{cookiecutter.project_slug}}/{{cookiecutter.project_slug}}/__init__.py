@@ -1,15 +1,13 @@
 """{{cookiecutter.project_slug}} module."""
 
-from os.path import join
 from os.path import abspath
 from os.path import dirname
-import json
+from os.path import join
 
+# make sure we use absolute paths
 ROOT = abspath(dirname(__file__))
 
-with open(join(ROOT, "data", "setup.json"), "r") as f:
-    SETUP = json.load(f)
+with open(join(ROOT, "VERSION"), "r") as f:
+    VERSION = f.read().strip()
 
-__version__ = SETUP.get("version")
-
-__author__ = SETUP.get("author")
+__version__ = VERSION

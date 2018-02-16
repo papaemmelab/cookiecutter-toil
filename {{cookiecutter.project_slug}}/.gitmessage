@@ -1,25 +1,25 @@
-# :emoji: <type>: <subject>
+# :emoji: <subject>
 
 # <body>
 
 # <footer>
-# JIRA_ISSUE_KEY
-# JIRA_ISSUE_KEY #done
-# JIRA_ISSUE_KEY #comment This is a comment
 
-# <type> should be one of the following:
-# 🔥 feat      new feature                  :fire:
-# 🐛 fix       bug fix                      :bug:
-# 📝 docs      changes to documentation     :memo:
-# 🎨 style     formatting; no code change   :art:
-# 🔧 refactor  refactoring production code  :wrench:
-# ✅ ️test      adding/editing test logic    :white_check_mark:
-# 👕 task      no production code change    :shirt:
+# emoji should be one of the following:
+# 🚀 :rocket:           new feature
+# 🐛 :bug:              bug fix
+# 📝 :memo:             changes to documentation
+# 🎨 :art:              formatting; no code change
+# 🔧 :wrench:           refactoring production code
+# ✅ :white_check_mark: adding/editing test logic
+# 👕 :shirt:            no production code change
 
 # Subject should use impertivite tone and say what you did.
 # Subject has no capitalization nor period at the end.
 # The body should go into detail about changes made.
-# The footer should contain any JIRA issue references or actions.
+# The footer should contain any JIRA issue references or actions such as:
+#   JIRA_ISSUE_KEY
+#   JIRA_ISSUE_KEY #done
+#   JIRA_ISSUE_KEY #comment This is a comment
 
 # Example
-# 🔥 feat: add new teletransportation feature
+# 🚀 add new teletransportation feature

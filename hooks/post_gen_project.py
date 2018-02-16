@@ -10,6 +10,7 @@ import shutil
 
 
 def remove(filepath):
+    """Remove file or directory."""
     if os.path.isfile(filepath):
         os.remove(filepath)
     elif os.path.isdir(filepath):
@@ -17,7 +18,5 @@ def remove(filepath):
 
 
 if "{{cookiecutter.cli_type}}" == "click":
-    remove(join("tests", "utils.py"))
-    for i in ["commands.py", "parsers.py", "jobs.py"]:
-        remove(join("{{cookiecutter.project_slug}}", i))
-        remove(join("tests", "test_" + i))
+    remove(join("tests", "test_commands.py"))
+    remove(join("{{cookiecutter.project_slug}}", "commands.py"))

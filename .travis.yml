@@ -1,0 +1,22 @@
+language: python
+
+cache:
+  pip: true
+  directories: $TRAVIS_BUILD_DIR/.tox
+
+install:
+  - pip install -U $TRAVIS_BUILD_DIR/requirements.txt
+
+script:
+  - pytest -s tests
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: leukgen
+  password:
+    secure: fnnV7uAyom7OIqsL3kDKHGi3ONO/Pxp4RRtn8ypkGZegYKskroMNC1nbMoSVlR3c6MAlMbUX2HHVKtXaKaVM7uiL/CmSG0BS7Cdb3cuaMQOuaXqwvuqkqaiDHYidrcQ5AFMmD/QZVLwgLRejPMQZ91UU2DYg+SEfNfqk7OmdLiC74MWKJth0fY+5ZtwtE5ecKNc0l6grJun9YvrZ+EVl98HcuMdA7DLQ9rR7EUefGU50bVCrAJfb4SZoU0kaiOfx9cTH5z2txqOCj9kxsn+yVvukN59TXhOu7xip8ALIUlIaARydsOly4/sAJgdfkEuCSUjtmOD46QetMaSngaNVwhxZz9AwbeO06GfwOthB+NjPvHN15Pj8lTEBLoowjVPRH+81OJkhk6x+yyqIHt+kJbrj1UjJAl7yFAiTynZ//5bwjM921x8POfL0Kunsm0plccg5DFNUru58VUTyHJqXcx+RF2j3I3KU1D0+bTtQFR2Le+xcbaqpYfhA5M82GlUvFHa2co2IrELiS3HJyphQNCr2vrRNOcw+c16XOhShBpy2cd1SbHgx4HvtIHDFgly9uUHHEf9g1QDletg/ODWEisk6b7APwjqtOsH+RvFmVln7QakE1v0K4ZwkjrRa2JdP/p/X4rU0IL56Gprnkb+wjIEg1VcT5e7VpAdbcVmR5Fk=
+  on:
+    tags: true
+    repo: leukgen/cookiecutter-toil
+    branch: master

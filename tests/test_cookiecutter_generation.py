@@ -19,7 +19,8 @@ def context():
         "full_name": "John Smith",
         "email": "smithj@mskcc.org",
         "github_account": "leukgen",
-        "project_slug": "test_project"
+        "project_slug": "test_project",
+        "project_description": "An awesome python package to be tested.",
         }
 
 
@@ -112,6 +113,7 @@ def tox(cli_type, cookies, context, recreate, develop, pytest_args, envlist):
         env["TOX_PYTEST_ARGS"] = pytest_args
 
     # Call tox!
+    print(cmd)
     subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 
 

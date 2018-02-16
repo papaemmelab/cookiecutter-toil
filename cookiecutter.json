@@ -4,5 +4,6 @@
     "github_account": "leukgen",
     "cli_type": ["toil", "click"],
     "project_name": "",
-    "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}"
+    "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
+    "project_description": "An awesome python package."
 }
