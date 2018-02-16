@@ -19,7 +19,8 @@ def context():
         "full_name": "John Smith",
         "email": "smithj@mskcc.org",
         "github_account": "leukgen",
-        "project_slug": "test_project"
+        "project_slug": "test_project",
+        "project_description": "An awesome python package to be tested.",
         }
 
 
@@ -115,8 +116,12 @@ def tox(cli_type, cookies, context, recreate, develop, pytest_args, envlist):
     subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 
 
+@pytest.mark.skipif(
+    os.getenv("SKIP_TOIL_TEST", "false").lower() == "true",
+    reason="set SKIP_TOIL_TEST=true to test the toil mode."
+)
 def test_toil_tox(cookies, context, recreate, develop, pytest_args, envlist):
-    """Generated toil project should pass tests"""
+    """Test that generated toil project pass tests."""
     tox(
         cli_type="toil",
         context=context,
@@ -129,7 +134,7 @@ def test_toil_tox(cookies, context, recreate, develop, pytest_args, envlist):
 
 
 def test_click_tox(cookies, context, recreate, develop, pytest_args, envlist):
-    """Generated click project should pass tests"""
+    """Test that generated click project pass tests."""
     tox(
         cli_type="click",
         context=context,

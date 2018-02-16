@@ -108,40 +108,23 @@ The `pytest.ini` can be used to define test specific configuration variables usi
 
 Thw `.coveragerc` configuration file includes [coverage][coverage] configuration. To get coverage statistics run:
 
-    py.test tests --cov={your_project_dir}
+    py.test tests --cov={{cookiecutter.project_slug}}
 
 ## Linting
 
 The `.pylintrc` has a world-class [pylint][pylint] configuration:
 
-    pylint --rcfile={your_project_dir}/.pylintrc {your_project}
+    pylint --rcfile=.pylintrc {{cookiecutter.project_slug}}
 
 Additionally, a `.pydocstyle` defines *docstrings* conventions to be tested with [pydocstyle][pydocstyle].
 
-    pydocstyle --config={your_project_dir}/.pydocstylerc {your_project}
+    pydocstyle --config=.pydocstylerc {{cookiecutter.project_slug}}
 
 ## Tox
 
-Use [tox][tox] run tests on a isolated python environment. The `tox.ini` file enables you to get [pytest][pytest], [pylint][pylint], [pydocstyle][pydocstyle] and a [coverage][coverage] html report. Tox also tests the installation procedure. To execute the default environments run:
-
-    tox
-
-You can run a set of specific test environments:
-
-    tox -e report,lint
-
-The `report` enviroment will create a html coverage report. Use `tox --recreate` when you need to rebuild the tox environments (e.g. you changed one of the `deps` lists in the `tox.ini` file). The available tox environments are:
-
-| Name   | function                                                                                          |
-| ------ | ------------------------------------------------------------------------------------------------- |
-| py27   | Test package using python 2 (Toil)                                                                |
-| py36   | Test package using python 3 (Click)                                                               |
-| lint   | Run [pylint][pylint] and [pydocstyle][pydocstyle] using the `.pylintrc` and `.pydocstylerc` files |
-| report | Run base tests and generate coverage statistics                                                   |
-| clean  | Clean a previously generated coverage report                                                      |
+Use [tox][tox] run tests on a isolated python environment. The `tox.ini` file enables you to get [pytest][pytest], [pylint][pylint] and [pydocstyle][pydocstyle]. Tox also tests the installation procedure.
 
 <!-- References -->
-
 [pytest]: https://docs.pytest.org/en/latest/
 [pytest-env]: https://github.com/MobileDynasty/pytest-env
 [semver]: http://semver.org/

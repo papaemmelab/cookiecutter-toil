@@ -1,0 +1,42 @@
+{
+    "classifiers": [
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: Unix",
+        "Operating System :: POSIX",
+        "Programming Language :: Python :: 2 :: Only",
+        "Topic :: Utilities"
+    ],
+    "entry_points": {
+        "console_scripts": [
+            "{{cookiecutter.project_slug}}={{cookiecutter.project_slug}}.cli:main"
+        ]
+    },
+    "setup_requires": [
+        "pytest-runner==2.11.1"
+    ],
+    "install_requires": [
+        "Click>=6.7",
+        "docker==2.5.1"{% if cookiecutter.cli_type == 'toil' %},
+        "toil_container>=0.1.0"{% endif %}
+    ],
+    "extras_require": {
+        "test": [
+            "coverage>=4.4.2",
+            "pydocstyle>=2.1.1",
+            "pytest-cov>=2.5.1",
+            "pytest-env==0.6.2",
+            "pylint>=1.8.1",
+            "tox==2.9.1"
+        ]
+    },
+    "author": "{{cookiecutter.full_name}}",
+    "description": "{{cookiecutter.project_description}}",
+    "keywords": [],
+    "license": "BSD",
+    "name": "{{cookiecutter.project_slug}}",
+    "test_suite": "tests",
+    "url": "https://github.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}"
+}

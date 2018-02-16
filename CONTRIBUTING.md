@@ -69,14 +69,14 @@ Set up for local development:
     If you need to recreate the tox environments, run:
 
     ```
-    py.test tests -s --recreate
+    py.test tests -s --tox-recreate
     ```
 
 7. Commit your changes and push your branch to GitHub (see .gitmessage for types and emoji requirements):
 
     ```
     git add .
-    git commit -m ":emoji: <type>: your meaningful description"
+    git commit -m ":emoji: your meaningful description"
     git push origin name-of-your-bugfix-or-feature
     ```
 

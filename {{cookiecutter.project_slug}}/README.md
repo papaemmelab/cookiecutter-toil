@@ -1,84 +1,57 @@
 # {{cookiecutter.project_slug}}
 
-Please just use this readme for docs.
+[![pypi badge][pypi_badge]][pypi_base]
+[![travis badge][travis_badge]][travis_base]
+[![codecov badge][codecov_badge]][codecov_base]
 
-# Contents
+An awesome pipeline called {{cookiecutter.project_slug}}.
 
-- [{{cookiecutter.project_slug}}](#cookiecutterprojectslug)
-- [Contents](#contents)
-- [Usage](#usage)
-- [Installation](#installation)
-- [Docker](#docker)
-- [Singularity](#singularity)
+# Features
 
-# Usage
+* 📦 &nbsp; **Installation**
 
-Example...
+        # local
+        pip install --editable .
 
-# Installation
+        # pypi (if available)
+        pip install {{cookiecutter.project_slug}}
 
-Example...
+* 🍉 &nbsp; **Usage**
 
-    pip install --editable .
+        {{cookiecutter.project_slug}} --help
 
+* 🐳 &nbsp; **Container Usage**
 
-# Docker
+    Check our docker hub for {{cookiecutter.project_slug}} images. Alternatively clone this repo and build the image yourself.
 
-Local directories can be mounted in the container using the `--volume` flag. (please note it doesn't need to be `/shared_fs`, it could be `/ifs`).
-
-    # build the image
-    docker build --tag {{cookiecutter.project_slug}}-image .
-
-    # run the container
-    {% if cookiecutter.cli_type == "click" %}
-    docker run \
-        --volume /shared_fs:/shared_fs                  \ # bind the local /shared_fs to the /shared_fs container
-        --interactive                                   \ # Keep STDIN open even if not attached
-        --tty                                           \ # Allocate a pseudo-TTY
-        {{cookiecutter.project_slug}}-image             \ # The tag name of the image as defined in docker build
-            [{{cookiecutter.project_slug}} options]
-    {% elif cookiecutter.cli_type == "toil" %}
-    {{cookiecutter.project_slug}}
-        [toil options]
-        [{{cookiecutter.project_slug}} options]
-        --docker {{cookiecutter.project_slug}}-image
-        --shared-fs /shared_fs
-        jobstore
-    {% endif %}
-
-# Singularity
-
-Once created the docker image, run `singularityware/docker2singularity` to create the singularity image. If you are running in a shared file system (e.g. `/shared_fs`), you can mount this directory in the container by using the `-m` flag (multiple `-m` are allowed):
-
-    # build the image
-    docker build --tag {{cookiecutter.project_slug}}-image .
-
-    # this command must be run in a local machine with docker❗️
-    docker run \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v `pwd`:/output \
-        --privileged -t --rm \
-        singularityware/docker2singularity \
-            -m '/shared_fs /shared_fs' \
+        {% if cookiecutter.cli_type == "toil" %}{{cookiecutter.project_slug}}
+            --shared-fs <path to shared file system e.g. /ifs>
+            --docker {or --singularity} <image path or name>
+            jobstore
+        {% elif cookiecutter.cli_type == "click" %}# docker usage
+        docker run --volume /shared_fs:/shared_fs --interactive --tty \
             {{cookiecutter.project_slug}}-image
-
-The previous command will create a singularity image named with `$creation_date` and `$container_id` variables. These will be unique to each run of `singularityware/docker2singularity`.
-
-    # set the path to the singularity image
-    SIGULARITY_IMAGE_PATH=`pwd`/{{cookiecutter.project_slug}}-image-$creation_date-$container_id.img
-
-    # run the container
-    {% if cookiecutter.cli_type == "click" %}
-    singularity run \
-        --workdir /shared_fs/tmp      \ # Working directory to be used for /tmp, /var/tmp and $HOME
-        --bind /shared_fs:/shared_fs  \ # /shared_fs mount point made available by using -m in docker2singularity
-        $SIGULARITY_IMAGE_PATH        \ # Path to singularity image
             [{{cookiecutter.project_slug}} options]
-    {% elif cookiecutter.cli_type == "toil" %}
-    {{cookiecutter.project_slug}}
-        [toil-options]
-        [{{cookiecutter.project_slug}} options]
-        --singularity {{cookiecutter.project_slug}}-image
-        --shared-fs /shared_fs
-        jobstore
-    {% endif %}
+
+        # singularity usage
+        singularity run --workdir /shared_fs/tmp --bind /shared_fs:/shared_fs \
+            {{cookiecutter.project_slug}}-singularity-image-path
+            [{{cookiecutter.project_slug}} options]{% endif %}
+
+    If you need to use [singularity], check [docker2singularity], and use `-m '/shared-fs-path /shared-fs-path'` to make sure your shared file system is mounted inside the singularity image.
+
+# Contributing
+
+Contributions are welcome, and they are greatly appreciated, check our [contributing guidelines](CONTROBUTING.md)!
+
+<!-- References -->
+[singularity]: http://singularity.lbl.gov/
+[docker2singularity]: https://github.com/singularityware/docker2singularity
+
+<!-- Badges -->
+[codecov_badge]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg
+[codecov_base]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+[pypi_badge]: https://img.shields.io/pypi/v/{{cookiecutter.project_slug}}.svg
+[pypi_base]: https://pypi.python.org/pypi/{{cookiecutter.project_slug}}
+[travis_badge]: https://img.shields.io/travis/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
+[travis_base]: https://travis-ci.org/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}

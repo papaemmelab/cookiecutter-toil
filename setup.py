@@ -1,4 +1,4 @@
-"""{{cookiecutter.project_slug}} setup.py."""
+"""cookiecutter-toil setup.py."""
 
 from os.path import join
 from os.path import abspath
@@ -26,7 +26,7 @@ setup(
     long_description=read(join(ROOT, "README.md")),
 
     # the version is only defined in one place
-    version=read(join(ROOT, "{{cookiecutter.project_slug}}", "VERSION")).strip(),
+    version="0.1.0",
 
     # in combination with recursive-includes in MANIFEST.in, non-python files
     # included inside the {{cookiecutter.project_slug}} will be copied to the

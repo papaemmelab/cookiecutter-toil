@@ -1,0 +1,31 @@
+language: python
+
+sudo: false
+
+cache:
+  pip: true
+
+python:
+  - {% if cookiecutter.cli_type == 'toil' %}2.7{% else %}3.6{% endif %}
+
+services:
+  - docker
+
+install:
+  - pip install -U tox-travis codecov
+
+script: tox
+
+after_success:
+  - codecov --disable search
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: {% if cookiecutter.github_account == 'leukgen' %}leukgen{% else %}<REPLACE>{% endif %}
+  password: <REPLACE THIS AND RUN `travis encrypt --add deploy.password`>
+  on:
+    tags: true
+    repo: {{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+    python: {% if cookiecutter.cli_type == 'toil' %}2.7{% else %}3.6{% endif %}
+    branch: master

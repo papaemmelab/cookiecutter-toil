@@ -7,18 +7,18 @@ import pytest
 from {{cookiecutter.project_slug}} import commands
 
 
-def test_{{cookiecutter.project_slug}}(tmpdir):
+def test_run_toil(tmpdir):
     """Sample test for the main command."""
     #  Define arguments.
     message = "This is a test message for the Universe."
-    outfile = join(str(tmpdir), "hello.txt")
-    jobstore = join(str(tmpdir), "jobstore")
+    logfile = tmpdir.join("log.txt")
+    jobstore = tmpdir.join("jobstore")
     total = 3
     args = [
-        jobstore,
+        jobstore.strpath,
         "--message", message,
-        "--outfile", outfile,
         "--total", str(total),
+        "--logFile", logfile.strpath,
         ]
 
     # Get and validate options.
@@ -30,20 +30,5 @@ def test_{{cookiecutter.project_slug}}(tmpdir):
     commands.run_toil(options)
 
     # Assert custom message is echoed in master log.
-    with open(outfile) as f:
+    with open(logfile.strpath) as f:
         assert len(f.read().split(message)) == total + 1
-
-
-@pytest.fixture
-def response():
-    """
-    Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    return 10
-
-
-def test_fixture(response):
-    """Sample test function with the pytest fixture as an argument."""
-    assert response == 10
