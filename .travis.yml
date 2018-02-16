@@ -6,6 +6,11 @@ cache:
 
 install:
   - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
+  - pip install -U tox-travis
+
+python:
+  - 2.7
+  - 3.6
 
 script:
   - pytest -s tests
