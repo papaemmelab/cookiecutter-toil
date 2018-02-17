@@ -2,7 +2,7 @@ language: python
 
 cache:
   pip: true
-  directories: $TRAVIS_BUILD_DIR/.tox
+  directories: "$TRAVIS_BUILD_DIR/.tox"
 
 install:
   - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
@@ -10,20 +10,28 @@ install:
 
 matrix:
   include:
-    - python: 2.7
-    - python: 3.6
-      env: SKIP_TOIL_TEST=true
+  - python: 2.7
+    env: DEPLOY_TOIL_EXAMPLE=true
+  - python: 3.6
+    env: SKIP_TOIL_TEST=true
 
 script:
   - pytest -s tests
+
+after_success:
+  - bash $TRAVIS_BUILD_DIR/.travis/deploy_toil_example.sh
 
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: leukgen
   password:
-    secure: fnnV7uAyom7OIqsL3kDKHGi3ONO/Pxp4RRtn8ypkGZegYKskroMNC1nbMoSVlR3c6MAlMbUX2HHVKtXaKaVM7uiL/CmSG0BS7Cdb3cuaMQOuaXqwvuqkqaiDHYidrcQ5AFMmD/QZVLwgLRejPMQZ91UU2DYg+SEfNfqk7OmdLiC74MWKJth0fY+5ZtwtE5ecKNc0l6grJun9YvrZ+EVl98HcuMdA7DLQ9rR7EUefGU50bVCrAJfb4SZoU0kaiOfx9cTH5z2txqOCj9kxsn+yVvukN59TXhOu7xip8ALIUlIaARydsOly4/sAJgdfkEuCSUjtmOD46QetMaSngaNVwhxZz9AwbeO06GfwOthB+NjPvHN15Pj8lTEBLoowjVPRH+81OJkhk6x+yyqIHt+kJbrj1UjJAl7yFAiTynZ//5bwjM921x8POfL0Kunsm0plccg5DFNUru58VUTyHJqXcx+RF2j3I3KU1D0+bTtQFR2Le+xcbaqpYfhA5M82GlUvFHa2co2IrELiS3HJyphQNCr2vrRNOcw+c16XOhShBpy2cd1SbHgx4HvtIHDFgly9uUHHEf9g1QDletg/ODWEisk6b7APwjqtOsH+RvFmVln7QakE1v0K4ZwkjrRa2JdP/p/X4rU0IL56Gprnkb+wjIEg1VcT5e7VpAdbcVmR5Fk=
+    secure: i3NT2YPez9Htah8k54jrVjCEL+bgFpGG9lRfGbIKoE2WBYeW28k11S9mu7BzAjGO8egFIIciksbat6KxiD1yITxBwkm9ptj41TICWzITM1lsIZttIeVMPd3olNGWfudALXsRqZ2nKoZuj+DpOIPaUkiIGN8nWSR6Byuw9BW8Y3rVVfii1gvVCUnLDfrGc2PNbt+Gg/HgMahg8odkihcPMvxiLx2+Uk6O0w/cfbmuZNdWEZrbFAr8cMLoqLXmZt9hJqONgaHrKlirH69C3MlNdppADVpJM6CTLgdsT4YDuRox+o2EMBziC9fqM4ohv+9qz8rK8Kir2P/Qj8QkkubqK/wHLSgmTXHHueE7K0dlMlj51p777dJjSEzxWi8Wnl+qVGi971LnvG8ygzwWb1+4x6SdsSSCdbLEVnefp1N2Pvl2gruPX+zytCsbaqXJD0V/2xV/b+fPVaD1td8dBGsAfLh00lttOpR3MwTAF5WFsiQCKq3D6RVbn0Aeeu+CYOBCarEqx0To/ydqPe36FKPLyyzAfnCfEMjQNvMzsFKy9Y0YHIV+dKMoW0oFYqRY9RGp4K0vp65PDOWNQZkGKDN592LIBwTR8cxoQpuax6FfqcxDGEUSsFdN6T+SJskZFO/bK3xpJyhWHlg1xrfdwH+iwXDswEAzUtat3auDcv0Htko=
   on:
     tags: true
     repo: leukgen/cookiecutter-toil
     branch: master
+
+env:
+  global:
+    secure: uzWd7bdnaSw5q8r7s5iS/OWPJXHGNgM7FuISux+/SlpLU0E7g+boJo9/IlwrnjDirczw9hOHP6ndGussJEjxLTNfSZ5yqO6JmQW3P4yE3N6tByg32WPsLaEvmRx71tDPBWV3kylQC1Wnw8Lc0MIsPnKU1fTWI/LpD+SGzBNGxpEI2telboILmayVOez1v/E/8Uxx2+CjKT30XKKZvKlyflOrP1K8+QrHbu8G075M+/mwLHk4NFfRB0b2GJR6dZyre0+RSHRaK2ibGwXQlYKyx23qjeP++1w2Q3Sbatau8d1KA4jrlPw6Jyv7OEyfInAIMBOW2G59BfJW8jvqtUFrLs9224aeAWSMGub243l3BRMdZEXx8OLltcclDBPgO+W6SeU4Wm4gIS4lInwdNDnkaLpolsd09JUHqX1StEh28FqAt3QmIcW+sq8YWBS9i87VeUrnpzIWVLYby5dhFN15twhuV1oFcPHWVbmiBbPwhIzASadTnU0UPE6j6Y1De78Qe55pvGv9FGVR4T8wytWxIoxSQY/1HBGB6+b1fmKHnY9e+MH+BrFaxpF45k1im1BlzEEG9dDvNk4bQjIWrM6sYkFDrsqLvC1kMyRG83Hz/dJLVXpo/ese8KDZ/4Gmo+kreRqWMC1Kw2nwAXr+U27gg0y6+2i1ys2cxv3lu+M0MxY=

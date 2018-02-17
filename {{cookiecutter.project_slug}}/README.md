@@ -4,7 +4,7 @@
 [![travis badge][travis_badge]][travis_base]
 [![codecov badge][codecov_badge]][codecov_base]
 
-An awesome pipeline called {{cookiecutter.project_slug}}.
+{{cookiecutter.project_description}}
 
 # Features
 

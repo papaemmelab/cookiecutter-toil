@@ -69,8 +69,9 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 
 * 🌀 &nbsp; **Continuous Integration**
 
-    [Travis CI] configuration with automatic deployment to `PyPi` with tags on `master`. To encrypt your `PyPi` password replace the field `deploy.password` in the `.travis.yml` configuration file and run:
+    [Travis CI] configuration with automatic deployment to `PyPi` with tags on `master`. To encrypt your `PyPi` password simply run:
 
+        # you need travis (e.g. brew install travis)
         travis encrypt --add deploy.password
 
     Check out this [tutorial][travis_deploy] if you want to learn more about deployment.
