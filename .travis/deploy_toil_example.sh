@@ -12,7 +12,7 @@ then
     git clone $DEPLOY_REPO_URL $DEPLOY_REPO_DIR
 
     echo "checking out to current branch: $DEPLOY_REPO_BRA"
-    cd $DEPLOY_REPO_DIR && git check_out -b $DEPLOY_REPO_BRA
+    cd $DEPLOY_REPO_DIR && git checkout -b $DEPLOY_REPO_BRA
 
     echo "temporarily moving git directory out of repo..."
     mv $DEPLOY_REPO_DIR/.git $DEPLOY_BASE_DIR
@@ -25,8 +25,8 @@ then
     mv $DEPLOY_BASE_DIR/.git $DEPLOY_REPO_DIR
     cd $DEPLOY_REPO_DIR && git add .
 
-    echo "pushing changes..."
-    git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
+    echo "pushing changes: 🤖 travis build $TRAVIS_BUILD_NUMBER..."
+    git commit --message "🤖 travis build $TRAVIS_BUILD_NUMBER"
     git push -u origin $DEPLOY_REPO_BRA
 else
     echo "DEPLOY_TOIL_EXAMPLE not set to true, skipping..."
