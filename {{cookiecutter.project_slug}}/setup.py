@@ -23,7 +23,7 @@ setup(
     version=VERSION,
 
     # in combination with recursive-includes in MANIFEST.in, non-python files
-    # within the {{cookiecutter.project_slug}} will be copied into the
+    # included inside the {{cookiecutter.project_slug}} will be copied to the
     # site-packages and wheels installation directories
     include_package_data=True,
 
