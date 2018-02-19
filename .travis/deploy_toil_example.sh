@@ -5,6 +5,7 @@ fi
 
 DEPLOY_REPO_URL=https://${GH_TOKEN}@github.com/leukgen/toil_example.git
 DEPLOY_BASE_DIR=/tmp/toil_example_deploy
+DEPLOY_TEMP_DIR=/tmp/toil_example_deploy/_toil_example
 DEPLOY_REPO_DIR=/tmp/toil_example_deploy/toil_example
 DEPLOY_REPO_BRA=${TRAVIS_PULL_REQUEST_BRANCH:="$TRAVIS_BRANCH"}
 
@@ -17,16 +18,13 @@ if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
 
     echo "checking out to current branch: $DEPLOY_REPO_BRA"
     cd $DEPLOY_REPO_DIR && git checkout -b $DEPLOY_REPO_BRA
-
-    echo "temporarily moving git directory out of repo..."
-    mv $DEPLOY_REPO_DIR/.git $DEPLOY_BASE_DIR
-
+    
     echo "force creating cookiecutter..."
-    cd $DEPLOY_BASE_DIR && mv $DEPLOY_REPO_DIR $DEPLOY_BASE_DIR/old
-    cookiecutter $TRAVIS_BUILD_DIR --no-input -f -o $DEPLOY_BASE_DIR
+    cd $DEPLOY_BASE_DIR && mv $DEPLOY_REPO_DIR $DEPLOY_TEMP_DIR
+    cookiecutter $TRAVIS_BUILD_DIR --no-input -o $DEPLOY_BASE_DIR
 
     echo "moving back .git directory to repo..."
-    mv $DEPLOY_BASE_DIR/.git $DEPLOY_REPO_DIR
+    mv $DEPLOY_TEMP_DIR/.git $DEPLOY_REPO_DIR
     cd $DEPLOY_REPO_DIR && git add .
 
     echo "pushing changes: 🤖 travis build $TRAVIS_BUILD_NUMBER..."
