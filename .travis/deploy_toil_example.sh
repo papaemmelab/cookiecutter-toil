@@ -17,7 +17,7 @@ if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
     git clone $DEPLOY_REPO_URL $DEPLOY_REPO_DIR
 
     echo "checking out to current branch: $DEPLOY_REPO_BRA"
-    cd $DEPLOY_REPO_DIR && git checkout -b $DEPLOY_REPO_BRA
+    cd $DEPLOY_REPO_DIR && git checkout -B $DEPLOY_REPO_BRA
     
     echo "force creating cookiecutter..."
     cd $DEPLOY_BASE_DIR && mv $DEPLOY_REPO_DIR $DEPLOY_TEMP_DIR
@@ -29,7 +29,7 @@ if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
 
     echo "pushing changes: 🤖 travis build $TRAVIS_BUILD_NUMBER..."
     git commit --message "🤖 travis build $TRAVIS_BUILD_NUMBER"
-    git push -u origin $DEPLOY_REPO_BRA
+    git push -u --force origin $DEPLOY_REPO_BRA
 else
     echo "DEPLOY_TOIL_EXAMPLE not set to true, skipping..."
 fi
