@@ -22,7 +22,7 @@ if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
     mv $DEPLOY_REPO_DIR/.git $DEPLOY_BASE_DIR
 
     echo "force creating cookiecutter..."
-    cd $DEPLOY_BASE_DIR
+    cd $DEPLOY_BASE_DIR && mv $DEPLOY_REPO_DIR $DEPLOY_BASE_DIR/old
     cookiecutter $TRAVIS_BUILD_DIR --no-input -f -o $DEPLOY_BASE_DIR
 
     echo "moving back .git directory to repo..."
