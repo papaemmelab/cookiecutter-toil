@@ -48,8 +48,8 @@ class HelloMessage(BaseJob):
 
 def run_toil(options):
     """Toil implementation for {{cookiecutter.project_slug}}."""
-    head = Hello(cores=4, memory="12G", options=options)
-    child = HelloMessage(cores=4, memory="12G", options=options)
+    head = Hello(cores=1, memory="1G", options=options)
+    child = HelloMessage(cores=1, memory="1G", options=options)
     head.addChild(child)
     ContainerCallJob.Runner.startToil(head, options)
 

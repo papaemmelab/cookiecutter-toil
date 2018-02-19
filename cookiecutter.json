@@ -1,9 +1,9 @@
 {
-    "full_name": "John Smith",
-    "email": "smithj@mskcc.org",
+    "full_name": "Juan S. Medina, Juan E. Arango",
+    "email": "medinaj@mskcc.org",
     "github_account": "leukgen",
     "cli_type": ["toil", "click"],
-    "project_name": "test_project",
+    "project_name": "toil_example",
     "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
-    "project_description": "An awesome python package."
+    "project_description": "A Command Line Interface created with [cookiecutter-toil](https://github.com/leukgen/cookiecutter-toil)."
 }

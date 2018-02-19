@@ -26,5 +26,6 @@
     ],
     "license": "BSD",
     "name": "cookiecutter-toil",
-    "url": "github.com/leukgen/cookiecutter-toil"
+    "long_description": "📘 learn more on `GitHub <https://github.com/leukgen/cookiecutter-toil>`_!",
+    "url": "https://github.com/leukgen/cookiecutter-toil"
 }

@@ -9,6 +9,12 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
     pip install cookiecutter-toil
     cookiecutter cookiecutter-toil
 
+# Live Example
+
+[![travis badge][example_travis_badge]][example_travis_base]
+[![codecov badge][example_codecov_badge]][example_codecov_base]
+
+Check out [toil_example], this project is updated automatically with every new commit on cookiecutter-toil.
 
 # Features
 
@@ -69,8 +75,9 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 
 * 🌀 &nbsp; **Continuous Integration**
 
-    [Travis CI] configuration with automatic deployment to `PyPi` with tags on `master`. To encrypt your `PyPi` password replace the field `deploy.password` in the `.travis.yml` configuration file and run:
+    [Travis CI] configuration with automatic deployment to `PyPi` with tags on `master`. To encrypt your `PyPi` password simply run:
 
+        # you need travis (e.g. brew install travis)
         travis encrypt --add deploy.password
 
     Check out this [tutorial][travis_deploy] if you want to learn more about deployment.
@@ -84,6 +91,7 @@ A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces 
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 
 <!-- References -->
+[toil_example]: https://github.com/leukgen/toil_example
 [`VERSION`]: https://packaging.python.org/guides/single-sourcing-package-version/
 [click]: http://click.pocoo.org/6/
 [covenant]: http://contributor-covenant.org/version/1/4/
@@ -107,3 +115,9 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 [pyup_base]: https://pyup.io/repos/github/leukgen/cookiecutter-toil/
 [travis_badge]: https://img.shields.io/travis/leukgen/cookiecutter-toil.svg
 [travis_base]: https://travis-ci.org/leukgen/cookiecutter-toil
+
+<!-- toil example badges -->
+[example_codecov_badge]: https://codecov.io/gh/leukgen/toil_example/branch/master/graph/badge.svg
+[example_codecov_base]: https://codecov.io/gh/leukgen/toil_example
+[example_travis_badge]: https://img.shields.io/travis/leukgen/toil_example.svg
+[example_travis_base]: https://travis-ci.org/leukgen/toil_example

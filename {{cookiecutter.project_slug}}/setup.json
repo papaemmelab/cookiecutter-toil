@@ -33,10 +33,11 @@
         ]
     },
     "author": "{{cookiecutter.full_name}}",
-    "description": "{{cookiecutter.project_description}}",
     "keywords": [],
     "license": "BSD",
     "name": "{{cookiecutter.project_slug}}",
     "test_suite": "tests",
+    "long_description": "📘 learn more on `GitHub <https://github.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}>`_!",
+    "description": "{{cookiecutter.project_description}}",
     "url": "https://github.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}"
 }
