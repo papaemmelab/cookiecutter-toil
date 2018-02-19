@@ -11,7 +11,7 @@ install:
 matrix:
   include:
   - python: 2.7
-    env: DEPLOY_TOIL_EXAMPLE=true
+    env: DEPLOY_TOIL_EXAMPLE=true DEPLOY_PYPI=true
   - python: 3.6
     env: SKIP_TOIL_TEST=true
 
@@ -31,6 +31,7 @@ deploy:
     tags: true
     repo: leukgen/cookiecutter-toil
     branch: master
+    condition: $DEPLOY_PYPI=true
 
 env:
   global:
