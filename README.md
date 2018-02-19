@@ -116,7 +116,6 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 [travis_badge]: https://img.shields.io/travis/leukgen/cookiecutter-toil.svg
 [travis_base]: https://travis-ci.org/leukgen/cookiecutter-toil
 
-
 <!-- toil example badges -->
 [example_codecov_badge]: https://codecov.io/gh/leukgen/toil_example/branch/master/graph/badge.svg
 [example_codecov_base]: https://codecov.io/gh/leukgen/toil_example

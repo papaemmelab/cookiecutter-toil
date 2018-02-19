@@ -8,19 +8,15 @@
 
 # Features
 
-* 📦 &nbsp; **Installation**
+* 📦 &nbsp; **Easy Installation**
 
-        # local
-        pip install --editable .
-
-        # pypi (if available)
         pip install {{cookiecutter.project_slug}}
 
-* 🍉 &nbsp; **Usage**
+* 🍉 &nbsp; **Usage Documentation**
 
         {{cookiecutter.project_slug}} --help
 
-* 🐳 &nbsp; **Container Usage**
+* 🐳 &nbsp; **Containers Support**
 
     Check our docker hub for {{cookiecutter.project_slug}} images. Alternatively clone this repo and build the image yourself.
 
@@ -44,9 +40,17 @@
 
 Contributions are welcome, and they are greatly appreciated, check our [contributing guidelines](CONTROBUTING.md)!
 
+# Credits
+
+This package was created using [Cookiecutter] and the
+[leukgen/cookiecutter-toil] project template.
+
+
 <!-- References -->
 [singularity]: http://singularity.lbl.gov/
 [docker2singularity]: https://github.com/singularityware/docker2singularity
+[cookiecutter]: https://github.com/audreyr/cookiecutter
+[leukgen/cookiecutter-toil]: https://github.com/leukgen/cookiecutter-toil
 
 <!-- Badges -->
 [codecov_badge]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg
