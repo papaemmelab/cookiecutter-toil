@@ -31,7 +31,7 @@ deploy:
     tags: true
     repo: leukgen/cookiecutter-toil
     branch: master
-    condition: $DEPLOY_PYPI=true
+    condition: $DEPLOY_PYPI = true
 
 env:
   global:
