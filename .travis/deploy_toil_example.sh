@@ -1,3 +1,8 @@
+if [ -z "$GH_TOKEN" ]; then
+    echo "No GH token available, skipping toil_example deployment..."
+    exit 0
+fi
+
 DEPLOY_REPO_URL=https://${GH_TOKEN}@github.com/leukgen/toil_example.git
 DEPLOY_BASE_DIR=/tmp/toil_example_deploy
 DEPLOY_REPO_DIR=/tmp/toil_example_deploy/toil_example
@@ -6,8 +11,7 @@ DEPLOY_REPO_BRA=${TRAVIS_PULL_REQUEST_BRANCH:="$TRAVIS_BRANCH"}
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 
-if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ];
-then
+if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
     mkdir $DEPLOY_BASE_DIR && cd $DEPLOY_BASE_DIR
     git clone $DEPLOY_REPO_URL $DEPLOY_REPO_DIR
 
