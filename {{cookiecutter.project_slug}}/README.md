@@ -6,7 +6,7 @@
 
 {{cookiecutter.project_description}}
 
-# Features
+## Features
 
 * 📦 &nbsp; **Easy Installation**
 
@@ -18,10 +18,8 @@
 
 * 🐳 &nbsp; **Containers Support**
 
-    Check our docker hub for {{cookiecutter.project_slug}} images. Alternatively clone this repo and build the image yourself.
-
         {% if cookiecutter.cli_type == "toil" %}{{cookiecutter.project_slug}}
-            --shared-fs <path to shared file system e.g. /ifs>
+            --volumes <path path> <container path>
             --docker {or --singularity} <image path or name>
             jobstore
         {% elif cookiecutter.cli_type == "click" %}# docker usage
@@ -36,15 +34,14 @@
 
     If you need to use [singularity], check [docker2singularity], and use `-m '/shared-fs-path /shared-fs-path'` to make sure your shared file system is mounted inside the singularity image.
 
-# Contributing
+## Contributing
 
 Contributions are welcome, and they are greatly appreciated, check our [contributing guidelines](CONTROBUTING.md)!
 
-# Credits
+## Credits
 
 This package was created using [Cookiecutter] and the
 [leukgen/cookiecutter-toil] project template.
-
 
 <!-- References -->
 [singularity]: http://singularity.lbl.gov/
