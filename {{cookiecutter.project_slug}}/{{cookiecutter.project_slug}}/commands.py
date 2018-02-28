@@ -29,7 +29,7 @@ class BaseJob(ContainerJob):
 class Hello(BaseJob):
 
     def run(self, fileStore):
-        """log the SHARED_VARIABLE to master."""
+        """Log the SHARED_VARIABLE to master."""
         fileStore.logToMaster(self.SHARED_VARIABLE)
 
 
