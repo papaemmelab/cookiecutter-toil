@@ -1,26 +1,27 @@
 # cookiecutter-toil
 
 [![pypi badge][pypi_badge]][pypi_base]
+[![gitter badge][gitter_badge]][gitter_base]
 [![travis badge][travis_badge]][travis_base]
 [![pyup badge][pyup_badge]][pyup_base]
 
-A [cookiecutter] for the creation of [toil] and [click] Command Line Interfaces (CLI).
+A [cookiecutter] for the creation of [toil] pipelines.
 
     pip install cookiecutter-toil
     cookiecutter cookiecutter-toil
 
-# Live Example
+## Live Example
 
 [![travis badge][example_travis_badge]][example_travis_base]
 [![codecov badge][example_codecov_badge]][example_codecov_base]
 
 Check out [toil_example], this project is updated automatically with every new commit on cookiecutter-toil.
 
-# Features
+## Features
 
 * 🐳 &nbsp; **Containerized System Calls**
 
-    The `commands.BaseJob` inherits from [`toil_container.ContainerCallJob`][toil_container], a Job class with two abstract methods `check_output` and ``check_call`` that will be executed with either Docker, Singularity or Python's subprocess. See `toil_container` [README][toil_container] to learn more.
+    The `commands.BaseJob` inherits from [`ContainerJob`][toil_container], a Job Class used to run commands with either Docker, Singularity or Python's subprocess. See [toil_container] to learn more.
 
     A `Dockerfile` example is included. If you use [singularity], the generated `README` will include information on how to generate a singularity image.
 
@@ -54,7 +55,6 @@ Check out [toil_example], this project is updated automatically with every new c
     | `.gitmessage`        | with issue types mapped to emojis! Like 🚀 for a new feature, or 🐛 for a fix |
     | `CODE_OF_CONDUCT.md` | A [covenant] code of conduct                                                  |
 
-
 * ✅ &nbsp; **Testing Suite**
 
     **[Pytest]**: python test examples are included, give them a try with:
@@ -86,7 +86,7 @@ Check out [toil_example], this project is updated automatically with every new c
 
     [Click] is an great package to seamlessly build CLI packages. Use `cli_type="click"` if you want to use the goodies of this cookiecutter but don't need the [toil] rocketry. By using this mode, some of the toil specific modules and tests will be removed.
 
-# Contributing
+## Contributing
 
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 
@@ -109,6 +109,8 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 [travis_deploy]: https://docs.travis-ci.com/user/deployment/pypi/
 
 <!-- Badges -->
+[gitter_badge]: https://badges.gitter.im/leukgen/cookiecutter-toil/Lobby.svg
+[gitter_base]: https://gitter.im/leukgen/cookiecutter-toil
 [pypi_badge]: https://img.shields.io/pypi/v/cookiecutter-toil.svg
 [pypi_base]: https://pypi.python.org/pypi/cookiecutter-toil
 [pyup_badge]: https://pyup.io/repos/github/leukgen/cookiecutter-toil/shield.svg

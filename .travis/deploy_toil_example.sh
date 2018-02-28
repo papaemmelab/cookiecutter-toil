@@ -18,7 +18,7 @@ if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then
 
     echo "checking out to current branch: $DEPLOY_REPO_BRA"
     cd $DEPLOY_REPO_DIR && git checkout -B $DEPLOY_REPO_BRA
-    
+
     echo "force creating cookiecutter..."
     cd $DEPLOY_BASE_DIR && mv $DEPLOY_REPO_DIR $DEPLOY_TEMP_DIR
     cookiecutter $TRAVIS_BUILD_DIR --no-input -o $DEPLOY_BASE_DIR

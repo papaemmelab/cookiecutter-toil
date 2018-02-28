@@ -2,23 +2,22 @@
 
 import subprocess
 
-from toil_container import ContainerCallJob
-from toil_container import ContainerShortArgumentParser
+from toil_container import ContainerArgumentParser
+from toil_container import ContainerJob
 
 from {{cookiecutter.project_slug}} import __version__
 
 
-class BaseJob(ContainerCallJob):
+class BaseJob(ContainerJob):
 
     """
-    A job base class that inherits from `ContainerCallJob`.
+    A job base class that inherits from `ContainerJob`.
 
-    This class provides, abstract methods `check_call` and `check_output` which
-    will use `docker`, `singularity` or `subprocess` to execute system calls.
+    Use `self.call` to run commands with docker, singularity or subprocess.
+    Learn more here https://github.com/leukgen/toil_container.
 
     Arguments:
-        options (argparse.Namespace): an `argparse.Namespace` with pipeline
-            options obtained with `ContainerShortArgumentParser`.
+        options (argparse.Namespace): `ContainerArgumentParser` namespace.
 
     Attributes:
         options (argparse.Namespace): `options` is set as an object attribute.
@@ -29,20 +28,16 @@ class BaseJob(ContainerCallJob):
 
 class Hello(BaseJob):
 
-    """A simple job to log the SHARED_VARIABLE to master."""
-
     def run(self, fileStore):
-        """Say hello to the world."""
+        """Log the SHARED_VARIABLE to master."""
         fileStore.logToMaster(self.SHARED_VARIABLE)
 
 
 class HelloMessage(BaseJob):
 
-    """A simple job to log a custom message to master."""
-
     def run(self, fileStore):
         """Run `echo` with docker, singularity or subprocess."""
-        output = self.check_output(["echo", self.options.message])
+        output = self.call(["echo", self.options.message], check_output=True)
         fileStore.logToMaster(output)
 
 
@@ -51,12 +46,12 @@ def run_toil(options):
     head = Hello(cores=1, memory="1G", options=options)
     child = HelloMessage(cores=1, memory="1G", options=options)
     head.addChild(child)
-    ContainerCallJob.Runner.startToil(head, options)
+    ContainerJob.Runner.startToil(head, options)
 
 
 def get_parser():
     """Get pipeline configuration using toil's."""
-    parser = ContainerShortArgumentParser(
+    parser = ContainerArgumentParser(
         version=__version__,
         description="{{cookiecutter.project_slug}} pipeline",
         )
