@@ -17,7 +17,7 @@ with open(join(ROOT, "setup.json"), "r") as f:
 
 setup(
     # the version is only defined in one place
-    version="0.1.1",
+    version="0.1.2",
 
     # in combination with recursive-includes in MANIFEST.in, non-python files
     # included inside the {{cookiecutter.project_slug}} will be copied to the
