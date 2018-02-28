@@ -19,7 +19,7 @@
 * 🐳 &nbsp; **Containers Support**
 
         {% if cookiecutter.cli_type == "toil" %}{{cookiecutter.project_slug}}
-            --volumes <path path> <container path>
+            --volumes <local path> <container path>
             --docker {or --singularity} <image path or name>
             jobstore
         {% elif cookiecutter.cli_type == "click" %}# docker usage
