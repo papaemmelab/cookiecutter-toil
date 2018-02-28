@@ -16,9 +16,6 @@ class BaseJob(ContainerJob):
     Use `self.call` to run commands with docker, singularity or subprocess.
     Learn more here https://github.com/leukgen/toil_container.
 
-    Arguments:
-        options (argparse.Namespace): `ContainerArgumentParser` namespace.
-
     Attributes:
         options (argparse.Namespace): `options` is set as an object attribute.
     """
