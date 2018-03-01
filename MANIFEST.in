@@ -2,8 +2,6 @@ global-exclude *.dylib
 global-exclude *.py[cod]
 global-exclude *.so
 global-exclude __pycache__
-include VERSION
-recursive-include {{cookiecutter.project_slug}} *
 
 # This is required for source distributions
 include setup.json

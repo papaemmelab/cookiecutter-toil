@@ -8,7 +8,7 @@ import json
 from setuptools import find_packages
 from setuptools import setup
 
-
+# make sure we use absolute paths
 ROOT = abspath(dirname(__file__))
 
 # please put setup keywords in the setup.json to keep this file clean
