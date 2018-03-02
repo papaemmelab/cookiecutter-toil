@@ -32,11 +32,9 @@
             {{cookiecutter.project_slug}}-singularity-image-path
             [{{cookiecutter.project_slug}} options]{% endif %}
 
-    If you need to use [singularity], check [docker2singularity], and use `-m '/shared-fs-path /shared-fs-path'` to make sure your shared file system is mounted inside the singularity image.
-
 ## Contributing
 
-Contributions are welcome, and they are greatly appreciated, check our [contributing guidelines](CONTROBUTING.md)!
+Contributions are welcome, and they are greatly appreciated, check our [contributing guidelines](.github/CONTRIBUTING.md)!
 
 ## Credits
 

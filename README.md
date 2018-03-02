@@ -47,13 +47,12 @@ Check out [toil_example], this project is updated automatically with every new c
 
 * 🚧 &nbsp; **Contributing Features**
 
-    | File                 | Description                                                                   |
-    | -------------------- | ----------------------------------------------------------------------------- |
-    | `README.md`          | with some example sections                                                    |
-    | `CONTRIBUTING.md`    | with full steps on how to properly contribute with your project               |
-    | `.gitignore`         | with well curated python ignore patterns                                      |
-    | `.gitmessage`        | with issue types mapped to emojis! Like 🚀 for a new feature, or 🐛 for a fix |
-    | `CODE_OF_CONDUCT.md` | A [covenant] code of conduct                                                  |
+    | File          | Description                                                                   |
+    | ------------- | ----------------------------------------------------------------------------- |
+    | `README.md`   | with some example sections                                                    |
+    | `.gitignore`  | with well curated python ignore patterns                                      |
+    | `.gitmessage` | with issue types mapped to emojis! Like 🚀 for a new feature, or 🐛 for a fix |
+    | `.github`     | Contributing guidelines, code of conduct, issue and PR templates              |
 
 * ✅ &nbsp; **Testing Suite**
 
@@ -61,7 +60,7 @@ Check out [toil_example], this project is updated automatically with every new c
 
         py.test tests
 
-    **[Pylint]**: Google style linting configuration is included with the `.pylintrc`. Additionally, Docstrings conventions are tested with [pydocstyle] and are defined in `.pydocstylerc`.
+    **[Pylint]**: Google style linting configuration is included with the [`.pylintrc`]. Additionally, Docstrings conventions are tested with [pydocstyle] and are defined in [`.pydocstylerc`].
 
         # check linting conventions
         pylint --rcfile={your_project_dir}/.pylintrc {your_project}
@@ -88,14 +87,15 @@ Check out [toil_example], this project is updated automatically with every new c
 
 ## Contributing
 
-Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
+Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) in this repository!
 
 <!-- References -->
-[toil_example]: https://github.com/leukgen/toil_example
+[`.pydocstylerc`]: .pydocstylerc
+[`.pylintrc`]: .pylintrc
 [`VERSION`]: https://packaging.python.org/guides/single-sourcing-package-version/
 [click]: http://click.pocoo.org/6/
-[covenant]: http://contributor-covenant.org/version/1/4/
 [cookiecutter]: https://github.com/audreyr/cookiecutter
+[covenant]: http://contributor-covenant.org/version/1/4/
 [coverage]: https://coverage.readthedocs.io
 [pydocstyle]: http://www.pydocstyle.org/en
 [pylint]: https://www.pylint.org/
@@ -103,6 +103,7 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) in this repository!
 [pytest]: https://docs.pytest.org/en/latest/
 [singularity]: http://singularity.lbl.gov/
 [toil_container]: https://github.com/leukgen/toil_container
+[toil_example]: https://github.com/leukgen/toil_example
 [toil]: http://toil.readthedocs.io/
 [tox]: http://tox.readthedocs.io/
 [travis ci]: https://travis-ci.org/
