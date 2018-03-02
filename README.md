@@ -90,8 +90,8 @@ Check out [toil_example], this project is updated automatically with every new c
 Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) in this repository!
 
 <!-- References -->
-[`.pydocstylerc`]: .pydocstylerc
-[`.pylintrc`]: .pylintrc
+[`.pydocstylerc`]: {{cookiecutter.project_slug}}/.pydocstylerc
+[`.pylintrc`]: {{cookiecutter.project_slug}}/.pylintrc
 [`VERSION`]: https://packaging.python.org/guides/single-sourcing-package-version/
 [click]: http://click.pocoo.org/6/
 [cookiecutter]: https://github.com/audreyr/cookiecutter
