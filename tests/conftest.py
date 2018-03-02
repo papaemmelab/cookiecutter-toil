@@ -1,7 +1,5 @@
 """Add custom options to py.test."""
 
-import pytest
-
 
 def pytest_addoption(parser):
     """Add option to recreate tox environments."""
@@ -36,7 +34,5 @@ def pytest_addoption(parser):
         "--tox-envlist",
         default=None,
         type=str,
-        help=(
-            "List of tox environments (by default no list is passed)."
-        ),
+        help="List of tox environments (by default no list is passed)."
     )
