@@ -23,7 +23,7 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: {% if cookiecutter.github_account == 'leukgen' %}leukgen{% else %}<REPLACE>{% endif %}
-  password: <REPLACE THIS AND RUN `travis encrypt --add deploy.password`>
+  password: <TO REPLACE THIS RUN `travis encrypt --add deploy.password`>
   on:
     tags: true
     repo: {{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
