@@ -60,7 +60,7 @@ Follow these steps for local development:
 
     If you are suggesting a new version make sure you are following the [semantic versioning] guidelines and then update the [`VERSION`] file:
 
-        git add {{cookiecutter.github_account}}/VERSION
+        git add {{cookiecutter.project_slug}}/VERSION
         git commit -m ":gem: bump to version 0.1.0"
 
 1. Submit a [pull request] through the GitHub website.
