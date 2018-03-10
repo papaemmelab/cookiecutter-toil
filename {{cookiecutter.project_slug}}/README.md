@@ -3,6 +3,8 @@
 [![pypi badge][pypi_badge]][pypi_base]
 [![travis badge][travis_badge]][travis_base]
 [![codecov badge][codecov_badge]][codecov_base]
+[![docker badge][docker_badge]][docker_base]
+[![docker badge][automated_badge]][docker_base]
 
 {{cookiecutter.project_description}}
 
@@ -48,6 +50,9 @@ This package was created using [Cookiecutter] and the
 [leukgen/cookiecutter-toil]: https://github.com/leukgen/cookiecutter-toil
 
 <!-- Badges -->
+[docker_base]: https://hub.docker.com/r/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+[docker_badge]: https://img.shields.io/docker/build/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
+[automated_badge]: https://img.shields.io/docker/automated/leukgen/{{cookiecutter.project_slug}}.svg
 [codecov_badge]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg
 [codecov_base]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
 [pypi_badge]: https://img.shields.io/pypi/v/{{cookiecutter.project_slug}}.svg
