@@ -35,16 +35,14 @@
         toil_cnvkit [TOIL-OPTIONS] [PIPELINE-OPTIONS]
             --singularity docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
             --volumes <local path> <container path>
-            --batchSystem LSF
-
-{% elif cookiecutter.cli_type == "click" %}Run with [containers][docker_base]:
+            --batchSystem LSF{% elif cookiecutter.cli_type == "click" %}Run with [containers][docker_base]:
 
         # docker usage
         docker run {{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help
 
         # singularity usage
-        singularity run docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help{% endif %}
-
+        singularity run docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help
+{% endif %}
 See [docker2singularity] if you want to use a [singularity] image instead of using the `docker://` prefix.
 
 ## Contributing
