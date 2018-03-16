@@ -32,6 +32,10 @@ Set up for local development:
 
         py.test tests -s --tox-recreate
 
+    If you need to test the docker container, run:
+
+        py.test tests -s --test-container
+
 1. Commit your changes and push your branch to GitHub (see our [`.gitmessage`] template):
 
         git add .
