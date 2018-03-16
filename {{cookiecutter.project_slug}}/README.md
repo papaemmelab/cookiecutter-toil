@@ -23,16 +23,16 @@
 1. Installing the python package from [pypi][pypi_base] and passing the container as a flag:
 
         # install package
-        pip install toil_cnvkit
+        pip install {{cookiecutter.project_slug}}
 
         # run with docker
-        toil_cnvkit [TOIL-OPTIONS] [PIPELINE-OPTIONS]
+        {{cookiecutter.project_slug}} [TOIL-OPTIONS] [PIPELINE-OPTIONS]
             --docker {{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
             --volumes <local path> <container path>
             --batchSystem LSF
 
         # run with singularity
-        toil_cnvkit [TOIL-OPTIONS] [PIPELINE-OPTIONS]
+        {{cookiecutter.project_slug}} [TOIL-OPTIONS] [PIPELINE-OPTIONS]
             --singularity docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
             --volumes <local path> <container path>
             --batchSystem LSF{% elif cookiecutter.cli_type == "click" %}Run with [containers][docker_base]:
