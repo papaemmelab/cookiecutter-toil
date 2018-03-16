@@ -1,23 +1,19 @@
 language: python
 
-sudo: false
-
-cache:
-  pip: true
-
 python:
-  - {% if cookiecutter.cli_type == 'toil' %}2.7{% else %}3.6{% endif %}
+  - 3.6
 
 services:
   - docker
 
 install:
-  - pip install -U tox-travis codecov
+  - pip install -U codecov
 
-script: tox
+script:
+  - bash test-container.sh
 
 after_success:
-  - codecov --disable search
+  - codecov
 
 deploy:
   provider: pypi

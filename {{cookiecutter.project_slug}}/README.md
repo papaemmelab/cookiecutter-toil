@@ -8,31 +8,44 @@
 
 {{cookiecutter.project_description}}
 
-## Features
+## Usage
 
-* 📦 &nbsp; **Easy Installation**
+{% if cookiecutter.cli_type == "toil" %}This package uses docker to manage its dependencies, there are 2 ways of using it:
 
-        pip install {{cookiecutter.project_slug}}
+1. Running the [container][docker_base] in single machine mode without [`--batchSystem`] support:
 
-* 🍉 &nbsp; **Usage Documentation**
+        # using docker
+        docker run -it {{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help
 
-        {{cookiecutter.project_slug}} --help
+        # using singularity
+        singularity run docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help
 
-* 🐳 &nbsp; **Containers Support**
+1. Installing the python package from [pypi][pypi_base] and passing the container as a flag:
 
-        {% if cookiecutter.cli_type == "toil" %}{{cookiecutter.project_slug}}
+        # install package
+        pip install toil_cnvkit
+
+        # run with docker
+        toil_cnvkit [TOIL-OPTIONS] [PIPELINE-OPTIONS]
+            --docker {{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
             --volumes <local path> <container path>
-            --docker {or --singularity} <image path or name>
-            jobstore
-        {% elif cookiecutter.cli_type == "click" %}# docker usage
-        docker run --volume /shared_fs:/shared_fs --interactive --tty \
-            {{cookiecutter.project_slug}}-image
-            [{{cookiecutter.project_slug}} options]
+            --batchSystem LSF
+
+        # run with singularity
+        toil_cnvkit [TOIL-OPTIONS] [PIPELINE-OPTIONS]
+            --singularity docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+            --volumes <local path> <container path>
+            --batchSystem LSF
+
+{% elif cookiecutter.cli_type == "click" %}Run with [containers][docker_base]:
+
+        # docker usage
+        docker run {{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help
 
         # singularity usage
-        singularity run --workdir /shared_fs/tmp --bind /shared_fs:/shared_fs \
-            {{cookiecutter.project_slug}}-singularity-image-path
-            [{{cookiecutter.project_slug}} options]{% endif %}
+        singularity run docker://{{cookiecutter.github_account}}/{{cookiecutter.project_slug}} --help{% endif %}
+
+See [docker2singularity] if you want to use a [singularity] image instead of using the `docker://` prefix.
 
 ## Contributing
 
@@ -48,6 +61,7 @@ This package was created using [Cookiecutter] and the
 [docker2singularity]: https://github.com/singularityware/docker2singularity
 [cookiecutter]: https://github.com/audreyr/cookiecutter
 [leukgen/cookiecutter-toil]: https://github.com/leukgen/cookiecutter-toil
+[`--batchSystem`]: http://toil.readthedocs.io/en/latest/developingWorkflows/batchSystem.html?highlight=BatchSystem
 
 <!-- Badges -->
 [docker_base]: https://hub.docker.com/r/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}

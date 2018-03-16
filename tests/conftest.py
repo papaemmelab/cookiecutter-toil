@@ -14,25 +14,21 @@ def pytest_addoption(parser):
         "--tox-develop",
         action="store_true",
         default=False,
-        help=(
-            "Run tox with --develop for click and toil modes (tests will run "
-            "much faster!)."
-            ),
+        help="Run tox with --develop for click and toil modes (tests will run "
+        "much faster!)."
         )
 
     parser.addoption(
         "--tox-pytest-args",
         default=None,
         type=str,
-        help=(
-            "Parameters to be passed to pytest inside tox "
-            "(e.g. -s /tests/test_commands)."
-            ),
+        help="Parameters to be passed to pytest inside tox "
+        "(e.g. -s /tests/test_commands)."
         )
 
     parser.addoption(
-        "--tox-envlist",
-        default=None,
-        type=str,
-        help="List of tox environments (by default no list is passed)."
-    )
+        "--test-container",
+        action="store_true",
+        default=False,
+        help="Run tox inside the project container."
+        )

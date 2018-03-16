@@ -1,4 +1,4 @@
-"""={{cookiecutter.project_slug}} cli tests."""
+"""{{cookiecutter.project_slug}} cli tests."""
 {% if cookiecutter.cli_type == "toil" %}
 from os.path import join
 
