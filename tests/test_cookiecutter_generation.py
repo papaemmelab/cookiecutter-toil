@@ -85,7 +85,7 @@ def tox(cli_type, cookies, request):
     subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 
     # test that package works inside the container
-    if request.config.getoption("--tox-container", None):
+    if request.config.getoption("--test-container", None):
         cmd = ["bash", "test-container.sh"]
         subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 

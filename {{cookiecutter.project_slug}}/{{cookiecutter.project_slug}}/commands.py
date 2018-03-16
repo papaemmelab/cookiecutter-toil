@@ -100,7 +100,3 @@ def main():
     options = get_parser().parse_args()
     options = process_parsed_options(options=options)
     run_toil(options=options)
-
-
-if __name__ == "__main__":
-    main()
