@@ -19,7 +19,7 @@ matrix:
     env: SKIP_TOIL_TEST=true
 
 script:
-  - pytest -sv tests --test-container
+  - pytest -vv tests --test-container
 
 after_success:
   - bash $TRAVIS_BUILD_DIR/.travis/deploy_toil_example.sh

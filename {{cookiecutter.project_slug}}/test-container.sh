@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Run tox inside the container.
+echo "testing container..."
 
 if [ "$1" = "--skip-build" ]; then
     echo "skipping build..."
@@ -20,7 +21,7 @@ find . -name '__pycache__' -exec rm -rf {} +
 echo "testing docker image..."
 docker run --rm test-image --version
 docker run --rm --entrypoint "" -v `pwd`:/test -w /test \
-    test-image bash -c "pip install tox > /dev/null 2>&1 && tox"
+    test-image bash -c "cp -r /test /tmp && cd /tmp/test/ && pip install tox > /dev/null 2>&1 && tox && cp .coverage /test"
 
 # move container coverage paths to local, see .coveragerc [paths] and this comment:
 # https://github.com/pytest-dev/pytest-cov/issues/146#issuecomment-272971136
