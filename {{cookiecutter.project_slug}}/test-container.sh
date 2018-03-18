@@ -13,8 +13,8 @@ fi
 set -euxo pipefail
 
 # remove pytest cache
-find . -name "*.pyc" -exec rm {} +
-find . -name "__pycache__" -d -exec rm -rf {} +
+find . -name '*.pyc' -exec rm {} +
+find . -name '__pycache__' -exec rm -rf {} +
 
 # test image
 docker run --rm test-image --version
