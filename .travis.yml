@@ -4,6 +4,9 @@ cache:
   pip: true
   directories: "$TRAVIS_BUILD_DIR/.tox"
 
+services:
+  - docker
+
 install:
   - pip install -U -r requirements.txt
   - pip install -U tox-travis
