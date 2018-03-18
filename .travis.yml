@@ -1,5 +1,9 @@
 language: python
 
+cache:
+  pip: true
+  directories: "$TRAVIS_BUILD_DIR/.tox"
+
 services:
   - docker
 

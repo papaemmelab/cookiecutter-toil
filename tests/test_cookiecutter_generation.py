@@ -12,13 +12,16 @@ from binaryornot.check import is_binary
 
 ROOT = abspath(join(dirname(__file__), ".."))
 
-CONTEXT = {
-    "full_name": "John Smith",
-    "email": "smithj@mskcc.org",
-    "github_account": "leukgen",
-    "project_slug": "test_project",
-    "project_description": "An awesome python package to be tested.",
-    }
+
+def get_context(cli_type="toil"):
+    return {
+        "full_name": "John Smith",
+        "email": "smithj@mskcc.org",
+        "github_account": "leukgen",
+        "project_slug": "test_project",
+        "project_description": "An awesome python package to be tested.",
+        "cli_type": cli_type,
+        }
 
 
 def build_files_list(root_dir):
@@ -45,10 +48,11 @@ def check_paths(paths):
 
 
 def test_default_configuration(cookies):
-    result = cookies.bake(extra_context=CONTEXT)
+    context = get_context()
+    result = cookies.bake(extra_context=context)
     assert result.exit_code == 0
     assert result.exception is None
-    assert result.project.basename == CONTEXT["project_slug"]
+    assert result.project.basename == context["project_slug"]
     assert result.project.isdir()
     paths = build_files_list(str(result.project))
     assert paths
@@ -66,8 +70,8 @@ def tox(cli_type, cookies, request):
         os.makedirs(toxdir)
 
     workdir = join(ROOT, ".tox", cli_type)
-    CONTEXT["cli_type"] = cli_type
-    result = cookies.bake(extra_context=CONTEXT)
+    context = get_context(cli_type=cli_type)
+    result = cookies.bake(extra_context=context)
     cmd = ["tox", "--workdir", workdir]
     env = os.environ
 
@@ -84,11 +88,6 @@ def tox(cli_type, cookies, request):
     # call tox!
     subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
 
-    # test that package works inside the container
-    if request.config.getoption("--test-container", None):
-        cmd = ["bash", "test-container.sh"]
-        subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
-
 
 @pytest.mark.skipif(
     os.getenv("SKIP_TOIL_TEST", "false").lower() == "true",
@@ -97,7 +96,18 @@ def test_toil_tox(cookies, request):
     """Test that generated toil project pass tests."""
     tox("toil", cookies, request)
 
+    # test that package works inside the container
+    if request.config.getoption("--test-container", None):
+        cmd = ["bash", "test-container.sh"]
+        result = cookies.bake(extra_context=get_context(cli_type="toil"))
+        subprocess.check_call(cmd, cwd=result.project.strpath)
 
 def test_click_tox(cookies, request):
     """Test that generated click project pass tests."""
     tox("click", cookies, request)
+
+    # test that package works inside the container
+    if request.config.getoption("--test-container", None):
+        cmd = ["bash", "test-container.sh"]
+        result = cookies.bake(extra_context=get_context(cli_type="click"))
+        subprocess.check_call(cmd, cwd=result.project.strpath)
