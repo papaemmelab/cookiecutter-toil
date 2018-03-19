@@ -20,8 +20,7 @@ from {{cookiecutter.project_slug}} import commands
 
 def main():
     """{{cookiecutter.project_slug}} main command."""
-    commands.main()
-{% elif cookiecutter.cli_type == "click" %}
+    commands.main(){% elif cookiecutter.cli_type == "click" %}
 import click
 
 from {{cookiecutter.project_slug}} import __version__
@@ -31,8 +30,4 @@ from {{cookiecutter.project_slug}} import __version__
 @click.version_option(version=__version__)
 def main(message):
     """Echo message and exit."""
-    click.echo(message)
-
-{% endif %}
-if __name__ == "__main__":
-    main()  # pylint: disable=no-value-for-parameter
+    click.echo(message){% endif %}

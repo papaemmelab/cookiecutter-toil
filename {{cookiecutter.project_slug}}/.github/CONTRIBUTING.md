@@ -38,6 +38,10 @@ Follow these steps for local development:
         pylint --rcfile=.pylintrc {{cookiecutter.project_slug}}
         pydocstyle --config=.pydocstylerc {{cookiecutter.project_slug}}
 
+1. Run tests inside the docker container:
+
+        bash test-container.sh
+
 1. Commit your changes and push your branch to GitHub (see our [`.gitmessage`] template):
 
         git add .
@@ -47,16 +51,16 @@ Follow these steps for local development:
 
     `emoji-name` should be one of the following:
 
-    | emoji | name             | type of change              |
-    | ----- | ---------------- | --------------------------- |
-    | 🚀    | rocket           | new feature                 |
-    | 🐛    | bug              | bug fix                     |
-    | 📝    | memo             | changes to documentation    |
-    | 🎨    | art              | formatting  no code change  |
-    | 🔧    | wrench           | refactoring production code |
-    | ✅    | white_check_mark | adding/editing test logic   |
-    | 👕    | shirt            | no production code change   |
-    | 💎    | gem              | bump to new version         |
+    | emoji | name                 | type of change              |
+    | ----- | -------------------- | --------------------------- |
+    | 🚀    | `:rocket:`           | new feature                 |
+    | 🐛    | `:bug:`              | bug fix                     |
+    | 📝    | `:memo:`             | changes to documentation    |
+    | 🎨    | `:art:`              | formatting  no code change  |
+    | 🔧    | `:wrench:`           | refactoring production code |
+    | ✅    | `:white_check_mark:` | adding/editing test logic   |
+    | 👕    | `:shirt:`            | no production code change   |
+    | 💎    | `:gem:`              | bump to new version         |
 
     If you are suggesting a new version make sure you are following the [semantic versioning] guidelines and then update the [`VERSION`] file:
 

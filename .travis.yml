@@ -1,11 +1,10 @@
 language: python
 
-cache:
-  pip: true
-  directories: "$TRAVIS_BUILD_DIR/.tox"
+services:
+  - docker
 
 install:
-  - cd $TRAVIS_BUILD_DIR && pip install -U -r requirements.txt
+  - pip install -U -r requirements.txt
   - pip install -U tox-travis
 
 matrix:
@@ -16,7 +15,7 @@ matrix:
     env: SKIP_TOIL_TEST=true
 
 script:
-  - pytest -s tests
+  - pytest -vv tests --test-container
 
 after_success:
   - bash $TRAVIS_BUILD_DIR/.travis/deploy_toil_example.sh

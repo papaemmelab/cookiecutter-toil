@@ -8,32 +8,27 @@ from toil_container import ContainerJob
 from {{cookiecutter.project_slug}} import __version__
 
 
-class BaseJob(ContainerJob):
-
-    """
-    A job base class that inherits from `ContainerJob`.
-
-    Use `self.call` to run commands with docker, singularity or subprocess.
-    Learn more here https://github.com/leukgen/toil_container.
-
-    Attributes:
-        options (argparse.Namespace): `options` is set as an object attribute.
-    """
-
-    SHARED_VARIABLE = "Hello World"
-
-
-class Hello(BaseJob):
+class Hello(ContainerJob):
 
     def run(self, fileStore):
-        """Log the SHARED_VARIABLE to master."""
-        fileStore.logToMaster(self.SHARED_VARIABLE)
+        """
+        Log value of `total` from the `options` attribute.
+
+        `ContainerJob` loads the argument `options` as an object attribute.
+        Learn more here https://github.com/leukgen/toil_container.
+        """
+        fileStore.logToMaster("The total is: %s" % self.options.total)
 
 
-class HelloMessage(BaseJob):
+class HelloMessage(ContainerJob):
 
     def run(self, fileStore):
-        """Run `echo` with docker, singularity or subprocess."""
+        """
+        Run `echo` with docker, singularity or subprocess.
+
+        Use `self.call` to run commands with docker, singularity or subprocess.
+        Learn more here https://github.com/leukgen/toil_container.
+        """
         output = self.call(["echo", self.options.message], check_output=True)
         fileStore.logToMaster(output)
 
@@ -90,7 +85,7 @@ def main():
 
     **Workflow**
 
-    1. Define Options `get_parser`: build an `arg_parse` object that
+    1. Define Options using `get_parser`: build an `arg_parse` object that
        includes both toil options and pipeline specific options. These will be
        separated in different sections of the `--help` text and used by the
        jobs to do the work.
@@ -105,7 +100,3 @@ def main():
     options = get_parser().parse_args()
     options = process_parsed_options(options=options)
     run_toil(options=options)
-
-
-if __name__ == "__main__":
-    main()

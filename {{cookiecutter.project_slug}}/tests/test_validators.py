@@ -24,29 +24,29 @@ def test_validate_patterns_are_files(tmpdir):
     none_existing = ["florentino", "ariza*"]
     none_file = [tmpdir_path]
 
-    # Check empty files exist.
+    # check empty files exist
     assert validators.validate_patterns_are_files(empty, check_size=False)
 
-    # Check files exist amd are not empty.
+    # check files exist amd are not empty
     assert validators.validate_patterns_are_files(not_empty, check_size=True)
 
-    # Check that empty files raise error with default setting.
+    # check that empty files raise error with default setting
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_files(empty)
 
-    # Check that empty files raise error with flag.
+    # check that empty files raise error with flag
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_files(empty, check_size=True)
 
-    # Check that pattern is not file.
+    # check that pattern is not file
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_files(none_file, check_size=True)
 
-    # Check that empty files raise error with flag.
+    # check that empty files raise error with flag
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_files(empty, check_size=True)
 
-    # Check that invalid patterns raise ValidationError error.
+    # check that invalid patterns raise validationerror error
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_files(none_existing, check_size=True)
 
@@ -58,17 +58,17 @@ def test_validate_patterns_are_dirs(tmpdir):
     existing_patterns = [tmpdir_path]
     none_existing_patterns = ["florentino", "ariza*"]
 
-    # Touch the file.
+    # touch the file
     with open(file_patterns[0], "w"):
         pass
 
-    # Check empty files exist.
+    # check empty files exist
     assert validators.validate_patterns_are_dirs(existing_patterns)
 
-    # Check that empty files raise error with default setting.
+    # check that empty files raise error with default setting
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_dirs(none_existing_patterns)
 
-    # Check that empty files raise error with flag.
+    # check that empty files raise error with flag
     with pytest.raises(exceptions.ValidationError):
         validators.validate_patterns_are_dirs(file_patterns)
