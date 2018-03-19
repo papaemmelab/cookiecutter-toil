@@ -28,5 +28,5 @@ VOLUME ${OUTPUT_DIR}
 COPY . /code
 RUN pip install /code && rm -rf /code
 
-# add entr point
+# add entry point
 ENTRYPOINT ["{{ cookiecutter.project_slug }}"]
