@@ -37,7 +37,7 @@ def get_parser():
     """Get pipeline configuration using toil's."""
     parser = ContainerArgumentParser(
         version=__version__,
-        description="{{cookiecutter.project_description}}",
+        description="A hello world toil pipeline.",
         )
 
     settings = parser.add_argument_group("pipeline arguments")
