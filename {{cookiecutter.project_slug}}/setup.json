@@ -20,7 +20,7 @@
     "install_requires": [
         "Click>=6.7",
         "docker==2.5.1"{% if cookiecutter.cli_type == 'toil' %},
-        "toil_container>=0.2.3"{% endif %}
+        "toil_container>=0.2.4"{% endif %}
     ],
     "extras_require": {
         "test": [
@@ -28,6 +28,7 @@
             "pydocstyle>=2.1.1",
             "pytest-cov>=2.5.1",
             "pytest-env==0.6.2",
+            "pytest-sugar>=0.9.1",
             "pylint>=1.8.1",
             "tox==2.9.1"
         ]

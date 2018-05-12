@@ -33,22 +33,14 @@ class HelloMessage(ContainerJob):
         fileStore.logToMaster(output)
 
 
-def run_toil(options):
-    """Toil implementation for {{cookiecutter.project_slug}}."""
-    head = Hello(cores=1, memory="1G", options=options)
-    child = HelloMessage(cores=1, memory="1G", options=options)
-    head.addChild(child)
-    ContainerJob.Runner.startToil(head, options)
-
-
 def get_parser():
     """Get pipeline configuration using toil's."""
     parser = ContainerArgumentParser(
         version=__version__,
-        description="{{cookiecutter.project_slug}} pipeline",
+        description="A hello world toil pipeline.",
         )
 
-    settings = parser.add_argument_group("{{cookiecutter.project_slug}} arguments")
+    settings = parser.add_argument_group("pipeline arguments")
 
     settings.add_argument(
         "--message",
@@ -77,6 +69,14 @@ def process_parsed_options(options):
     options.message = options.message * options.total
 
     return options
+
+
+def run_toil(options):
+    """Run toil pipeline give an options namespace."""
+    head = Hello(cores=1, memory="1G", options=options)
+    child = HelloMessage(cores=1, memory="1G", options=options)
+    head.addChild(child)
+    ContainerJob.Runner.startToil(head, options)
 
 
 def main():

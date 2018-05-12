@@ -1,7 +1,7 @@
 [paths]
 source =
    {{cookiecutter.project_slug}}
-   /test/{{cookiecutter.project_slug}}
+   */{{cookiecutter.project_slug}}
 
 [run]
 source =
