@@ -7,8 +7,8 @@
 
 A [cookiecutter] for the creation of [toil] pipelines.
 
-    pip install cookiecutter-toil
-    cookiecutter cookiecutter-toil
+    pip install cookiecutter
+    cookiecutter https://github.com/leukgen/cookiecutter-toil
 
 ## Live Example
 
