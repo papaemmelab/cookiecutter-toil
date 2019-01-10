@@ -17,7 +17,7 @@ def get_context(cli_type="toil"):
     return {
         "full_name": "John Smith",
         "email": "smithj@mskcc.org",
-        "github_account": "leukgen",
+        "github_account": "papaemmelab",
         "project_slug": "test_project",
         "project_description": "An awesome python package to be tested.",
         "cli_type": cli_type,

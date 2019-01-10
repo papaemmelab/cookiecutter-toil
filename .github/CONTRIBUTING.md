@@ -10,7 +10,7 @@ Set up for local development:
 
 1. Clone your cookiecutter-toil locally:
 
-        git clone git@github.com:leukgen/cookiecutter-toil.git
+        git clone git@github.com:papaemmelab/cookiecutter-toil.git
 
 1. Create a branch for local development:
 
@@ -67,4 +67,4 @@ Set up for local development:
 [`setup.py`]: ../setup.py
 [`.gitmessage`]: ../.gitmessage
 [semver]: http://semver.org/
-[issue]: https://github.com/leukgen/cookiecutter-toil/issues
+[issue]: https://github.com/papaemmelab/cookiecutter-toil/issues

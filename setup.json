@@ -27,6 +27,6 @@
     "license": "BSD",
     "name": "cookiecutter-toil",
     "description": "🍪 A cookiecutter for the creation of toil pipelines.",
-    "long_description": "📘 learn more on `GitHub <https://github.com/leukgen/cookiecutter-toil>`_!",
-    "url": "https://github.com/leukgen/cookiecutter-toil"
+    "long_description": "📘 learn more on `GitHub <https://github.com/papaemmelab/cookiecutter-toil>`_!",
+    "url": "https://github.com/papaemmelab/cookiecutter-toil"
 }

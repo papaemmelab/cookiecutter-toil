@@ -52,19 +52,19 @@ Contributions are welcome, and they are greatly appreciated, check our [contribu
 ## Credits
 
 This package was created using [Cookiecutter] and the
-[leukgen/cookiecutter-toil] project template.
+[papaemmelab/cookiecutter-toil] project template.
 
 <!-- References -->
 [singularity]: http://singularity.lbl.gov/
 [docker2singularity]: https://github.com/singularityware/docker2singularity
 [cookiecutter]: https://github.com/audreyr/cookiecutter
-[leukgen/cookiecutter-toil]: https://github.com/leukgen/cookiecutter-toil
+[papaemmelab/cookiecutter-toil]: https://github.com/papaemmelab/cookiecutter-toil
 [`--batchSystem`]: http://toil.readthedocs.io/en/latest/developingWorkflows/batchSystem.html?highlight=BatchSystem
 
 <!-- Badges -->
 [docker_base]: https://hub.docker.com/r/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
 [docker_badge]: https://img.shields.io/docker/build/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
-[automated_badge]: https://img.shields.io/docker/automated/leukgen/{{cookiecutter.project_slug}}.svg
+[automated_badge]: https://img.shields.io/docker/automated/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
 [codecov_badge]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg
 [codecov_base]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
 [pypi_badge]: https://img.shields.io/pypi/v/{{cookiecutter.project_slug}}.svg

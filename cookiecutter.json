@@ -1,9 +1,9 @@
 {
     "full_name": "Juan S. Medina, Juan E. Arango",
     "email": "medinaj@mskcc.org",
-    "github_account": "leukgen",
+    "github_account": "papaemmelab",
     "cli_type": ["toil", "click"],
     "project_name": "toil_example",
     "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
-    "project_description": "A Command Line Interface created with [cookiecutter-toil](https://github.com/leukgen/cookiecutter-toil)."
+    "project_description": "A Command Line Interface created with [cookiecutter-toil](https://github.com/papaemmelab/cookiecutter-toil)."
 }

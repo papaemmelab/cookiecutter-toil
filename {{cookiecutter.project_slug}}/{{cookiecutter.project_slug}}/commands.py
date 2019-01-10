@@ -15,7 +15,7 @@ class Hello(ContainerJob):
         Log value of `total` from the `options` attribute.
 
         `ContainerJob` loads the argument `options` as an object attribute.
-        Learn more here https://github.com/leukgen/toil_container.
+        Learn more here https://github.com/papaemmelab/toil_container.
         """
         fileStore.logToMaster("The total is: %s" % self.options.total)
 
@@ -27,7 +27,7 @@ class HelloMessage(ContainerJob):
         Run `echo` with docker, singularity or subprocess.
 
         Use `self.call` to run commands with docker, singularity or subprocess.
-        Learn more here https://github.com/leukgen/toil_container.
+        Learn more here https://github.com/papaemmelab/toil_container.
         """
         output = self.call(["echo", self.options.message], check_output=True)
         fileStore.logToMaster(output)

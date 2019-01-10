@@ -3,7 +3,7 @@ if [ -z "$GH_TOKEN" ]; then
     exit 0
 fi
 
-DEPLOY_REPO_URL=https://${GH_TOKEN}@github.com/leukgen/toil_example.git
+DEPLOY_REPO_URL=https://${GH_TOKEN}@github.com/papaemmelab/toil_example.git
 DEPLOY_BASE_DIR=/tmp/toil_example_deploy
 DEPLOY_TEMP_DIR=/tmp/toil_example_deploy/_toil_example
 DEPLOY_REPO_DIR=/tmp/toil_example_deploy/toil_example

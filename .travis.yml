@@ -24,12 +24,12 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   skip_existing: true
-  user: leukgen
+  user: papaemmelab
   password:
     secure: i3NT2YPez9Htah8k54jrVjCEL+bgFpGG9lRfGbIKoE2WBYeW28k11S9mu7BzAjGO8egFIIciksbat6KxiD1yITxBwkm9ptj41TICWzITM1lsIZttIeVMPd3olNGWfudALXsRqZ2nKoZuj+DpOIPaUkiIGN8nWSR6Byuw9BW8Y3rVVfii1gvVCUnLDfrGc2PNbt+Gg/HgMahg8odkihcPMvxiLx2+Uk6O0w/cfbmuZNdWEZrbFAr8cMLoqLXmZt9hJqONgaHrKlirH69C3MlNdppADVpJM6CTLgdsT4YDuRox+o2EMBziC9fqM4ohv+9qz8rK8Kir2P/Qj8QkkubqK/wHLSgmTXHHueE7K0dlMlj51p777dJjSEzxWi8Wnl+qVGi971LnvG8ygzwWb1+4x6SdsSSCdbLEVnefp1N2Pvl2gruPX+zytCsbaqXJD0V/2xV/b+fPVaD1td8dBGsAfLh00lttOpR3MwTAF5WFsiQCKq3D6RVbn0Aeeu+CYOBCarEqx0To/ydqPe36FKPLyyzAfnCfEMjQNvMzsFKy9Y0YHIV+dKMoW0oFYqRY9RGp4K0vp65PDOWNQZkGKDN592LIBwTR8cxoQpuax6FfqcxDGEUSsFdN6T+SJskZFO/bK3xpJyhWHlg1xrfdwH+iwXDswEAzUtat3auDcv0Htko=
   on:
     tags: true
-    repo: leukgen/cookiecutter-toil
+    repo: papaemmelab/cookiecutter-toil
     branch: master
     python: 2.7
 

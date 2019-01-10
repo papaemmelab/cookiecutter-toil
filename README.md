@@ -8,7 +8,7 @@
 A [cookiecutter] for the creation of [toil] pipelines.
 
     pip install cookiecutter
-    cookiecutter https://github.com/leukgen/cookiecutter-toil
+    cookiecutter https://github.com/papaemmelab/cookiecutter-toil
 
 ## Live Example
 
@@ -102,25 +102,25 @@ Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) in this repository!
 [pytest-env]: https://github.com/MobileDynasty/pytest-env
 [pytest]: https://docs.pytest.org/en/latest/
 [singularity]: http://singularity.lbl.gov/
-[toil_container]: https://github.com/leukgen/toil_container
-[toil_example]: https://github.com/leukgen/toil_example
+[toil_container]: https://github.com/papaemmelab/toil_container
+[toil_example]: https://github.com/papaemmelab/toil_example
 [toil]: http://toil.readthedocs.io/
 [tox]: http://tox.readthedocs.io/
 [travis ci]: https://travis-ci.org/
 [travis_deploy]: https://docs.travis-ci.com/user/deployment/pypi/
 
 <!-- Badges -->
-[gitter_badge]: https://badges.gitter.im/leukgen/cookiecutter-toil/Lobby.svg
-[gitter_base]: https://gitter.im/leukgen/cookiecutter-toil
+[gitter_badge]: https://badges.gitter.im/papaemmelab/cookiecutter-toil/Lobby.svg
+[gitter_base]: https://gitter.im/papaemmelab/cookiecutter-toil
 [pypi_badge]: https://img.shields.io/pypi/v/cookiecutter-toil.svg
 [pypi_base]: https://pypi.python.org/pypi/cookiecutter-toil
-[pyup_badge]: https://pyup.io/repos/github/leukgen/cookiecutter-toil/shield.svg
-[pyup_base]: https://pyup.io/repos/github/leukgen/cookiecutter-toil/
-[travis_badge]: https://img.shields.io/travis/leukgen/cookiecutter-toil.svg
-[travis_base]: https://travis-ci.org/leukgen/cookiecutter-toil
+[pyup_badge]: https://pyup.io/repos/github/papaemmelab/cookiecutter-toil/shield.svg
+[pyup_base]: https://pyup.io/repos/github/papaemmelab/cookiecutter-toil/
+[travis_badge]: https://img.shields.io/travis/papaemmelab/cookiecutter-toil.svg
+[travis_base]: https://travis-ci.org/papaemmelab/cookiecutter-toil
 
 <!-- toil example badges -->
-[example_codecov_badge]: https://codecov.io/gh/leukgen/toil_example/branch/master/graph/badge.svg
-[example_codecov_base]: https://codecov.io/gh/leukgen/toil_example
-[example_travis_badge]: https://img.shields.io/travis/leukgen/toil_example.svg
-[example_travis_base]: https://travis-ci.org/leukgen/toil_example
+[example_codecov_badge]: https://codecov.io/gh/papaemmelab/toil_example/branch/master/graph/badge.svg
+[example_codecov_base]: https://codecov.io/gh/papaemmelab/toil_example
+[example_travis_badge]: https://img.shields.io/travis/papaemmelab/toil_example.svg
+[example_travis_base]: https://travis-ci.org/papaemmelab/toil_example
