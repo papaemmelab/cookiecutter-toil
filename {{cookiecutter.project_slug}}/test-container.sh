@@ -25,7 +25,7 @@ find . -name '__pycache__' -exec rm -rf {} +
 
 # run tox inside the container
 docker run --rm $TEST_IMAGE --version
-docker run --rm --entrypoint "" -v `pwd`:/test -w /test \
+docker run --rm -it --entrypoint "" -v `pwd`:/test -w /test \
     $TEST_IMAGE bash -c "cp -r /test /{{cookiecutter.project_slug}} && cd /{{cookiecutter.project_slug}} && pip install tox && tox && cp .coverage /test"
 
 # move container coverage paths to local, see .coveragerc [paths] and this comment:
