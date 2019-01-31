@@ -5,6 +5,7 @@
 [![codecov badge][codecov_badge]][codecov_base]
 [![docker badge][docker_badge]][docker_base]
 [![docker badge][automated_badge]][docker_base]
+[![code formatting][black_badge]][black_base]
 
 {{cookiecutter.project_description}}
 
@@ -71,3 +72,5 @@ This package was created using [Cookiecutter] and the
 [pypi_base]: https://pypi.python.org/pypi/{{cookiecutter.project_slug}}
 [travis_badge]: https://img.shields.io/travis/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
 [travis_base]: https://travis-ci.org/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+[black_badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[black_base]: https://github.com/ambv/black
