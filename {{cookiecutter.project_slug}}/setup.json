@@ -19,7 +19,7 @@
     ],
     "install_requires": [
         "docker==2.5.1",{% if cookiecutter.cli_type == 'toil' %}
-        "toil_container>=1.1.3"{% else %}"click>=6.7"{% endif %}
+        "toil_container>=1.1.5"{% else %}"click>=6.7"{% endif %}
     ],
     "extras_require": {
         "test": [
