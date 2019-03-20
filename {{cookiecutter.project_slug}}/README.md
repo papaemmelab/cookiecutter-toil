@@ -62,7 +62,7 @@ This package was created using [Cookiecutter] and the
 [codecov_badge]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg
 [codecov_base]: https://codecov.io/gh/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
 [cookiecutter]: https://github.com/audreyr/cookiecutter
-[docker_badge]: https://img.shields.io/docker/build/cloud/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
+[docker_badge]: https://img.shields.io/docker/cloud/build/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
 [docker_base]: https://hub.docker.com/r/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
 [docker2singularity]: https://github.com/singularityware/docker2singularity
 [papaemmelab/cookiecutter-toil]: https://github.com/papaemmelab/cookiecutter-toil
