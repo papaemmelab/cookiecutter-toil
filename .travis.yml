@@ -1,23 +1,17 @@
 language: python
-
 services:
-  - docker
-
+- docker
 install:
-  - pip install -U -r requirements.txt
-  - pip install -U tox-travis
-
+- pip install -U -r requirements.txt
+- pip install -U tox-travis
 matrix:
   include:
   - python: 3.8
     env: DEPLOY_TOIL_EXAMPLE=true
-
 script:
-  - pytest -vv tests --test-container
-
+- pytest -vv tests --test-container
 after_success:
-  - bash $TRAVIS_BUILD_DIR/.travis/deploy_toil_example.sh
-
+- bash $TRAVIS_BUILD_DIR/.travis/deploy_toil_example.sh
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
@@ -30,7 +24,6 @@ deploy:
     repo: papaemmelab/cookiecutter-toil
     branch: master
     python: 3.8
-
 env:
   global:
-    secure: uzWd7bdnaSw5q8r7s5iS/OWPJXHGNgM7FuISux+/SlpLU0E7g+boJo9/IlwrnjDirczw9hOHP6ndGussJEjxLTNfSZ5yqO6JmQW3P4yE3N6tByg32WPsLaEvmRx71tDPBWV3kylQC1Wnw8Lc0MIsPnKU1fTWI/LpD+SGzBNGxpEI2telboILmayVOez1v/E/8Uxx2+CjKT30XKKZvKlyflOrP1K8+QrHbu8G075M+/mwLHk4NFfRB0b2GJR6dZyre0+RSHRaK2ibGwXQlYKyx23qjeP++1w2Q3Sbatau8d1KA4jrlPw6Jyv7OEyfInAIMBOW2G59BfJW8jvqtUFrLs9224aeAWSMGub243l3BRMdZEXx8OLltcclDBPgO+W6SeU4Wm4gIS4lInwdNDnkaLpolsd09JUHqX1StEh28FqAt3QmIcW+sq8YWBS9i87VeUrnpzIWVLYby5dhFN15twhuV1oFcPHWVbmiBbPwhIzASadTnU0UPE6j6Y1De78Qe55pvGv9FGVR4T8wytWxIoxSQY/1HBGB6+b1fmKHnY9e+MH+BrFaxpF45k1im1BlzEEG9dDvNk4bQjIWrM6sYkFDrsqLvC1kMyRG83Hz/dJLVXpo/ese8KDZ/4Gmo+kreRqWMC1Kw2nwAXr+U27gg0y6+2i1ys2cxv3lu+M0MxY=
+  - secure: FsOVUv2ZxFfwlegzcR+rRxuELaLNtrWVGAalS5ylMQiMI9PV8EMYYygHdyEQh5LN4hD552AjIFd8S5VsBcAXDCS2uWfUd9ra3A7yLUaq4G+MFKUi6ZG28qRSdMbPEVUVYdvKPaKTnrdvzxuPRLL9wPmz43Fzho3NpycZDcSk6rJ5cQ9WbR8Zz4/BhGYAt68OCjOMtuwE9I3sEXLs6QjDLFYrZsyjYeVUYW5r4LAHwqLL0s1Tw/dPhIA3YPFFPQfdWZlv4hythO0Agr5AliHV9lul2vHx5FinUm2Vxz4PQL8D2ojBVcM5RGbfwzxDh0afWNKT5nJWSbGM8wwBzeqaVRCiIFRid55gO+BLM863fTGvDos34T+EVZgm+iokxzMVUZudS9D8DafJFi/DmpTZuRO2MpgCMu2n5JaoAgieuu1eFbrLbJBjYaY95uYFEkGcPwvpeAh7ecs885PfZ48iKjICZj2yeuWXrSCNhWvT/ibQkF+6MMlBGDwaCtFQHLGIMrIz4I4bW2DK/rSEPMkYgxXcqg8hrCoXO9p7XwBUYbKly0OdTB8mdNe7sPuWmFtQbgKdol0ePETFziN0zeu8YzkatWFrK0fJ8PdL7+WE1xupiPsmS0CxEL8ZGJZ+/AaBYa4ZqtO8380m1swSPYiyQn72VH6OMsAkwhURgNFEWZY=
