@@ -1,33 +1,27 @@
 {
-    "author": "Juan S. Medina, Juan E. Arango",
-    "classifiers": [
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: Unix",
-        "Operating System :: POSIX",
-        "Topic :: Utilities"
-    ],
-    "install_requires": [
-        "cookiecutter==1.6.0"
-    ],
-    "setup_requires": [
-        "pytest-runner==2.11.1"
-    ],
-    "extras_require": {
-        "test": [
-            "pytest-cov==2.5.1",
-            "binaryornot>=0.4.4",
-            "pytest==3.2.3",
-            "pytest-cookies==0.3.0",
-            "tox>=2.9.1"
-        ]
-    },
-    "keywords": [
-        "cookiecutter",
-        "toil"
-    ],
-    "license": "BSD",
-    "name": "cookiecutter-toil",
-    "description": "🍪 A cookiecutter for the creation of toil pipelines.",
-    "long_description": "📘 learn more on `GitHub <https://github.com/papaemmelab/cookiecutter-toil>`_!",
-    "url": "https://github.com/papaemmelab/cookiecutter-toil"
+  "author": "Juan S. Medina, Juan E. Arango",
+  "classifiers": [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Topic :: Utilities"
+  ],
+  "install_requires": ["cookiecutter>=1.6.0"],
+  "setup_requires": ["pytest-runner>=2.11.1"],
+  "extras_require": {
+    "test": [
+      "pytest-cov>=2.12.1",
+      "binaryornot>=0.4.4",
+      "pytest>=6.2.5",
+      "pytest-cookies>=0.6.1",
+      "tox>=3.24.3"
+    ]
+  },
+  "keywords": ["cookiecutter", "toil"],
+  "license": "BSD",
+  "name": "cookiecutter-toil",
+  "description": "🍪 A cookiecutter for the creation of toil pipelines.",
+  "long_description": "📘 learn more about this project on [GitHub](https://github.com/papaemmelab/cookiecutter-toil)!",
+  "long_description_content_type": "text/markdown",
+  "url": "https://github.com/papaemmelab/cookiecutter-toil"
 }

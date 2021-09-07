@@ -36,7 +36,7 @@ def build_files_list(root_dir):
 def check_paths(paths):
     """Method to check all paths have correct substitutions."""
     # Assert that no match is found in any of the files
-    pattern = "{{(\s?cookiecutter)[.](.*?)}}"
+    pattern = r"{{(\s?cookiecutter)[.](.*?)}}"
     regex = re.compile(pattern)
     for path in paths:
         if is_binary(path):
@@ -52,9 +52,9 @@ def test_default_configuration(cookies):
     result = cookies.bake(extra_context=context)
     assert result.exit_code == 0
     assert result.exception is None
-    assert result.project.basename == context["project_slug"]
-    assert result.project.isdir()
-    paths = build_files_list(str(result.project))
+    assert result.project_path.name == context["project_slug"]
+    assert result.project_path.is_dir()
+    paths = build_files_list(str(result.project_path))
     assert paths
     check_paths(paths)
 
@@ -87,13 +87,13 @@ def tox(cli_type, cookies, request):
 
     # call tox!
     print("testing tox...")
-    subprocess.check_call(cmd, env=env, cwd=result.project.strpath)
+    subprocess.check_call(cmd, env=env, cwd=result.project_path)
 
     # test that package works inside the container
     if request.config.getoption("--test-container", None):
         print("testing container...")
         cmd = ["bash", "test-container.sh"]
-        subprocess.check_call(cmd, cwd=result.project.strpath)
+        subprocess.check_call(cmd, cwd=result.project_path)
 
 
 @pytest.mark.skipif(

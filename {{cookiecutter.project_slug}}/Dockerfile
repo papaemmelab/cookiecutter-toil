@@ -1,4 +1,4 @@
-FROM {% if cookiecutter.cli_type == "toil" %}python:2.7-jessie{% elif cookiecutter.cli_type == "click" %}python:3.6-jessie{% endif %}
+FROM python:3.8-slim-buster
 
 RUN \
     # install packages dependencies

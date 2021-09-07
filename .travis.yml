@@ -9,10 +9,8 @@ install:
 
 matrix:
   include:
-  - python: 2.7
+  - python: 3.8
     env: DEPLOY_TOIL_EXAMPLE=true
-  - python: 3.6
-    env: SKIP_TOIL_TEST=true
 
 script:
   - pytest -vv tests --test-container
@@ -31,7 +29,7 @@ deploy:
     tags: true
     repo: papaemmelab/cookiecutter-toil
     branch: master
-    python: 2.7
+    python: 3.8
 
 env:
   global:
