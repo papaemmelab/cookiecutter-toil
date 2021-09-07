@@ -70,4 +70,4 @@ This package was created using [Cookiecutter] and the
 [pypi_base]: https://pypi.python.org/pypi/{{cookiecutter.project_slug}}
 [singularity]: http://singularity.lbl.gov/
 [travis_badge]: https://img.shields.io/travis/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}.svg
-[travis_base]: https://travis-ci.org/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
+[travis_base]: https://travis-ci.com/{{cookiecutter.github_account}}/{{cookiecutter.project_slug}}

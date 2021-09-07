@@ -6,8 +6,8 @@
     "Operating System :: POSIX",
     "Topic :: Utilities"
   ],
-  "install_requires": ["cookiecutter>=1.6.0"],
-  "setup_requires": ["pytest-runner>=2.11.1"],
+  "install_requires": ["cookiecutter>=1.7.3"],
+  "setup_requires": ["pytest-runner>=5.3.1"],
   "extras_require": {
     "test": [
       "pytest-cov>=2.12.1",

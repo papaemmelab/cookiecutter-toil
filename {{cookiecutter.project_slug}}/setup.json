@@ -15,7 +15,7 @@
         ]
     },
     "setup_requires": [
-        "pytest-runner==2.11.1"
+        "pytest-runner>=5.3.1"
     ],
     "install_requires": [
         {% if cookiecutter.cli_type == 'toil' %}"toil_container>=2.0.0"{% else %}"click>=7.0"{% endif %}
