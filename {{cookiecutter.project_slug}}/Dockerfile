@@ -2,14 +2,13 @@ FROM python:3.8-slim-buster
 
 RUN \
     # install packages dependencies
-    apt-get update -yqq && \
-    apt-get install -yqq \
+    apt update -yqq && \
+    apt install -yqq \
         curl \
         git \
         locales \
-        python-pip \
         wget && \
-    apt-get clean && \
+    apt clean && \
     \
     # configure locale, see https://github.com/rocker-org/rocker/issues/19
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
