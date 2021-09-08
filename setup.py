@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     # the version is only defined in one place
-    version="1.0.0",
+    version="2.0.0",
     # in combination with recursive-includes in MANIFEST.in, non-python files
     # included inside the {{cookiecutter.project_slug}} will be copied to the
     # site-packages installation directory
