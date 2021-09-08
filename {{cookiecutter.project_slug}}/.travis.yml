@@ -1,7 +1,7 @@
 language: python
 
 python:
-  - {% if cookiecutter.cli_type == 'toil' %}2.7{% else %}3.6{% endif %}
+  - 3.8
 
 services:
   - docker
@@ -24,5 +24,5 @@ deploy:
   on:
     tags: true
     repo: {{cookiecutter.github_account}}/{{cookiecutter.project_slug}}
-    python: {% if cookiecutter.cli_type == 'toil' %}2.7{% else %}3.6{% endif %}
+    python: 3.8
     branch: master

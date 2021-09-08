@@ -6,7 +6,7 @@
         "Natural Language :: English",
         "Operating System :: Unix",
         "Operating System :: POSIX",
-        "Programming Language :: Python :: 2 :: Only",
+        "Programming Language :: Python :: 3 :: Only",
         "Topic :: Utilities"
     ],
     "entry_points": {
@@ -15,23 +15,22 @@
         ]
     },
     "setup_requires": [
-        "pytest-runner==2.11.1"
+        "pytest-runner>=5.3.1"
     ],
     "install_requires": [
-        "docker==2.5.1",{% if cookiecutter.cli_type == 'toil' %}
-        "toil_container>=1.1.5"{% else %}"click>=6.7"{% endif %}
+        {% if cookiecutter.cli_type == 'toil' %}"toil_container>=2.0.0"{% else %}"click>=7.0"{% endif %}
     ],
     "extras_require": {
         "test": [
-            "coverage>=4.4.2",
-            "pydocstyle>=2.1.1",
-            "pytest-cov==2.5.1",
-            "pytest==3.7.4",
-            "pytest-env==0.6.2",
+            "coverage>=5.5.0",
+            "pydocstyle>=6.1.1",
+            "pytest-cov>=2.12.1",
+            "pytest>=6.2.5",
+            "pytest-env>=0.6.2",
             "pytest-sugar>=0.9.1",
             "pylint>=1.8.1",
-            "requests==2.18.4",
-            "tox==2.9.1"
+            "requests>=2.18.4",
+            "tox>=2.9.1"
         ]
     },
     "author": "{{cookiecutter.full_name}}",

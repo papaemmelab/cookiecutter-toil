@@ -9,7 +9,7 @@ DEPLOY_TEMP_DIR=/tmp/toil_example_deploy/_toil_example
 DEPLOY_REPO_DIR=/tmp/toil_example_deploy/toil_example
 DEPLOY_REPO_BRA=${TRAVIS_PULL_REQUEST_BRANCH:="$TRAVIS_BRANCH"}
 
-git config --global user.email "travis@travis-ci.org"
+git config --global user.email "travis@travis-ci.com"
 git config --global user.name "Travis CI"
 
 if [ "$DEPLOY_TOIL_EXAMPLE" = "true" ]; then

@@ -106,7 +106,7 @@ Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) in this repository!
 [toil_example]: https://github.com/papaemmelab/toil_example
 [toil]: http://toil.readthedocs.io/
 [tox]: http://tox.readthedocs.io/
-[travis ci]: https://travis-ci.org/
+[travis ci]: https://travis-ci.com/
 [travis_deploy]: https://docs.travis-ci.com/user/deployment/pypi/
 
 <!-- Badges -->
@@ -117,10 +117,10 @@ Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) in this repository!
 [pyup_badge]: https://pyup.io/repos/github/papaemmelab/cookiecutter-toil/shield.svg
 [pyup_base]: https://pyup.io/repos/github/papaemmelab/cookiecutter-toil/
 [travis_badge]: https://img.shields.io/travis/papaemmelab/cookiecutter-toil.svg
-[travis_base]: https://travis-ci.org/papaemmelab/cookiecutter-toil
+[travis_base]: https://travis-ci.com/papaemmelab/cookiecutter-toil
 
 <!-- toil example badges -->
 [example_codecov_badge]: https://codecov.io/gh/papaemmelab/toil_example/branch/master/graph/badge.svg
 [example_codecov_base]: https://codecov.io/gh/papaemmelab/toil_example
 [example_travis_badge]: https://img.shields.io/travis/papaemmelab/toil_example.svg
-[example_travis_base]: https://travis-ci.org/papaemmelab/toil_example
+[example_travis_base]: https://travis-ci.com/papaemmelab/toil_example
