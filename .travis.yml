@@ -6,7 +6,7 @@ install:
 - pip install -U tox-travis
 matrix:
   include:
-  - python: 3.8
+  - python: 3.9
     env: DEPLOY_TOIL_EXAMPLE=true
 script:
 - pytest -vv tests --test-container
@@ -23,7 +23,7 @@ deploy:
     tags: true
     repo: papaemmelab/cookiecutter-toil
     branch: master
-    python: 3.8
+    python: 3.9
 env:
   global:
   - secure: FsOVUv2ZxFfwlegzcR+rRxuELaLNtrWVGAalS5ylMQiMI9PV8EMYYygHdyEQh5LN4hD552AjIFd8S5VsBcAXDCS2uWfUd9ra3A7yLUaq4G+MFKUi6ZG28qRSdMbPEVUVYdvKPaKTnrdvzxuPRLL9wPmz43Fzho3NpycZDcSk6rJ5cQ9WbR8Zz4/BhGYAt68OCjOMtuwE9I3sEXLs6QjDLFYrZsyjYeVUYW5r4LAHwqLL0s1Tw/dPhIA3YPFFPQfdWZlv4hythO0Agr5AliHV9lul2vHx5FinUm2Vxz4PQL8D2ojBVcM5RGbfwzxDh0afWNKT5nJWSbGM8wwBzeqaVRCiIFRid55gO+BLM863fTGvDos34T+EVZgm+iokxzMVUZudS9D8DafJFi/DmpTZuRO2MpgCMu2n5JaoAgieuu1eFbrLbJBjYaY95uYFEkGcPwvpeAh7ecs885PfZ48iKjICZj2yeuWXrSCNhWvT/ibQkF+6MMlBGDwaCtFQHLGIMrIz4I4bW2DK/rSEPMkYgxXcqg8hrCoXO9p7XwBUYbKly0OdTB8mdNe7sPuWmFtQbgKdol0ePETFziN0zeu8YzkatWFrK0fJ8PdL7+WE1xupiPsmS0CxEL8ZGJZ+/AaBYa4ZqtO8380m1swSPYiyQn72VH6OMsAkwhURgNFEWZY=
