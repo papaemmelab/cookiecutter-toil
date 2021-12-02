@@ -17,7 +17,7 @@ class Hello(ContainerJob):
         `ContainerJob` loads the argument `options` as an object attribute.
         Learn more here https://github.com/papaemmelab/toil_container.
         """
-        fileStore.logToMaster("The total is: %s" % self.options.total)
+        fileStore.logToMaster(f"The total is: {self.options.total}")
 
 
 class HelloMessage(ContainerJob):
